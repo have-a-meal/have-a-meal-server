@@ -7,15 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import team.gwon.haveameal.excelExtract.service.ExcelExtractService;
 
-import java.io.IOException;
-
 @RestController
 @RequiredArgsConstructor
 public class ExcelExtractController {
     private final ExcelExtractService excelExtractService;
 
     @PostMapping("/upload")
-    public void ExcelRead(@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+    public void ExcelRead(@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception {
         ExcelExtractService.excelUpload(multipartFile);
     }
 
