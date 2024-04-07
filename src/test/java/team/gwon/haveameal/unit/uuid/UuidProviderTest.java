@@ -1,5 +1,4 @@
-package team.gwon.haveameal.unitTest;
-
+package team.gwon.haveameal.unit.uuid;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,8 +24,9 @@ class UuidProviderTest {
 			list.add(UuidProvider.stringToByte(uuidArr[i]));
 		}
 
-		for(int i = 0; i < uuidArr.length; i++){
-			log.info("origin String : {} \t byte[] : {} \t revert String : {} ",uuidArr[i],list.get(i),UuidProvider.byteToString(list.get(i)));
+		for (int i = 0; i < uuidArr.length; i++) {
+			log.info("origin String : {} \t byte[] : {} \t revert String : {} ", uuidArr[i], list.get(i),
+				UuidProvider.byteToString(list.get(i)));
 			assertEquals(uuidArr[i], UuidProvider.byteToString(list.get(i)));
 		}
 	}
