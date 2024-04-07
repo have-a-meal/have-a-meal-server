@@ -7,7 +7,7 @@ import team.gwon.haveameal.excelExtract.component.ExtractData;
 @Service
 public class ExcelExtractService {
 
-    public static void excelUpload(MultipartFile multipartFile) throws Exception {
+    public void excelUpload(MultipartFile multipartFile) throws Exception {
         ExtractData.extract(multipartFile);
     }
 }

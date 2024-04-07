@@ -14,7 +14,7 @@ public class ExcelExtractController {
 
     @PostMapping("/upload")
     public void ExcelRead(@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception {
-        ExcelExtractService.excelUpload(multipartFile);
+        excelExtractService.excelUpload(multipartFile);
     }
 
 }
