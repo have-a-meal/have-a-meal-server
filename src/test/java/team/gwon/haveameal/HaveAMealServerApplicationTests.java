@@ -7,7 +7,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import team.gwon.haveameal.excelExtract.controller.ExcelExtractController;
 
-import java.io.File;
 import java.io.FileInputStream;
 
 @SpringBootTest
@@ -18,7 +17,7 @@ class HaveAMealServerApplicationTests {
 
     @Test
     void contextLoads() throws Exception {
-        MultipartFile multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream(new File("D:\\extest.xlsx")));
+        MultipartFile multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream("D:\\extest.xlsx"));
         excelExtractController.ExcelRead(multipartFile);
     }
 }
