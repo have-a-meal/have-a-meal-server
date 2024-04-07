@@ -29,7 +29,8 @@ public class ExcelExtractService {
                 Iterator<Cell> cellIterator = row.cellIterator();
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
-
+                    System.out.println(cell.getStringCellValue());
+                    System.out.println("============");
                 }
             }
         }
