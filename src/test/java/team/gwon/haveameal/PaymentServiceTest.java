@@ -1,11 +1,13 @@
 package team.gwon.haveameal;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PaymentServiceTest {
 
+	@DisplayName("결제요청")
 	@Test
-	void 결제요청() {
+	void requestPayment() {
 		final PaymentRequest request = new PaymentRequest();
 
 	}
