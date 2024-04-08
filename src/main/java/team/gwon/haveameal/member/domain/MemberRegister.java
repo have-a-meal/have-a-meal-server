@@ -1,4 +1,4 @@
-package team.gwon.haveameal.register.domain;
+package team.gwon.haveameal.member.domain;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,10 +1,10 @@
-package team.gwon.haveameal.register.service;
+package team.gwon.haveameal.member.service;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import team.gwon.haveameal.register.domain.MemberRegister;
-import team.gwon.haveameal.register.mapper.MemberMapper;
+import team.gwon.haveameal.member.domain.MemberRegister;
+import team.gwon.haveameal.member.mapper.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
