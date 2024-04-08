@@ -1,12 +1,12 @@
-package team.gwon.haveameal.mapper;
+package team.gwon.haveameal.register.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import team.gwon.haveameal.domain.Member;
+import team.gwon.haveameal.register.domain.MemberRegister;
 
 @Repository
 @Mapper
 public interface MemberMapper {
-	void insertMember(Member member);
+	void insertMember(MemberRegister member);
 }
