@@ -20,8 +20,8 @@ public class ExcelReadTest {
 		excelExtractService = new ExcelExtractService();
 		MultipartFile multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream("D:\\4월 1주차 식단표.xlsx"));
 		List<Map<String, Object>> testData = excelExtractService.excelUpload(multipartFile);
-		// for (Map<String, Object> data : testData) {
-		// 	log.info(data.toString());
-		// }
+		for (Map<String, Object> data : testData) {
+			log.info(data.toString());
+		}
 	}
 }
