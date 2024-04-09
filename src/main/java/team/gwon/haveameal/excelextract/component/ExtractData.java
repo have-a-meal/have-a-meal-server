@@ -57,10 +57,10 @@ public class ExtractData {
 					}
 				}
 				if (excelData.get(0).containsKey("course") && excelData.get(0).containsKey("meal")) {
-					// mergedList.addAll(excelData); //#EAT-53 설명 2번 코드
 					for (Map<String, Object> map : excelData) {
-						log.info(map.toString() + "//" + excelData.indexOf(map));
-					} //#EAT-53 설명 3번 코드
+						Map<String, Object> mergedMap = new HashMap<>(map);
+						mergedList.add(mergedMap);
+					}
 				}
 
 			}
