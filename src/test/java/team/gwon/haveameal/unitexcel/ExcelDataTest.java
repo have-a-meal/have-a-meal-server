@@ -35,7 +35,7 @@ public class ExcelDataTest {
 	}
 
 	@Test
-	void DateDataTest() {
+	void dateDataTest() {
 		cell.setCellValue("04월09일 화");
 		Object data = DataRegex.excelToMap(cell);
 		if (data instanceof Date) {
