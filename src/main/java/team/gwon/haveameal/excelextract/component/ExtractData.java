@@ -1,5 +1,6 @@
 package team.gwon.haveameal.excelextract.component;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -22,8 +24,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ExtractData {
 	public static List<Map<String, Object>> extract(MultipartFile multipartFile) throws Exception {
 		String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-
-		Workbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+		Workbook workbook = null;
+		if (extension.equals("xlsx")) {
+			workbook = new XSSFWorkbook(multipartFile.getInputStream());// Excel 2007 
+		} else if (extension.equals("xls")) {
+			workbook = new HSSFWorkbook(multipartFile.getInputStream());// Excel 2003
+		} else {
+			throw new IOException("엑셀 파일이 아닙니다.");
+		}
+		if (workbook.getNumberOfSheets() == 0 || workbook.getSheetAt(0).getPhysicalNumberOfRows() == 0) {
+			throw new IllegalStateException("엑셀 파일에 시트가 존재하지 않습니다.");
+		}
 		List<Map<String, Object>> mergedList = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			// workbook.getNumberOfSheets() == 3
