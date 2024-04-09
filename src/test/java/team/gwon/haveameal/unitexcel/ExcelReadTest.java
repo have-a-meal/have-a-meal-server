@@ -6,22 +6,43 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.excelextract.service.ExcelExtractService;
+import team.gwon.haveameal.excelextract.component.ExtractData;
 
 @Slf4j
 public class ExcelReadTest {
-	public ExcelExtractService excelExtractService;
 
 	@Test
 	void testReadExcel() throws Exception {
-		excelExtractService = new ExcelExtractService();
-		MultipartFile multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream("D:\\4월 1주차 식단표.xlsx"));
-		List<Map<String, Object>> testData = excelExtractService.excelUpload(multipartFile);
+		String fileName = "april week 1 menu";
+		String contentType = "xlsx";
+		String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		List<Map<String, Object>> testData = ExtractData.extract(multipartFile);
 		for (Map<String, Object> data : testData) {
 			log.info(data.toString());
 		}
+	}
+
+	@Test
+	void testExcelExtension() throws Exception {
+		String fileName = "testtextfile";
+		String contentType = "txt";
+		String filePath = "src/test/resources/text/testtextfile.txt";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		ExtractData.extract(multipartFile);
+	}
+
+	@Test
+	void testBlankExcel() throws Exception {
+		String fileName = "blankexcel";
+		String contentType = "xlsx";
+		String filePath = "src/test/resources/excel/blankexcel.xlsx";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		ExtractData.extract(multipartFile);
 	}
 }
