@@ -26,9 +26,9 @@ public class ExtractData {
 		String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 		Workbook workbook = null;
 		if (extension.equals("xlsx")) {
-			workbook = new XSSFWorkbook(multipartFile.getInputStream());// Excel 2007 
+			workbook = new XSSFWorkbook(multipartFile.getInputStream()); // Excel 2007
 		} else if (extension.equals("xls")) {
-			workbook = new HSSFWorkbook(multipartFile.getInputStream());// Excel 2003
+			workbook = new HSSFWorkbook(multipartFile.getInputStream()); // Excel 2003
 		} else {
 			throw new IOException("엑셀 파일이 아닙니다.");
 		}
