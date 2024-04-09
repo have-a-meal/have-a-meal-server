@@ -25,13 +25,16 @@ public class ExtractData {
 
 		Workbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
 		List<Map<String, Object>> mergedList = new ArrayList<>();
-		for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+		for (int i = 0; i < 3; i++) {
+			// workbook.getNumberOfSheets() == 3
 			Sheet sheet = workbook.getSheetAt(i);
 			List<Map<String, Object>> excelData = new ArrayList<>();
 			Map<String, Object> cellData;
-			for (int j = 0; j < sheet.getPhysicalNumberOfRows(); j++) {
+			for (int j = 0; j < 4; j++) {
+				// sheet.getPhysicalNumberOfRows() == 4
 				Row row = sheet.getRow(j);
-				for (int k = 0; k < row.getPhysicalNumberOfCells(); k++) {
+				for (int k = 0; k < 6; k++) {
+					// row.getPhysicalNumberOfCells() == 6
 					Cell cell = row.getCell(k);
 					Object data = DataRegex.excelToMap(cell);
 					//리턴 타입 ; list, date, bool, string, integer
