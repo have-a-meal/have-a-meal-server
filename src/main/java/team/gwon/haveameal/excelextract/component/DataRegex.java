@@ -36,7 +36,7 @@ public class DataRegex {
 			case 3:
 				return true;
 			default:
-				throw new IllegalStateException("Unexpected value: " + cellData.getStringCellValue());
+				throw new IllegalStateException("형식에 맞지 않은 데이터 : " + cellData.getStringCellValue());
 		}
 	}
 
