@@ -14,7 +14,7 @@ java {
 }
 
 checkstyle {
-    maxWarnings = 0 // 규칙이 어긋나는 코드가 하나라도 있을 경우 빌드 fail을 내고 싶다면 이 선언을 추가한다.
+    maxWarnings = 0 // 규칙이 어긋나는 코드가 하나라도 있을 경우 빌드 fail 을 내고 싶다면 이 선언을 추가한다.
     configFile = file("${rootDir}/formatter/naver-checkstyle-rules.xml")
     configProperties = ["suppressionFile": "${rootDir}/fotmatter/naver-checkstyle-suppressions.xml"]
     toolVersion = "8.24"  // checkstyle 버전 8.24 이상 선언
@@ -42,7 +42,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.2.0'
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
