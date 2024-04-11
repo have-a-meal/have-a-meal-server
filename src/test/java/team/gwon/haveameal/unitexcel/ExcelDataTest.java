@@ -23,10 +23,12 @@ public class ExcelDataTest {
 	Row row = sheet.createRow(0);
 	Cell cell = row.createCell(0);
 
+	private final DataRegex dataRegex = new DataRegex();
+
 	@Test
 	void courceDateDataTest() {
 		cell.setCellValue("코스/일자");
-		Object data = DataRegex.excelToMap(cell);
+		Object data = dataRegex.excelToMap(cell);
 		if (data instanceof Boolean) {
 			log.info("success");
 		} else {
@@ -37,7 +39,7 @@ public class ExcelDataTest {
 	@Test
 	void dateDataTest() {
 		cell.setCellValue("04월09일 화");
-		Object data = DataRegex.excelToMap(cell);
+		Object data = dataRegex.excelToMap(cell);
 		if (data instanceof Date) {
 			log.info(data.toString());
 		}
@@ -46,7 +48,7 @@ public class ExcelDataTest {
 	@Test
 	void courceDataTest() {
 		cell.setCellValue("A");
-		Object data = DataRegex.excelToMap(cell);
+		Object data = dataRegex.excelToMap(cell);
 		if (data instanceof String) {
 			log.info(data.toString());
 		}
@@ -55,7 +57,7 @@ public class ExcelDataTest {
 	@Test
 	void mealDataTest() {
 		cell.setCellValue("김치찌개\n쌀밥\n분홍 소시지\n어묵볶음");
-		Object data = DataRegex.excelToMap(cell);
+		Object data = dataRegex.excelToMap(cell);
 		if (data instanceof List<?>) {
 			log.info(data.toString());
 		}
@@ -69,7 +71,7 @@ public class ExcelDataTest {
 	@Test
 	void blankDataTest() {
 		cell.setBlank();
-		Object data = DataRegex.excelToMap(cell);
+		Object data = dataRegex.excelToMap(cell);
 		if (data instanceof Integer) {
 			log.info("blank data");
 		} else {
