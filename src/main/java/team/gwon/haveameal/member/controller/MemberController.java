@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import team.gwon.haveameal.member.domain.MemberRegister;
+import team.gwon.haveameal.member.domain.MemberRegisterDto;
 import team.gwon.haveameal.member.service.MemberService;
 
 @RestController
@@ -15,7 +15,7 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping("/insert")
-	public void insertMember(@RequestBody MemberRegister member) {
+	public void insertMember(@RequestBody MemberRegisterDto member) {
 		memberService.insertMember(member);
 	}
 }
