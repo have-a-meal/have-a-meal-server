@@ -1,6 +1,9 @@
 package team.gwon.haveameal.unitexcel;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +42,10 @@ public class ExcelReadTest {
 		String filePath = "src/test/resources/text/testtextfile.txt";
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
-		excelExtractService.excelUpload(multipartFile);
+		Throwable exception = assertThrows(IOException.class, () -> {
+			excelExtractService.excelUpload(multipartFile);
+		});
+		assertEquals("엑셀 파일이 아닙니다.", exception.getMessage());
 	}
 
 	@Test
@@ -49,6 +55,9 @@ public class ExcelReadTest {
 		String filePath = "src/test/resources/excel/blankexcel.xlsx";
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
-		excelExtractService.excelUpload(multipartFile);
+		Throwable exception = assertThrows(IllegalStateException.class, () -> {
+			excelExtractService.excelUpload(multipartFile);
+		});
+		assertEquals("엑셀 파일에 시트가 존재하지 않습니다.", exception.getMessage());
 	}
 }
