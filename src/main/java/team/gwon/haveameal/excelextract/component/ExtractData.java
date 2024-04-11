@@ -27,7 +27,7 @@ public class ExtractData {
 
 	public List<Map<String, Object>> extract(MultipartFile multipartFile) throws Exception {
 		String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-		Workbook workbook = null;
+		Workbook workbook;
 		if (extension.equals("xlsx")) {
 			workbook = new XSSFWorkbook(multipartFile.getInputStream()); // Excel 2007
 		} else if (extension.equals("xls")) {
