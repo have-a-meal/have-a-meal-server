@@ -17,12 +17,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 
-@Slf4j
 @Component
+@RequiredArgsConstructor
 public class ExtractData {
-	public static List<Map<String, Object>> extract(MultipartFile multipartFile) throws Exception {
+
+	private final DataRegex dataRegex;
+
+	public List<Map<String, Object>> extract(MultipartFile multipartFile) throws Exception {
 		String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
 		Workbook workbook = null;
 		if (extension.equals("xlsx")) {
@@ -36,19 +39,15 @@ public class ExtractData {
 			throw new IllegalStateException("엑셀 파일에 시트가 존재하지 않습니다.");
 		}
 		List<Map<String, Object>> mergedList = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
-			// workbook.getNumberOfSheets() == 3
+		for (int i = 0; i < 3; i++) { // workbook.getNumberOfSheets() == 3
 			Sheet sheet = workbook.getSheetAt(i);
 			List<Map<String, Object>> excelData = new ArrayList<>();
 			Map<String, Object> cellData;
-			for (int j = 0; j < 4; j++) {
-				// sheet.getPhysicalNumberOfRows() == 4
+			for (int j = 0; j < 4; j++) { // sheet.getPhysicalNumberOfRows() == 4
 				Row row = sheet.getRow(j);
-				for (int k = 0; k < 6; k++) {
-					// row.getPhysicalNumberOfCells() == 6
+				for (int k = 0; k < 6; k++) { // row.getPhysicalNumberOfCells() == 6
 					Cell cell = row.getCell(k);
-					Object data = DataRegex.excelToMap(cell);
-					//리턴 타입 ; list, date, bool, string, integer
+					Object data = dataRegex.excelToMap(cell); //리턴 타입 ; list, date, bool, string, integer
 					if (data instanceof Boolean) {
 						continue;
 					}

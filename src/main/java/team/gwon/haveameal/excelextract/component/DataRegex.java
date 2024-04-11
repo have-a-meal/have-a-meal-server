@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataRegex {
+	
 	private static final String dataRegex = "^[0-9][0-9]월[0-9][0-9]일 [월화수목금]$";
 	private static final String courceRegex = "^[a-zA-Z]*$";
 	private static final String courceDateRegex = "코스/일자";
 
-	public static Object excelToMap(Cell cellData) {
+	public Object excelToMap(Cell cellData) {
 		if (cellData.getCellType() == CellType.BLANK) {
 			return 0;
 		}
