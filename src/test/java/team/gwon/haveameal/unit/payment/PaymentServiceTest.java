@@ -1,4 +1,4 @@
-package team.gwon.haveameal.payment;
+package team.gwon.haveameal.unit.payment;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
