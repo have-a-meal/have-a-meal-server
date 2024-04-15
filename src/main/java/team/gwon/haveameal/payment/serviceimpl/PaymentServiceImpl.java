@@ -11,6 +11,7 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.payment.service.PaymentService;
@@ -29,6 +30,15 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Value("${portone.noValue:null}")
 	private String noValue;
+
+	private IamportClient iamportClient;
+
+	@PostConstruct
+	public void init() {
+		// @Value 필드가 주입되기 전 동작 방지
+		// @PostConstruct 사용해서 IamportClient 초기화
+		this.iamportClient = new IamportClient(restApiKey, restApiSecret);
+	}
 
 	@Override
 	public void test() {
