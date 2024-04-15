@@ -1,9 +1,13 @@
 package team.gwon.haveameal.payment.controller;
 
-import org.springframework.context.annotation.PropertySource;
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.siot.IamportRestClient.exception.IamportResponseException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,14 +17,13 @@ import team.gwon.haveameal.payment.service.PaymentService;
 @RequestMapping("/payment")
 @RestController
 @RequiredArgsConstructor
-@PropertySource("classpath:/config/application-portone.properties")
 public class PaymentController {
 
 	private final PaymentService paymentService;
 
-	@GetMapping("/verify/{imp_uid}")
-	public void paymentByImpUid() {
-
+	@GetMapping("/verify/{impUid}")
+	public void paymentByImpUid(@PathVariable("impUid") String impUid) throws IamportResponseException, IOException {
+		paymentService.verifyPayment(impUid);
 	}
 
 	@GetMapping("/test")
