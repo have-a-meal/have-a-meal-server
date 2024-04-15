@@ -6,6 +6,8 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 
 public interface PaymentService {
 
+	public void init();
+
 	void test();
 
 	void verifyPayment(String impUid) throws IamportResponseException, IOException;
