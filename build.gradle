@@ -53,6 +53,9 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     // uuid
     implementation "com.fasterxml.uuid:java-uuid-generator:5.0.0"
+    // qr
+    implementation group: 'com.google.zxing', name: 'javase', version: '3.5.1'
+    implementation group: 'com.google.zxing', name: 'core', version: '3.5.1'
     // portOne
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.23'
 }
