@@ -11,5 +11,5 @@ public class Payment {
 	int courseId;
 	String pgProvider;
 	String payMethod;
-	LocalDateTime resquestAt;
+	LocalDateTime requestAt;
 }
