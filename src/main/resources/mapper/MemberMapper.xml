@@ -3,6 +3,6 @@
 <mapper namespace="team.gwon.haveameal.member.mapper.MemberMapper">
     <insert id="insertMember" parameterType="team.gwon.haveameal.member.domain.MemberEntity">
         INSERT INTO member
-        VALUES (#{member_id}, #{password}, #{name}, #{phone}, #{role}, #{withdrawal}, #{withdrawal_at})
+        VALUES (#{memberId}, #{password}, #{name}, #{phone}, #{role}, #{withdrawal}, #{withdrawalAt})
     </insert>
 </mapper>
