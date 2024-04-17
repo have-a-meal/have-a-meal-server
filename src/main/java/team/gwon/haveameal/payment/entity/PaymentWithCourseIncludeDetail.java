@@ -8,4 +8,5 @@ public class PaymentWithCourseIncludeDetail {
 	PaymentDetail paymentDetail;
 	Course course;
 	CourseDetail courseDetail;
+	int quantity;
 }
