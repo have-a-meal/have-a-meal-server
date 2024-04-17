@@ -3,11 +3,13 @@
 <mapper namespace="team.gwon.haveameal.ticket.mapper.TicketMapper">
     <resultMap id="findAllMyTicketsEntity"
                type="team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail">
-        <result property="quantity" column="quantity"/>
         <association property="course" column="course_id" javaType="team.gwon.haveameal.payment.entity.Course">
             <id property="course_id" column="courseId"/>
             <result property="courseType" column="course_type"/>
             <result property="timing" column="timing"/>
+        </association>
+        <association property="ticketQuantity" javaType="team.gwon.haveameal.payment.entity.TicketQuantity">
+            <result property="quantity" column="quantity"/>
         </association>
     </resultMap>
 

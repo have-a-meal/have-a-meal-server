@@ -26,7 +26,7 @@ public class TicketService {
 		log.info("tickets : {}", tickets);
 		List<TicketFindResponseDto> response = new ArrayList<>();
 		for (PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail : tickets) {
-			response.add(TicketFindResponseDto.of(paymentWithCourseIncludeDetail));
+			response.add(TicketFindResponseDto.from(paymentWithCourseIncludeDetail));
 		}
 		return response;
 	}
