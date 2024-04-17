@@ -56,6 +56,8 @@ dependencies {
     // qr
     implementation group: 'com.google.zxing', name: 'javase', version: '3.5.1'
     implementation group: 'com.google.zxing', name: 'core', version: '3.5.1'
+    // db logging
+    implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
 }
 
 tasks.named('bootBuildImage') {
