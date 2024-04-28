@@ -1,4 +1,4 @@
-package team.gwon.haveameal.member.memberinfoencryption;
+package team.gwon.haveameal.member.encryptionservice;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -11,11 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.springframework.stereotype.Component;
-
-@Component
-public class MemberInfoEncryptionService implements AesMemberInfoEncryptionService {
-
+public class MemberInfoEncryptionService implements EncryptionService {
 	public static String alg = "AES/CBC/PKCS5Padding";    // 암호화 시 사용될 알고리즘
 
 	/*
@@ -91,5 +87,10 @@ public class MemberInfoEncryptionService implements AesMemberInfoEncryptionServi
 
 	private String generateEncryptionId() {
 		return UUID.randomUUID().toString();
+	}
+
+	@Override
+	public String encryptPassword(String plainPassword) {
+		return null;    // PasswordEncryptionService에서 구현
 	}
 }
