@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.gwon.haveameal.ticket.mapper.TicketMapper">
+    <resultMap id="findAllMyTicketsEntity"
+               type="team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail">
+        <id property="memberId" column="memberId"/>
+        <result property="quantity" column="quantity"/>
+        <association property="course" column="course_id" javaType="team.gwon.haveameal.payment.entity.Course">
+            <id property="course_id" column="courseId"/>
+            <result property="courseType" column="course_type"/>
+            <result property="timing" column="timing"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllMyTickets" parameterType="team.gwon.haveameal.member.domain.MemberEntity"
+            resultMap="findAllMyTicketsEntity">
+        SELECT cwd.timing, cwd.course_type, count(*) AS quantity
+        FROM payment_with_detail AS pwd
+                 INNER JOIN course_with_detail AS cwd ON pwd.course_id = cwd.course_id
+                 INNER JOIN ticket AS t ON t.payment_id = pwd.payment_id
+        WHERE pwd.status = 'PAID'
+          AND t.meal_id IS NULL
+          AND pwd.member_id = #{memberId}
+        GROUP BY cwd.timing, cwd.course_type
+    </select>
+</mapper>
