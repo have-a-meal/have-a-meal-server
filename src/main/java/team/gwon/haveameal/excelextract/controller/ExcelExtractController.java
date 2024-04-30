@@ -11,7 +11,9 @@ import team.gwon.haveameal.excelextract.service.ExcelExtractService;
 @RestController
 @RequiredArgsConstructor
 public class ExcelExtractController {
-
+	/*
+	 마지막 통신 부분에서 구현을 하기 위해 남겨둔 미완성 코드.
+	*/
 	private final ExcelExtractService excelExtractService;
 
 	@PostMapping("/upload")
