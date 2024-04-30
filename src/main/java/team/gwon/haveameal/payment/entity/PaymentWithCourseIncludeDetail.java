@@ -8,5 +8,5 @@ public class PaymentWithCourseIncludeDetail {
 	PaymentDetail paymentDetail;
 	Course course;
 	CourseDetail courseDetail;
-	TicketQuantity ticketQuantity;
+	int quantity;
 }
