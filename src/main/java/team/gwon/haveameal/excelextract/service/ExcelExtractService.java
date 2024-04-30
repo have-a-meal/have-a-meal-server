@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.excelextract.component.ExtractData;
 import team.gwon.haveameal.excelextract.entity.Food;
 import team.gwon.haveameal.excelextract.entity.Meal;
-import team.gwon.haveameal.excelextract.entity.Relation;
+import team.gwon.haveameal.excelextract.entity.Menu;
 import team.gwon.haveameal.excelextract.mapper.ExcelMapper;
 
 @Service
@@ -24,6 +25,7 @@ public class ExcelExtractService {
 	private final ExtractData extractData;
 	private final ExcelMapper excelMapper;
 
+	@Transactional
 	public List<Map<String, Object>> excelUpload(MultipartFile multipartFile) throws Exception {
 		List<Map<String, Object>> data = extractData.extract(multipartFile);
 		// List<Food> foodList = new ArrayList<>();
@@ -39,7 +41,7 @@ public class ExcelExtractService {
 			excelMapper.insertMeal(meal);
 			// mealList.add(meal);
 			Food food;
-			Relation relation;
+			Menu menu;
 			int index = 0;
 			for (String foods : map.get("meal").toString().replaceAll("[\\[|\\]\\s]", "").split(",")) {
 				Optional<Food> existFood = excelMapper.selectFood(foods);
@@ -52,12 +54,12 @@ public class ExcelExtractService {
 					// foodList.add(food);
 				}
 				if (index == 0) {
-					relation = new Relation(meal.getMealId(), food.getFoodId(), 1);
-					excelMapper.insertRelation(relation);
+					menu = new Menu(meal.getMealId(), food.getFoodId(), 1);
+					excelMapper.insertRelation(menu);
 					// relationList.add(relation);
 				} else {
-					relation = new Relation(meal.getMealId(), food.getFoodId(), 0);
-					excelMapper.insertRelation(relation);
+					menu = new Menu(meal.getMealId(), food.getFoodId(), 0);
+					excelMapper.insertRelation(menu);
 					// relationList.add(relation);
 				}
 				index++;

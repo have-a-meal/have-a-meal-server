@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import team.gwon.haveameal.excelextract.entity.Food;
 import team.gwon.haveameal.excelextract.entity.Meal;
-import team.gwon.haveameal.excelextract.entity.Relation;
+import team.gwon.haveameal.excelextract.entity.Menu;
 
 @Mapper
 public interface ExcelMapper {
@@ -21,11 +21,11 @@ public interface ExcelMapper {
 
 	void insertFood(Food food);
 
-	void insertRelation(Relation relation);
+	void insertRelation(Menu menu);
 
 	void bulkInsertMeal(List<Meal> meals);
 
 	void bulkInsertFood(List<Food> foods);
 
-	void bulkInsertRelation(List<Relation> relations);
+	void bulkInsertRelation(List<Menu> menus);
 }

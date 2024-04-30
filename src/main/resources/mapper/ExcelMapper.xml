@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="team.gwon.haveameal.excelextract.mapper.ExcelMapper">
- 
+
     <select id="selectCourseId" parameterType="Map" resultType="int">
         select course_id
         from course
@@ -29,7 +29,7 @@
         values (Null, #{name})
     </insert>
 
-    <insert id="insertRelation" parameterType="team.gwon.haveameal.excelextract.entity.Relation">
+    <insert id="insertRelation" parameterType="team.gwon.haveameal.excelextract.entity.Menu">
         insert into meal_has_food
         values (#{mealId}, #{foodId}, #{isMain})
     </insert>
@@ -51,8 +51,8 @@
 
     <insert id="bulkInsertRelation" parameterType="List">
         insert into meal_has_food values
-        <foreach collection="list" item="relation" separator=",">
-            (#{relation.mealId},#{relation.foodId},#{relation.isMain})
+        <foreach collection="list" item="menu" separator=",">
+            (#{menu.mealId},#{menu.foodId},#{menu.isMain})
         </foreach>
     </insert>
 </mapper>
