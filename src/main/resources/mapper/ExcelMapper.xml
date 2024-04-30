@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.gwon.haveameal.excelextract.mapper.ExcelMapper">
+ 
+    <select id="selectCourseId" parameterType="Map" resultType="int">
+        select course_id
+        from course
+        where timing = #{timing}
+          and course_type = #{course}
+        order by course_id limit 1
+    </select>
+
+    <select id="selectFood" parameterType="String" resultType="team.gwon.haveameal.excelextract.entity.Food">
+        select *
+        from food
+        where name = #{name}
+    </select>
+
+    <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
+            keyProperty="mealId" keyColumn="meal_id">
+        insert into meal
+        values (NULL, #{date}, #{courseId})
+    </insert>
+
+    <insert id="insertFood" parameterType="team.gwon.haveameal.excelextract.entity.Food" useGeneratedKeys="true"
+            keyProperty="foodId" keyColumn="food_id">
+        insert into food
+        values (Null, #{name})
+    </insert>
+
+    <insert id="insertRelation" parameterType="team.gwon.haveameal.excelextract.entity.Relation">
+        insert into meal_has_food
+        values (#{mealId}, #{foodId}, #{isMain})
+    </insert>
+
+    <insert id="bulkInsertMeal" parameterType="List" useGeneratedKeys="true"
+            keyProperty="mealId" keyColumn="meal_id">
+        insert into meal values
+        <foreach collection="list" item="meal" separator=",">
+            (NULL,#{meal.date},#{meal.courseId})
+        </foreach>
+    </insert>
+
+    <insert id="bulkInsertFood" parameterType="List" useGeneratedKeys="true" keyProperty="foodId" keyColumn="food_id">
+        insert into food values
+        <foreach collection="list" item="food" separator=",">
+            (NULL,#{food.name})
+        </foreach>
+    </insert>
+
+    <insert id="bulkInsertRelation" parameterType="List">
+        insert into meal_has_food values
+        <foreach collection="list" item="relation" separator=",">
+            (#{relation.mealId},#{relation.foodId},#{relation.isMain})
+        </foreach>
+    </insert>
+</mapper>
