@@ -4,53 +4,53 @@
 <mapper namespace="team.gwon.haveameal.excelextract.mapper.ExcelMapper">
 
     <select id="selectCourseId" parameterType="Map" resultType="int">
-        select course_id
-        from course
-        where timing = #{timing}
-          and course_type = #{course}
-        order by course_id limit 1
+        SELECT course_id
+        FROM course
+        WHERE timing = #{timing}
+          AND course_type = #{course}
+        ORDER BY course_id limit 1
     </select>
 
     <select id="selectFood" parameterType="String" resultType="team.gwon.haveameal.excelextract.entity.Food">
-        select *
-        from food
-        where name = #{name}
+        SELECT *
+        FROM food
+        WHERE name = #{name}
     </select>
 
     <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
             keyProperty="mealId" keyColumn="meal_id">
-        insert into meal
-        values (NULL, #{date}, #{courseId})
+        INSERT INTO meal(date, couser_id)
+        VALUES (#{date}, #{courseId})
     </insert>
 
     <insert id="insertFood" parameterType="team.gwon.haveameal.excelextract.entity.Food" useGeneratedKeys="true"
             keyProperty="foodId" keyColumn="food_id">
-        insert into food
-        values (Null, #{name})
+        INSERT INTO food(name)
+        VALUES (#{name})
     </insert>
 
     <insert id="insertRelation" parameterType="team.gwon.haveameal.excelextract.entity.Menu">
-        insert into meal_has_food
-        values (#{mealId}, #{foodId}, #{isMain})
+        INSERT INTO meal_has_food
+        VALUES (#{mealId}, #{foodId}, #{isMain})
     </insert>
 
     <insert id="bulkInsertMeal" parameterType="List" useGeneratedKeys="true"
             keyProperty="mealId" keyColumn="meal_id">
-        insert into meal values
+        INSERT INTO meal(date,couser_id) VALUES
         <foreach collection="list" item="meal" separator=",">
-            (NULL,#{meal.date},#{meal.courseId})
+            (#{meal.date},#{meal.courseId})
         </foreach>
     </insert>
 
     <insert id="bulkInsertFood" parameterType="List" useGeneratedKeys="true" keyProperty="foodId" keyColumn="food_id">
-        insert into food values
+        INSERT INTO food(name) VALUES
         <foreach collection="list" item="food" separator=",">
-            (NULL,#{food.name})
+            (#{food.name})
         </foreach>
     </insert>
 
     <insert id="bulkInsertRelation" parameterType="List">
-        insert into meal_has_food values
+        INSERT INTO meal_has_food VALUES
         <foreach collection="list" item="menu" separator=",">
             (#{menu.mealId},#{menu.foodId},#{menu.isMain})
         </foreach>
