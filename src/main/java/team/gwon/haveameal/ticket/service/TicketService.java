@@ -21,7 +21,7 @@ public class TicketService {
 	public List<TicketFindResponseDto> findAllTickets(TicketFindRequestDto ticketFindRequestDto) {
 
 		List<PaymentWithCourseIncludeDetail> tickets = ticketMapper.findAllMyTickets(
-			TicketFindRequestDto.from(ticketFindRequestDto));
+			ticketFindRequestDto.toMemberEntity());
 		// CustomException 추가 예정.
 		log.info("tickets : {}", tickets);
 		List<TicketFindResponseDto> response = new ArrayList<>();

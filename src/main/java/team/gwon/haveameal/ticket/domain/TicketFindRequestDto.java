@@ -14,7 +14,7 @@ public class TicketFindRequestDto {
 		return new TicketFindRequestDto(memberId);
 	}
 
-	public static MemberEntity from(TicketFindRequestDto ticketFindRequestDto) {
-		return MemberEntity.builder().memberId(ticketFindRequestDto.getMemberId()).build();
+	public MemberEntity toMemberEntity() {
+		return MemberEntity.builder().memberId(this.memberId).build();
 	}
 }
