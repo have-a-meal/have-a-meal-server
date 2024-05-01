@@ -1,4 +1,4 @@
-package team.gwon.haveameal.member.encryptionservice;
+package team.gwon.haveameal.member.encryptionservice.personaldata;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -11,7 +11,10 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class MemberInfoEncryptionService implements EncryptionService {
+import org.springframework.stereotype.Component;
+
+@Component
+public class AesPersonalDataEncryptor implements PersonalDataEncryptor, PersonalDataDecryptor {
 	public static String alg = "AES/CBC/PKCS5Padding";    // 암호화 시 사용될 알고리즘
 
 	/*
@@ -29,7 +32,7 @@ public class MemberInfoEncryptionService implements EncryptionService {
 	private final Map<String, String> encryptionMap = new HashMap<>();
 
 	@Override
-	public String encryptInfo(String plainInfo) {
+	public String encryptData(String plainData) {
 		try {
 			String selectedKey = aesKeys[secureRandom.nextInt(aesKeys.length)];
 			Cipher cipher = Cipher.getInstance(alg);
@@ -38,7 +41,7 @@ public class MemberInfoEncryptionService implements EncryptionService {
 			byte[] initializationVector = ivParamSpec.getIV();
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParamSpec);
 
-			byte[] encryptedBytes = cipher.doFinal(plainInfo.getBytes(StandardCharsets.UTF_8));
+			byte[] encryptedBytes = cipher.doFinal(plainData.getBytes(StandardCharsets.UTF_8));
 			String encryptionId = generateEncryptionId();
 			String encryptedText = Base64.getEncoder().encodeToString(encryptedBytes);
 			encryptionMap.put(encryptionId,
@@ -51,9 +54,9 @@ public class MemberInfoEncryptionService implements EncryptionService {
 	}
 
 	@Override
-	public String decryptInfo(String encryptionData) {
+	public String decryptData(String encryptedData) {
 		try {
-			String[] parts = encryptionData.split(":");
+			String[] parts = encryptedData.split(":");
 			String encryptionId = parts[0];
 			String cipherInfo = parts[1];
 
@@ -87,10 +90,5 @@ public class MemberInfoEncryptionService implements EncryptionService {
 
 	private String generateEncryptionId() {
 		return UUID.randomUUID().toString();
-	}
-
-	@Override
-	public String encryptPassword(String plainPassword) {
-		return null;    // PasswordEncryptionService에서 구현
 	}
 }
