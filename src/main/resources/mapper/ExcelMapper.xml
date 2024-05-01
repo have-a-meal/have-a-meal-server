@@ -19,7 +19,7 @@
 
     <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
             keyProperty="mealId" keyColumn="meal_id">
-        INSERT INTO meal(date, couser_id)
+        INSERT INTO meal(date, course_id)
         VALUES (#{date}, #{courseId})
     </insert>
 
