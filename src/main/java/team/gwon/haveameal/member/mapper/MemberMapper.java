@@ -7,4 +7,6 @@ import team.gwon.haveameal.member.domain.MemberRegisterDto;
 @Mapper
 public interface MemberMapper {
 	void insertMember(MemberRegisterDto member);
+
+	MemberRegisterDto getMemberById(String memberId);
 }

@@ -29,4 +29,8 @@ public class MemberService {
 
 		memberMapper.insertMember(member);
 	}
+
+	public MemberRegisterDto getMemberById(String memberId) {
+		return memberMapper.getMemberById(memberId);
+	}
 }
