@@ -13,7 +13,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class AesPersonalDataEncryptor implements PersonalDataEncryptor, PersonalDataDecryptor {
 	public static String alg = "AES/CBC/PKCS5Padding";    // 암호화 시 사용될 알고리즘
 
@@ -28,7 +31,7 @@ public class AesPersonalDataEncryptor implements PersonalDataEncryptor, Personal
 		"5jrety4j3kh2gm1ngs3r54g32ad1gna3"
 	};
 
-	private final SecureRandom secureRandom = new SecureRandom();
+	private final SecureRandom secureRandom;
 	private final Map<String, String> encryptionMap = new HashMap<>();
 
 	@Override
