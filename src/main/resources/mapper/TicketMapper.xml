@@ -23,4 +23,20 @@
           AND pwd.member_id = #{memberId}
         GROUP BY cwd.timing, cwd.course_type
     </select>
+
+    <select id="getQrCode" parameterType="team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail"
+            resultType="Integer">
+        SELECT t.ticket_id
+        FROM payment_with_detail AS pwd
+                 INNER JOIN course_with_detail AS cwd ON pwd.course_id = cwd.course_id
+                 INNER JOIN ticket AS t ON t.payment_id = pwd.payment_id
+        WHERE pwd.status = 'PAID'
+          AND t.meal_id IS NULL
+          AND pwd.member_id = #{payment.memberId}
+          AND cwd.timing = #{course.timing}
+          AND cwd.course_type = #{course.courseType}
+        ORDER BY pwd.paid_at
+        LIMIT 1
+    </select>
+
 </mapper>

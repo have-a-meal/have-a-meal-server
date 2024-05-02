@@ -11,4 +11,6 @@ import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 public interface TicketMapper {
 
 	List<PaymentWithCourseIncludeDetail> findAllMyTickets(MemberEntity member);
+
+	Integer getQrCode(PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail);
 }
