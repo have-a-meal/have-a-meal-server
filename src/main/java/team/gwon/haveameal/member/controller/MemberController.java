@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import team.gwon.haveameal.member.service.MemberService;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/member")
 public class MemberController {
 
 	private final MemberService memberService;
@@ -21,7 +23,7 @@ public class MemberController {
 		memberService.insertMember(member);
 	}
 
-	@GetMapping("/member/{memberId}")
+	@GetMapping("/{memberId}")
 	public MemberRegisterDto getMember(@PathVariable String memberId) {
 		return memberService.getMemberById(memberId);
 	}
