@@ -2,11 +2,12 @@ package team.gwon.haveameal.member.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import team.gwon.haveameal.member.domain.MemberRegisterDto;
+import team.gwon.haveameal.member.domain.MemberEntity;
+import team.gwon.haveameal.member.domain.MemberFindDto;
 
 @Mapper
 public interface MemberMapper {
-	void insertMember(MemberRegisterDto member);
+	void insertMember(MemberEntity member);
 
-	MemberRegisterDto getMemberById(String memberId);
+	MemberFindDto getMemberById(String memberId);
 }
