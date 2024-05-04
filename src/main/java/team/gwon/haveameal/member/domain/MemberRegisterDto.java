@@ -22,8 +22,9 @@ public class MemberRegisterDto {
 		member.setPassword(passwordEncryptor.encryptPassword(password));
 		member.setName(personalDataEncryptor.encryptData(name));
 		member.setPhone(personalDataEncryptor.encryptData(phone));
-		// 학생 직원 외부인 구분 필요
-		// 탈퇴 여부, 탈퇴 날짜?
+		/* 학생 직원 외부인 구분 필요
+		외부인 ID 생성 로직 필요
+		탈퇴 여부, 탈퇴 날짜? */
 		return member;
 	}
 }
