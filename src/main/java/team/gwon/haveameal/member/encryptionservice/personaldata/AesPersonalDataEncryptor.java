@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class AesPersonalDataEncryptor implements PersonalDataEncryptor, PersonalDataDecryptor {
+public class AesPersonalDataEncryptor implements PersonalDataEncryptor {
 	public static String alg = "AES/CBC/PKCS5Padding";    // 암호화 시 사용될 알고리즘
 
 	/*
