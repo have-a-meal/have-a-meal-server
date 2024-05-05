@@ -11,48 +11,22 @@
         ORDER BY course_id limit 1
     </select>
 
-    <select id="selectFood" parameterType="String" resultType="team.gwon.haveameal.excelextract.entity.Food">
-        SELECT *
-        FROM food
-        WHERE name = #{name}
-    </select>
-
     <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
             keyProperty="mealId" keyColumn="meal_id">
         INSERT INTO meal(date, course_id)
         VALUES (#{date}, #{courseId})
     </insert>
 
-    <insert id="insertFood" parameterType="team.gwon.haveameal.excelextract.entity.Food" useGeneratedKeys="true"
-            keyProperty="foodId" keyColumn="food_id">
-        INSERT INTO food(name)
-        VALUES (#{name})
+    <insert id="bulkInsertFood" parameterType="java.util.List">
+        INSERT IGNORE INTO food(name) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name})
+        </foreach>
     </insert>
 
-    <insert id="insertRelation" parameterType="team.gwon.haveameal.excelextract.entity.Menu">
+    <insert id="insertMenu" parameterType="team.gwon.haveameal.excelextract.entity.Menu">
         INSERT INTO meal_has_food
-        VALUES (#{mealId}, #{foodId}, #{isMain})
+        VALUES (#{mealId}, (SELECT food_id FROM food WHERE name = #{foodName}), #{isMain})
     </insert>
 
-    <insert id="bulkInsertMeal" parameterType="List" useGeneratedKeys="true"
-            keyProperty="mealId" keyColumn="meal_id">
-        INSERT INTO meal(date,couser_id) VALUES
-        <foreach collection="list" item="meal" separator=",">
-            (#{meal.date},#{meal.courseId})
-        </foreach>
-    </insert>
-
-    <insert id="bulkInsertFood" parameterType="List" useGeneratedKeys="true" keyProperty="foodId" keyColumn="food_id">
-        INSERT INTO food(name) VALUES
-        <foreach collection="list" item="food" separator=",">
-            (#{food.name})
-        </foreach>
-    </insert>
-
-    <insert id="bulkInsertRelation" parameterType="List">
-        INSERT INTO meal_has_food VALUES
-        <foreach collection="list" item="menu" separator=",">
-            (#{menu.mealId},#{menu.foodId},#{menu.isMain})
-        </foreach>
-    </insert>
 </mapper>

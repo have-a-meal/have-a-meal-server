@@ -1,9 +1,9 @@
 package team.gwon.haveameal.excelextract.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +28,9 @@ public class ExcelExtractService {
 	@Transactional
 	public List<Map<String, Object>> excelUpload(MultipartFile multipartFile) throws Exception {
 		List<Map<String, Object>> data = extractData.extract(multipartFile);
-		// List<Food> foodList = new ArrayList<>();
-		// List<Meal> mealList = new ArrayList<>();
-		// List<Relation> relationList = new ArrayList<>();
+		List<Food> foodList = new ArrayList<>();
+		List<Meal> mealList = new ArrayList<>();
+		List<Integer> foodLength = new ArrayList<>();
 		for (Map<String, Object> map : data) {
 			if (map.get("meal").equals("")) {
 				continue;
@@ -39,35 +39,34 @@ public class ExcelExtractService {
 			Date date = (Date)map.get("date");
 			Meal meal = new Meal(courseId, date);
 			excelMapper.insertMeal(meal);
-			// mealList.add(meal);
+			mealList.add(meal);
 			Food food;
-			Menu menu;
-			int index = 0;
+			int length = 0;
 			for (String foods : map.get("meal").toString().replaceAll("[\\[|\\]\\s]", "").split(",")) {
-				Optional<Food> existFood = excelMapper.selectFood(foods);
-				if (existFood.isPresent()) {
-					food = existFood.get();
-					// foodList.add(food);
+				food = new Food(foods);
+				foodList.add(food);
+				length++;
+			}
+			foodLength.add(length);
+		}
+		excelMapper.bulkInsertFood(foodList);
+		log.info(foodLength.size() + "//" + mealList.size() + "//" + foodList.size());
+		int index = 0;
+		boolean flag;
+		for (int l = 0; l < foodLength.size(); l++) {
+			flag = true;
+			int limit = foodLength.get(l) + index;
+			while (index++ < limit) {
+				Menu menu;
+				if (flag) {
+					menu = new Menu(mealList.get(l).getMealId(), foodList.get(index).getName(), 1);
+					flag = false;
 				} else {
-					food = new Food(foods);
-					excelMapper.insertFood(food);
-					// foodList.add(food);
+					menu = new Menu(mealList.get(l).getMealId(), foodList.get(index).getName(), 0);
 				}
-				if (index == 0) {
-					menu = new Menu(meal.getMealId(), food.getFoodId(), 1);
-					excelMapper.insertRelation(menu);
-					// relationList.add(relation);
-				} else {
-					menu = new Menu(meal.getMealId(), food.getFoodId(), 0);
-					excelMapper.insertRelation(menu);
-					// relationList.add(relation);
-				}
-				index++;
+				excelMapper.insertMenu(menu);
 			}
 		}
-		// excelMapper.bulkInsertMeal(mealList);
-		// excelMapper.bulkInsertFood(foodList);
-		// excelMapper.bulkInsertRelation(relationList);
 		return data;
 	}
 }
