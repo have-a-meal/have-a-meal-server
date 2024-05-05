@@ -18,8 +18,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	};
 
 	@Bean
-	public FilterRegistrationBean filterBean() {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean(new LogFilter());
+	public FilterRegistrationBean<LogFilter> filterBean() {
+		FilterRegistrationBean<LogFilter> registrationBean = new FilterRegistrationBean<>(new LogFilter());
 		// 필터 여러개 적용 시에는 순번이 있어야합니다.
 		// LogFilter가 동작하는 URL을 설정해줘야합니다.
 		registrationBean.setUrlPatterns(Arrays.asList(
