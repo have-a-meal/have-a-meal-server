@@ -27,13 +27,13 @@ public class LogFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 
-		String requestURI = req.getRequestURI();
+		String requestUri = req.getRequestURI();
 
 		log.info("LogFilter doFilter()");
-		log.info("---Request(" + requestURI + ") 필터---");
-		log.info("data : {}", req.getQueryString().toString());
+		log.info("---Request(" + requestUri + ") 필터---");
+		log.info("data : {}", req.getReader().toString());
 		chain.doFilter(request, response);
-		log.info("---Response(" + requestURI + ") 필터---");
+		log.info("---Response(" + requestUri + ") 필터---");
 
 	}
 
