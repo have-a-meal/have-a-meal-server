@@ -16,16 +16,18 @@ public class LogFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
-		HttpServletRequest req = (HttpServletRequest)request;
+		CachedHttpServletRequest cachedReq = new CachedHttpServletRequest((HttpServletRequest)request);
 		HttpServletResponse res = (HttpServletResponse)response;
 
-		String requestUri = req.getRequestURI();
+		String requestUri = cachedReq.getRequestURI();
+		String requestMethod = cachedReq.getMethod();
+		String requestBody = cachedReq.getCachedRequestData();
 
 		log.info("LogFilter doFilter()");
-		log.info("---Request(" + requestUri + ") 필터---");
-		log.info("data : {}", req.getReader().toString());
+		log.info("---Method({}), Request({}) 필터---", requestMethod, requestUri);
+		log.info("requestBodyData : \n{}", requestBody);
 		filterChain.doFilter(request, response);
-		log.info("---Response(" + requestUri + ") 필터---");
+		log.info("---Method({}), Request({}) 필터---", requestMethod, requestUri);
 
 	}
 
