@@ -2,28 +2,20 @@ package team.gwon.haveameal.common.logging;
 
 import java.io.IOException;
 
-import jakarta.servlet.Filter;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LogFilter implements Filter {
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("LogFilter init()");
-		Filter.super.init(filterConfig);
-	}
+public class LogFilter extends OncePerRequestFilter {
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
-		IOException,
-		ServletException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+		FilterChain filterChain) throws ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 
@@ -32,14 +24,9 @@ public class LogFilter implements Filter {
 		log.info("LogFilter doFilter()");
 		log.info("---Request(" + requestUri + ") 필터---");
 		log.info("data : {}", req.getReader().toString());
-		chain.doFilter(request, response);
+		filterChain.doFilter(request, response);
 		log.info("---Response(" + requestUri + ") 필터---");
 
 	}
 
-	@Override
-	public void destroy() {
-		log.info("LogFilter destroy()");
-		Filter.super.destroy();
-	}
 }
