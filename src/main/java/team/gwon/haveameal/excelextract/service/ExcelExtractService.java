@@ -56,7 +56,7 @@ public class ExcelExtractService {
 		for (int l = 0; l < foodLength.size(); l++) {
 			flag = true;
 			int limit = foodLength.get(l) + index;
-			while (index++ < limit) {
+			for (; index < limit; index++) {
 				Menu menu;
 				if (flag) {
 					menu = new Menu(mealList.get(l).getMealId(), foodList.get(index).getName(), 1);
