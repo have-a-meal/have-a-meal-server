@@ -5,15 +5,15 @@ import lombok.Getter;
 @Getter
 public class Menu {
 	private long mealId;
-	private long foodId;
+	private String foodName;
 	private int isMain;
 
 	public Menu() {
 	}
 
-	public Menu(long mealId, long foodId, int isMain) {
+	public Menu(long mealId, String foodName, int isMain) {
 		this.mealId = mealId;
-		this.foodId = foodId;
+		this.foodName = foodName;
 		this.isMain = isMain;
 	}
 }
