@@ -24,8 +24,9 @@ public class LogFilterTestController {
 	public ResponseEntity<?> postLogTest(@RequestBody MemberRegisterDto memberRegisterDto) {
 		log.info("post 테스트 실행되었습니다.");
 		log.info("memberRegisterDto : {}", memberRegisterDto);
-		if (memberRegisterDto == null)
+		if (memberRegisterDto == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("memberRegisterDto가 없습니다.");
+		}
 		return ResponseEntity.status(HttpStatus.OK).body("정상적으로 처리되었습니다.");
 	}
 }
