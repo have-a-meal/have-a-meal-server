@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class Food {
-	private long foodId;
+	private Long foodId;
 	private String name;
 
 	public Food() {
