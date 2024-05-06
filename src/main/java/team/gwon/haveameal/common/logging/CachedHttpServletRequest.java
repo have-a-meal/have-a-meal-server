@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.util.StreamUtils;
 
-import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
@@ -39,27 +38,7 @@ public class CachedHttpServletRequest extends HttpServletRequestWrapper {
 	public ServletInputStream getInputStream() {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(
 			this.cachedRequestData.getBytes(StandardCharsets.UTF_8));
-		return new ServletInputStream() {
-			@Override
-			public boolean isFinished() {
-				return inputStream.available() == 0;
-			}
-
-			@Override
-			public boolean isReady() {
-				return true;
-			}
-
-			@Override
-			public void setReadListener(ReadListener listener) {
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public int read() {
-				return inputStream.read();
-			}
-		};
+		return new CachedServletInputStream(inputStream);
 	}
 
 	@Override
