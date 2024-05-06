@@ -7,7 +7,7 @@ import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 
 public class CachedServletInputStream extends ServletInputStream {
-	private ByteArrayInputStream inputStream;
+	private final ByteArrayInputStream inputStream;
 
 	// inputStream를 모두 읽은 경우 true 리턴합니다.
 	@Override
