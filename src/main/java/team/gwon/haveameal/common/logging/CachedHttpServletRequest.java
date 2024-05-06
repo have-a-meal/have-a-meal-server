@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequestWrapper;
 
 public class CachedHttpServletRequest extends HttpServletRequestWrapper {
 
-	private String cachedRequestData;
+	private final String cachedRequestData;
 
 	/**
 	 * Constructs a request object wrapping the given request.
