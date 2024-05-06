@@ -2,7 +2,6 @@ package team.gwon.haveameal.unit.ticket;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -43,6 +42,6 @@ class GetQrCodeTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(qrCode.getQrCode());
 		BufferedImage bufferedImage = ImageIO.read(inputStream);
 
-		ImageIO.write(bufferedImage, "png", new File("./image.png"));
+		// ImageIO.write(bufferedImage, "png", new File("./image.png"));
 	}
 }
