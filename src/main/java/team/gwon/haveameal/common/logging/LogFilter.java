@@ -26,7 +26,7 @@ public class LogFilter extends OncePerRequestFilter {
 		log.info("LogFilter doFilter()");
 		log.info("---Method({}), Request({}) 필터---", requestMethod, requestUri);
 		log.info("requestBodyData : \n{}", requestBody);
-		filterChain.doFilter(request, response);
+		filterChain.doFilter(cachedReq, response);
 		log.info("---Method({}), Request({}) 필터---", requestMethod, requestUri);
 
 	}
