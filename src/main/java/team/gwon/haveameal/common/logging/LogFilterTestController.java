@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.member.domain.MemberRegisterDto;
 
 @Slf4j
 @RestController
@@ -21,10 +20,10 @@ public class LogFilterTestController {
 	}
 
 	@PostMapping("/logTest")
-	public ResponseEntity<?> postLogTest(@RequestBody MemberRegisterDto memberRegisterDto) {
+	public ResponseEntity<?> postLogTest(@RequestBody LogFilterTestDto logFilterTestDto) {
 		log.info("post 테스트 실행되었습니다.");
-		log.info("memberRegisterDto : {}", memberRegisterDto);
-		if (memberRegisterDto == null) {
+		log.info("logFilterTestDto : {}", logFilterTestDto);
+		if (logFilterTestDto == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("memberRegisterDto가 없습니다.");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("정상적으로 처리되었습니다.");
