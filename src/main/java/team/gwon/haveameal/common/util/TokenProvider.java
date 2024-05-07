@@ -10,4 +10,9 @@ public class TokenProvider {
 		// ticketId 를 포함하여 token 생성
 		return Token.builder().accessToken(String.valueOf(ticketId)).build();
 	}
+
+	// 테스트를 위해 무조건 true 리턴하게 구현
+	public static boolean vaild() {
+		return true;
+	}
 }
