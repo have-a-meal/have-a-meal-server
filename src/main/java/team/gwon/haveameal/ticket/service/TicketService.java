@@ -11,12 +11,12 @@ import com.google.zxing.WriterException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.domain.Token;
 import team.gwon.haveameal.common.util.TokenProvider;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.ticket.component.QrGenerator;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
-import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
@@ -50,9 +50,9 @@ public class TicketService {
 	}
 
 	@Transactional
-	public QrCodeUseResponseDto useQrCode(QrCodeUseRequestDto qrCodeUseRequestDto) {
+	public QrCodeUseResponseDto useQrCode(Token token) {
 		if (TokenProvider.vaild()) {
-			Integer result = ticketMapper.useQrCode(qrCodeUseRequestDto.toTicketEntity());
+			Integer result = ticketMapper.useQrCode(TokenProvider.toTicketEntity(token));
 			if (result == 1) {
 				return QrCodeUseResponseDto.from("성공!");
 			}

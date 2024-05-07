@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.zxing.WriterException;
 
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.domain.Token;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
-import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
@@ -48,9 +48,8 @@ public class TicketController {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<QrCodeUseResponseDto> useQrCode(
-		@RequestBody QrCodeUseRequestDto qrCodeUseRequestDto) {
-		QrCodeUseResponseDto response = ticketService.useQrCode(qrCodeUseRequestDto);
+	public ResponseEntity<QrCodeUseResponseDto> useQrCode(@RequestBody Token token) {
+		QrCodeUseResponseDto response = ticketService.useQrCode(token);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
