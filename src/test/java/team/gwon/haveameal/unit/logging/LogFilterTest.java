@@ -13,8 +13,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import team.gwon.haveameal.common.logging.LogFilterTestDto;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LogFilterTest {

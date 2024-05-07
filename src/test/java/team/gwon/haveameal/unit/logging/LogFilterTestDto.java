@@ -1,4 +1,4 @@
-package team.gwon.haveameal.common.logging;
+package team.gwon.haveameal.unit.logging;
 
 import lombok.Builder;
 import lombok.Getter;

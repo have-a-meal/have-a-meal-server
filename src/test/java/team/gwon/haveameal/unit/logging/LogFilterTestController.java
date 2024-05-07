@@ -1,4 +1,4 @@
-package team.gwon.haveameal.common.logging;
+package team.gwon.haveameal.unit.logging;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
