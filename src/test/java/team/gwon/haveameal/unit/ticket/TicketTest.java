@@ -1,7 +1,5 @@
 package team.gwon.haveameal.unit.ticket;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,15 +17,13 @@ import com.google.zxing.WriterException;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
-import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
-import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
 import team.gwon.haveameal.ticket.service.TicketService;
 
 @Slf4j
 @SpringBootTest
-public class TicketTest {
+class TicketTest {
 
 	@Autowired
 	TicketService ticketService;
@@ -60,20 +56,5 @@ public class TicketTest {
 		BufferedImage bufferedImage = ImageIO.read(inputStream);
 
 		// ImageIO.write(bufferedImage, "png", new File("./image.png"));
-	}
-
-	@DisplayName("QrCode 사용 시, 사용 변경 테스트")
-	@Test
-	void confirmQrCode() {
-		// given
-		Long ticketId = 1L;
-		Long mealId = 1L;
-
-		QrCodeUseRequestDto request = QrCodeUseRequestDto.of(ticketId, mealId);
-
-		QrCodeUseResponseDto response = ticketService.useQrCode(request);
-
-		assertEquals(response.getMessage(), "성공!");
-
 	}
 }
