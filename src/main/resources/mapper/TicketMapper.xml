@@ -39,4 +39,10 @@
         LIMIT 1
     </select>
 
+    <update id="confirmQrCode" parameterType="team.gwon.haveameal.ticket.domain.TicketEntity">
+        UPDATE ticket
+        SET meal_id = #{mealId}
+        WHERE ticket_id = #{ticketId}
+    </update>
+
 </mapper>
