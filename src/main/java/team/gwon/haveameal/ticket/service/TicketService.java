@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.zxing.WriterException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.util.TokenProvider;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.ticket.component.QrGenerator;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
+import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
+import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
 import team.gwon.haveameal.ticket.mapper.TicketMapper;
@@ -43,5 +47,16 @@ public class TicketService {
 		byte[] qrCode = qrGenerator.generateQrImage(ticketId, qrCodeRequestDto.getWidth(),
 			qrCodeRequestDto.getHeight());
 		return QrCodeResponseDto.from(qrCode);
+	}
+
+	@Transactional
+	public QrCodeUseResponseDto useQrCode(QrCodeUseRequestDto qrCodeUseRequestDto) {
+		if (TokenProvider.vaild()) {
+			Integer result = ticketMapper.useQrCode(qrCodeUseRequestDto.toTicketEntity());
+			if (result == 1) {
+				return QrCodeUseResponseDto.from("성공!");
+			}
+		}
+		return QrCodeUseResponseDto.from("실패!");
 	}
 }
