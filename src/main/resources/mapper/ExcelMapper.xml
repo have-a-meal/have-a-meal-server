@@ -26,7 +26,7 @@
 
     <insert id="insertMenu" parameterType="team.gwon.haveameal.excelextract.entity.Menu">
         INSERT INTO meal_has_food
-        VALUES (#{mealId}, (SELECT food_id FROM food WHERE name = #{foodName}), #{isMain})
+        VALUES (#{meal.mealId}, (SELECT food_id FROM food WHERE name = #{food.name}), #{isMain})
     </insert>
 
 </mapper>

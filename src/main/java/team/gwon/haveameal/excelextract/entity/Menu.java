@@ -4,16 +4,16 @@ import lombok.Getter;
 
 @Getter
 public class Menu {
-	private long mealId;
-	private String foodName;
+	private Meal meal;
+	private Food food;
 	private int isMain;
 
 	public Menu() {
 	}
 
-	public Menu(long mealId, String foodName, int isMain) {
-		this.mealId = mealId;
-		this.foodName = foodName;
+	public Menu(Meal meal, Food food, int isMain) {
+		this.meal = meal;
+		this.food = food;
 		this.isMain = isMain;
 	}
 }
