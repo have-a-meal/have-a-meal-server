@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.excelextract.component.MenuFacade;
 import team.gwon.haveameal.excelextract.service.ExcelExtractService;
 
 @SpringBootTest
@@ -17,6 +18,9 @@ public class ExcelIntoDbTest {
 	@Autowired
 	private ExcelExtractService excelExtractService;
 
+	@Autowired
+	private MenuFacade menuFacade;
+
 	@Test
 	public void dataIntoDB() throws Exception {
 		String fileName = "april week 1 menu";
@@ -25,5 +29,15 @@ public class ExcelIntoDbTest {
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
 		excelExtractService.excelUpload(multipartFile);
+	}
+
+	@Test
+	public void dataIntoDB_Facade() throws Exception {
+		String fileName = "april week 1 menu";
+		String contentType = "xlsx";
+		String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		menuFacade.uploadExcel(multipartFile);
 	}
 }
