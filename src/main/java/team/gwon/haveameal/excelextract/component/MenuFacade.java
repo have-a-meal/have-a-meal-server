@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.excelextract.entity.Food;
 import team.gwon.haveameal.excelextract.entity.Meal;
 import team.gwon.haveameal.excelextract.service.FoodService;
@@ -16,7 +16,6 @@ import team.gwon.haveameal.excelextract.service.MenuService;
 
 @RequiredArgsConstructor
 @Component
-@Slf4j
 public class MenuFacade {
 
 	private final MealService mealService;
@@ -24,6 +23,7 @@ public class MenuFacade {
 	private final MenuService menuService;
 	private final ExtractData extractData;
 
+	@Transactional
 	//return type 추후에 바꿀 예정
 	public void uploadExcel(MultipartFile multipartFile) throws Exception {
 		List<Map<String, Object>> data = extractData.extract(multipartFile);
