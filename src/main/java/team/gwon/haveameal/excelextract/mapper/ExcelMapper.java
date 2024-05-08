@@ -2,6 +2,7 @@ package team.gwon.haveameal.excelextract.mapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,4 +20,6 @@ public interface ExcelMapper {
 	void insertMenu(Menu menu);
 
 	void bulkInsertFood(List<Food> foods);
+
+	Optional<Meal> selectMeal(Meal meal);
 }

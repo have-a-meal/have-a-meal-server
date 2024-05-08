@@ -26,6 +26,11 @@ public class MealService {
 			int courseId = excelMapper.selectCourseId(map);
 			Date date = (Date)map.get("date");
 			Meal meal = new Meal(courseId, date);
+			excelMapper.selectMeal(meal).ifPresent(m -> {
+				throw new RuntimeException("duplicate meal");
+			});
+			//exception 처리 고민. custom해서 공통으로 사용하도록 하는지 아님 개별적으로 만들어서 사용하는지
+			//일단 runtimeException으로만 두고 넘어가는걸로.
 			excelMapper.insertMeal(meal);
 			meals.add(meal);
 		}

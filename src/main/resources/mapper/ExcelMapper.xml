@@ -11,6 +11,13 @@
         ORDER BY course_id limit 1
     </select>
 
+    <select id="selectMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal">
+        SELECT meal_id
+        FROM meal
+        WHERE date = #{date}
+          AND course_id = #{courseId};
+    </select>
+
     <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
             keyProperty="mealId" keyColumn="meal_id">
         INSERT INTO meal(date, course_id)
