@@ -1,5 +1,7 @@
 package team.gwon.haveameal.unitexcel;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.FileInputStream;
 
 import org.junit.jupiter.api.Test;
@@ -39,5 +41,19 @@ public class ExcelIntoDbTest {
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
 		menuFacade.uploadExcel(multipartFile);
+	}
+
+	@Test
+	public void dataIntoDB_duplicate_test() throws Exception {
+		String fileName = "april week 1 menu";
+		String contentType = "xlsx";
+		String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		menuFacade.uploadExcel(multipartFile);
+		Throwable exception = assertThrows(RuntimeException.class, () -> {
+			menuFacade.uploadExcel(multipartFile);
+		});
+		assertEquals("duplicate excel data", exception.getMessage());
 	}
 }
