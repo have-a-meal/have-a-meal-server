@@ -43,12 +43,12 @@ public class NaverTypoCheckerTest {
 			throw new RuntimeException("검색어 인코딩 실패", e);
 		}
 
-		String apiURL = "https://openapi.naver.com/v1/search/errata.json?query=" + text;
+		String apiUrl = "https://openapi.naver.com/v1/search/errata.json?query=" + text;
 
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-		String responseBody = get(apiURL, requestHeaders);
+		String responseBody = get(apiUrl, requestHeaders);
 		if (!responseBody.split(":")[1].replace("}", "").equals("\"\"")) {
 			word = typoChecker(responseBody.split(":")[1].replaceAll("[\"}]", ""));
 		}
