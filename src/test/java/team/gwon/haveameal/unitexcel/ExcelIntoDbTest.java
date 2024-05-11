@@ -44,7 +44,7 @@ public class ExcelIntoDbTest {
 	}
 
 	@Test
-	public void dataIntoDB_duplicate_test() throws Exception {
+	public void dataIntoDB_Duplicate_Test() throws Exception {
 		String fileName = "april week 1 menu";
 		String contentType = "xlsx";
 		String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
@@ -55,5 +55,22 @@ public class ExcelIntoDbTest {
 			menuFacade.uploadExcel(multipartFile);
 		});
 		assertEquals("duplicate excel data", exception.getMessage());
+	}
+
+	@Test
+	public void dataIntoDB_Update_Test() throws Exception {
+		String fileName = "april week 1 menu";
+		String contentType = "xlsx";
+		String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		menuFacade.uploadExcel(multipartFile);
+		fileName = "april week 1 newmenu";
+		contentType = "xlsx";
+		filePath = "src/test/resources/excel/april week 1 newmenu.xlsx";
+		MockMultipartFile multipartFileUpdate = new MockMultipartFile(fileName, fileName + "." + contentType,
+			contentType,
+			new FileInputStream(filePath));
+		menuFacade.updateAfterDeleteExcel(multipartFileUpdate);
 	}
 }
