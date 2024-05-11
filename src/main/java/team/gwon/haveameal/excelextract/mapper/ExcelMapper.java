@@ -1,5 +1,6 @@
 package team.gwon.haveameal.excelextract.mapper;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,4 +23,14 @@ public interface ExcelMapper {
 	void bulkInsertFood(List<Food> foods);
 
 	Optional<Meal> selectMeal(Meal meal);
+
+	// List<Food> selectAllFood();
+
+	// List<Integer> selectFoodLength();
+
+	// List<Meal> selectAllMeal();
+
+	void deleteMeal(Map<String, Date> dateMap);
+
+	void deleteMenu(Map<String, Date> dateMap);
 }

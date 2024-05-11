@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.excelextract.entity.Food;
 import team.gwon.haveameal.excelextract.mapper.ExcelMapper;
@@ -15,6 +16,7 @@ import team.gwon.haveameal.excelextract.mapper.ExcelMapper;
 public class FoodService {
 
 	private final ExcelMapper excelMapper;
+	@Getter
 	private final List<Integer> foodLength = new ArrayList<>();
 
 	public List<Food> getFoods(List<Map<String, Object>> data) {
@@ -36,9 +38,13 @@ public class FoodService {
 		return foods;
 	}
 
-	public List<Integer> getLength() {
-		return foodLength;
-	}
+	// public List<Food> getAllOldFoods() {
+	// 	return excelMapper.selectAllFood();
+	// }
+	//
+	// public List<Integer> getOldFoodLength() {
+	// 	return excelMapper.selectFoodLength();
+	// }
 
 	public void removeFoodLength() {
 		foodLength.clear();

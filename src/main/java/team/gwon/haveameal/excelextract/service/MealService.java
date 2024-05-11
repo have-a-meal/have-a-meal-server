@@ -2,6 +2,7 @@ package team.gwon.haveameal.excelextract.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,4 +37,18 @@ public class MealService {
 		}
 		return meals;
 	}
+
+	public List<Meal> updateMeals(List<Map<String, Object>> data) {
+		Date firstDate = (Date)data.get(0).get("date");
+		Date lastDate = (Date)data.get(data.size() - 1).get("date");
+		Map<String, Date> dateMap = new HashMap<>();
+		dateMap.put("firstDate", firstDate);
+		dateMap.put("lastDate", lastDate);
+		excelMapper.deleteMeal(dateMap);
+		return getMeals(data);
+	}
+
+	// public List<Meal> getAllMeals() {
+	// 	return excelMapper.selectAllMeal();
+	// }
 }

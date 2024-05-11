@@ -29,8 +29,27 @@ public class MenuFacade {
 		List<Map<String, Object>> data = extractData.extract(multipartFile);
 		List<Meal> meals = mealService.getMeals(data);
 		List<Food> foods = foodService.getFoods(data);
-		List<Integer> foodLength = foodService.getLength();
+		List<Integer> foodLength = foodService.getFoodLength();
 		menuService.insertMenu(meals, foods, foodLength);
+		foodService.removeFoodLength();
+	}
+
+	// public void updateExcel(MultipartFile multipartFile) throws Exception {
+	// 	List<Map<String, Object>> data = extractData.extract(multipartFile);
+	// 	List<Meal> meals = mealService.getAllMeals();
+	// 	List<Food> newFoods = foodService.getFoods(data);
+	// 	List<Integer> newFoodLength = foodService.getFoodLength();
+	// 	List<Food> oldFoods = foodService.getAllOldFoods();
+	// 	List<Integer> oldFoodLength = foodService.getOldFoodLength();
+	// 	menuService.updateMenu(meals, newFoods, newFoodLength, oldFoods, oldFoodLength);
+	// }
+
+	public void updateAfterDeleteExcel(MultipartFile multipartFile) throws Exception {
+		List<Map<String, Object>> data = extractData.extract(multipartFile);
+		List<Meal> meals = mealService.updateMeals(data);
+		List<Food> foods = foodService.getFoods(data);
+		List<Integer> foodLength = foodService.getFoodLength();
+		menuService.updateAfterDelteMenu(meals, foods, foodLength);
 		foodService.removeFoodLength();
 	}
 }
