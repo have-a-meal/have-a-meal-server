@@ -23,15 +23,15 @@ public class ExcelIntoDbTest {
 	@Autowired
 	private MenuFacade menuFacade;
 
-	@Test
-	public void dataIntoDB() throws Exception {
-		String fileName = "april week 1 menu";
-		String contentType = "xlsx";
-		String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
-		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
-			new FileInputStream(filePath));
-		excelExtractService.excelUpload(multipartFile);
-	}
+	// @Test
+	// public void dataIntoDB() throws Exception {
+	// 	String fileName = "april week 1 menu";
+	// 	String contentType = "xlsx";
+	// 	String filePath = "src/test/resources/excel/april week 1 menu.xlsx";
+	// 	MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+	// 		new FileInputStream(filePath));
+	// 	excelExtractService.excelUpload(multipartFile);
+	// }
 
 	@Test
 	public void dataIntoDB_Facade() throws Exception {
@@ -41,6 +41,17 @@ public class ExcelIntoDbTest {
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
 		menuFacade.uploadExcel(multipartFile);
+	}
+
+	@Test
+	public void dataIntoDB_Facade_dateValid() throws Exception {
+		String fileName = "april week 1 dateerrormenu";
+		String contentType = "xlsx";
+		String filePath = "src/test/resources/excel/april week 1 dateerrormenu.xlsx";
+		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
+			new FileInputStream(filePath));
+		menuFacade.uploadExcel(multipartFile);
+		//에러메시지에 변수값이 들어가서 어떻게 테스트 통과하게끔할지 고민.
 	}
 
 	@Test

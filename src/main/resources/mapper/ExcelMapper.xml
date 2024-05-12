@@ -3,7 +3,7 @@
 
 <mapper namespace="team.gwon.haveameal.excelextract.mapper.ExcelMapper">
 
-    <select id="selectCourseId" parameterType="Map" resultType="int">
+    <select id="selectCourseId" parameterType="Map" resultType="Integer">
         SELECT course_id
         FROM course
         WHERE timing = #{timing}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -24,9 +25,13 @@ public class MealService {
 			if (map.get("meal").equals("")) {
 				continue;
 			}
-			int courseId = excelMapper.selectCourseId(map);
+			Optional<Integer> courseId = excelMapper.selectCourseId(map);
 			Date date = (Date)map.get("date");
-			Meal meal = new Meal(courseId, date);
+			Meal meal = new Meal(courseId.orElseThrow(), date);
+			//orElseThrow에서 예외의 종류를 생성해서 알아보기 쉽게하는게 좋을듯.
+			//예외 지정안해주면 NoSuchElementException발생
+			//지정 시 IllegalAccessError::new와 같이 서플라이?로 생성
+			//date는 맞지않는 형식으로 입력이 들어오면 데이터 삽입 자체가 안되는거 같음.
 			excelMapper.selectMeal(meal).ifPresent(m -> {
 				throw new RuntimeException("duplicate excel data");
 			});

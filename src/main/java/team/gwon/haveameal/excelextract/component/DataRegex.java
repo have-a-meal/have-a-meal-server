@@ -27,8 +27,11 @@ public class DataRegex {
 			case 1:
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Calendar calendar = Calendar.getInstance();
-				int month = Integer.parseInt(cellData.getStringCellValue().split("")[1]);
-				int day = Integer.parseInt(cellData.getStringCellValue().split("")[4]);
+				int month = Integer.parseInt(cellData.getStringCellValue().substring(0, 2));
+				int day = Integer.parseInt(cellData.getStringCellValue().substring(3, 5));
+				if (month < 1 || month > 12 || day < 1 || day > 31) {
+					throw new NumberFormatException("날짜 형식을 다시 확인하여 올려주세요 : " + month + "월 " + day + "일");
+				}
 				calendar.set(calendar.get(Calendar.YEAR), month - 1, day);
 				String formatDate = sdf.format(calendar.getTime());
 				return Date.valueOf(formatDate);

@@ -14,7 +14,7 @@ import team.gwon.haveameal.excelextract.entity.Menu;
 @Mapper
 public interface ExcelMapper {
 
-	int selectCourseId(Map<String, Object> param);
+	Optional<Integer> selectCourseId(Map<String, Object> param);
 
 	void insertMeal(Meal meal);
 
