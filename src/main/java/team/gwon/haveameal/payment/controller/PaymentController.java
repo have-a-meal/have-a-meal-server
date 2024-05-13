@@ -36,6 +36,11 @@ public class PaymentController {
 		paymentService.getTiketPrice(getTiketPriceDto);
 	}
 
+	@PostMapping("/buy")
+	public void buyTiket() {
+		paymentService.createPayment();
+	}
+
 	@GetMapping("/test")
 	public void test() {
 		paymentService.test();
