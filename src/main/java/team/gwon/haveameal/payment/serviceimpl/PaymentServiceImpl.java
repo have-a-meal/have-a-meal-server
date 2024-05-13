@@ -14,6 +14,8 @@ import com.siot.IamportRestClient.response.Payment;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.payment.dto.GetTiketPriceDto;
+import team.gwon.haveameal.payment.mapper.PaymentMapper;
 import team.gwon.haveameal.payment.service.PaymentService;
 
 @Slf4j
@@ -30,11 +32,18 @@ public class PaymentServiceImpl implements PaymentService {
 
 	private IamportClient iamportClient;
 
+	private PaymentMapper paymentMapper;
+
 	@PostConstruct
 	public void init() {
 		// @Value 필드가 주입되기 전 동작 방지
 		// @PostConstruct 사용해서 IamportClient 초기화
 		this.iamportClient = new IamportClient(restApiKey, restApiSecret);
+	}
+
+	@Override
+	public void getTiketPrice(GetTiketPriceDto getTiketPriceDto) {
+		paymentMapper.getTiketPrice(getTiketPriceDto);
 	}
 
 	@Override
