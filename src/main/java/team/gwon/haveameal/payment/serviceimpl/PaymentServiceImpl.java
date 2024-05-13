@@ -28,9 +28,6 @@ public class PaymentServiceImpl implements PaymentService {
 	@Value("${portone.restApiSecret:null}")
 	private String restApiSecret;
 
-	@Value("${portone.noValue:null}")
-	private String noValue;
-
 	private IamportClient iamportClient;
 
 	@PostConstruct
