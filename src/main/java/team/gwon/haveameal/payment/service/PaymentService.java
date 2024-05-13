@@ -6,7 +6,7 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 
 public interface PaymentService {
 
-	public void init();
+	void init();
 
 	void test();
 
