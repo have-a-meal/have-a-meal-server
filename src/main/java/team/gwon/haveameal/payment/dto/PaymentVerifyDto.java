@@ -9,6 +9,7 @@ import team.gwon.haveameal.payment.enums.PortOnePaymentStatus;
 public class PaymentVerifyDto {
 	private String impUid;
 	private String name;
+	private int courseId;
 	private PortOnePaymentStatus message;
 	private Long amount;
 }
