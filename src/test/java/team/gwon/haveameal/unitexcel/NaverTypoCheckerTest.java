@@ -14,20 +14,24 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.excelextract.dto.ValidFood;
 
 @Slf4j
 public class NaverTypoCheckerTest {
 
 	@Test
-	public void test() {
+	public void test() throws JsonProcessingException {
 		String beforeWord = "마라상거";
 		log.info("success {} to {}", beforeWord, typoChecker(beforeWord));
 	}
 
-	private static String typoChecker(String word) {
-		String clientId = "YOUR_CLIENT_ID"; //애플리케이션 클라이언트 아이디
-		String clientSecret = "YOUR_CLIENT_SECRET"; //애플리케이션 클라이언트 시크릿
+	private static String typoChecker(String word) throws JsonProcessingException {
+		String clientId = "DEHgldW1cD3gEFXGnjiy"; //애플리케이션 클라이언트 아이디
+		String clientSecret = "SpDNui6VfJ"; //애플리케이션 클라이언트 시크릿
 
 		String text = null;
 		try {
@@ -49,8 +53,10 @@ public class NaverTypoCheckerTest {
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 		String responseBody = get(apiUrl, requestHeaders);
-		if (!responseBody.split(":")[1].replace("}", "").equals("\"\"")) {
-			word = typoChecker(responseBody.split(":")[1].replaceAll("[\"}]", ""));
+		ObjectMapper objectMapper = new ObjectMapper();
+		ValidFood validFood = objectMapper.readValue(responseBody, ValidFood.class);
+		if (!validFood.getErrata().isEmpty()) {
+			word = typoChecker(validFood.getErrata());
 		}
 		return word;
 	}
