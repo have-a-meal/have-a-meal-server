@@ -23,6 +23,7 @@ public class PaymentController {
 
 	@GetMapping("/verify/{impUid}")
 	public void paymentByImpUid(@PathVariable("impUid") String impUid) throws IamportResponseException, IOException {
+	public void verifyPayment(@PathVariable("impUid") String impUid) throws IamportResponseException, IOException {
 		paymentService.verifyPayment(impUid);
 	}
 
