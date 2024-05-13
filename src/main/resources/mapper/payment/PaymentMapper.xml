@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.gwon.haveameal.member.mapper.MemberMapper">
+
+    <select id="verifyPayment">
+        SELECT cd.price
+        FROM payment_detail pd
+                 JOIN payment p ON pd.payment_detail_id = p.payment_id
+                 JOIN course c ON p.course_id = c.course_id
+                 JOIN course_detail cd ON c.course_detail_id = cd.course_detail_id
+        WHERE pd.imp_uid = #{impUid};
+    </select>
+
+</mapper>
