@@ -45,7 +45,7 @@ public class ExtractData {
 			Map<String, Object> cellData;
 			for (int j = 0; j < 4; j++) { // sheet.getPhysicalNumberOfRows() == 4
 				Row row = sheet.getRow(j);
-				for (int k = 0; k < 6; k++) { // row.getPhysicalNumberOfCells() == 6
+				for (int k = 0; k < 8; k++) { // row.getPhysicalNumberOfCells() == 6
 					Cell cell = row.getCell(k);
 					Object data = dataRegex.excelToMap(cell); //리턴 타입 ; list, date, bool, string, integer
 					if (data instanceof Boolean) {
