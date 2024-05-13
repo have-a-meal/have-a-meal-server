@@ -19,4 +19,13 @@
         WHERE pd.imp_uid = #{impUid};
     </select>
 
+    <insert id="createPayment">
+        INSERT INTO payment
+        VALUES (#{paymentId}, #{memberId}, #{courseId}, #{pgProvider}, #{payMethod}, #{requestAt})
+    </insert>
+
+    <insert id="createPaymentDetail">
+        INSERT INTO payment_detail
+        VALUES (#{paymentDetailId}, #{status}, #{courseId}, #{pgProvider}, #{payMethod}, #{requestAt})
+    </insert>
 </mapper>
