@@ -11,4 +11,7 @@ public interface PaymentService {
 	void test();
 
 	void verifyPayment(String impUid) throws IamportResponseException, IOException;
+
+	void createPayment();
+
 }
