@@ -53,4 +53,9 @@ public class PaymentServiceImpl implements PaymentService {
 		String status = iamportResponse.getResponse().getStatus(); //결제 상태
 		log.info("데이터 확인 : , amount = {}, name = {}, status = {}", amount, name, status);
 	}
+
+	@Override
+	public void createPayment() {
+		int result = paymentMapper.createPayment();
+	}
 }
