@@ -44,8 +44,6 @@ public class PaymentServiceImpl implements PaymentService {
 	public void test() {
 		log.info("restApiKey : " + restApiKey);
 		log.info("restApiSecret : " + restApiSecret);
-		log.info("noValue : " + noValue.equals("null"));
-		log.info("noValue : " + (noValue == null ? "null" : "not null"));
 	}
 
 	@Override
