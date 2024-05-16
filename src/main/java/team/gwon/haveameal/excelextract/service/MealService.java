@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.excelextract.entity.Meal;
+import team.gwon.haveameal.excelextract.error.CustomException;
+import team.gwon.haveameal.excelextract.error.ErrorCode;
 import team.gwon.haveameal.excelextract.mapper.ExcelMapper;
 
 @Service
@@ -27,13 +29,17 @@ public class MealService {
 			}
 			Optional<Integer> courseId = excelMapper.selectCourseId(map);
 			Date date = (Date)map.get("date");
-			Meal meal = new Meal(courseId.orElseThrow(), date);
+			if (courseId.isEmpty()) {
+				throw new CustomException(ErrorCode.INCORRECT_COURSE_ARGUMENT);
+			}
+			Meal meal = new Meal(courseId.get(), date);
 			//orElseThrow에서 예외의 종류를 생성해서 알아보기 쉽게하는게 좋을듯.
 			//예외 지정안해주면 NoSuchElementException발생
 			//지정 시 IllegalAccessError::new와 같이 서플라이?로 생성
 			//date는 맞지않는 형식으로 입력이 들어오면 데이터 삽입 자체가 안되는거 같음.
 			excelMapper.selectMeal(meal).ifPresent(m -> {
-				throw new RuntimeException("duplicate excel data");
+				// throw new RuntimeException("duplicate excel data");
+				throw new CustomException(ErrorCode.DUPLICATED_EXCEL_FILE);
 			});
 			//exception 처리 고민. custom해서 공통으로 사용하도록 하는지 아님 개별적으로 만들어서 사용하는지
 			//일단 runtimeException으로만 두고 넘어가는걸로.
