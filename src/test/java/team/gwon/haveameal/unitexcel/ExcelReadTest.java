@@ -3,7 +3,6 @@ package team.gwon.haveameal.unitexcel;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.excelextract.component.MenuFacade;
+import team.gwon.haveameal.excelextract.error.CustomException;
 import team.gwon.haveameal.excelextract.service.ExcelExtractService;
 
 @Slf4j
@@ -21,6 +22,9 @@ public class ExcelReadTest {
 
 	@Autowired
 	private ExcelExtractService excelExtractService;
+
+	@Autowired
+	private MenuFacade menuFacade;
 
 	@Test
 	void testReadExcel() throws Exception {
@@ -42,10 +46,13 @@ public class ExcelReadTest {
 		String filePath = "src/test/resources/text/testtextfile.txt";
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
-		Throwable exception = assertThrows(IOException.class, () -> {
-			excelExtractService.excelUpload(multipartFile);
+		CustomException exception = assertThrows(CustomException.class, () -> {
+			menuFacade.uploadExcel(multipartFile);
 		});
 		assertEquals("엑셀 파일이 아닙니다.", exception.getMessage());
+		// Assertions.assertThrows(CustomException.class, () -> {
+		// 	menuFacade.uploadExcel(multipartFile);
+		// });
 	}
 
 	@Test
@@ -55,9 +62,9 @@ public class ExcelReadTest {
 		String filePath = "src/test/resources/excel/blankexcel.xlsx";
 		MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 			new FileInputStream(filePath));
-		Throwable exception = assertThrows(IllegalStateException.class, () -> {
-			excelExtractService.excelUpload(multipartFile);
+		Throwable exception = assertThrows(CustomException.class, () -> {
+			menuFacade.uploadExcel(multipartFile);
 		});
-		assertEquals("엑셀 파일에 시트가 존재하지 않습니다.", exception.getMessage());
+		assertEquals("빈 엑셀 파일입니다.", exception.getMessage());
 	}
 }
