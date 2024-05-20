@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="team.gwon.haveameal.member.mapper.MemberMapper">
+<mapper namespace="team.gwon.haveameal.payment.mapper.PaymentMapper">
 
-    <select id="getTiketPrice" parameterType="team.gwon.haveameal.payment.dto.GetTiketPriceDto">
+    <resultMap id="courseWithDetail" type="team.gwon.haveameal.payment.entity.CourseWithDetail">
+        <association property="course" javaType="team.gwon.haveameal.payment.entity.Course">
+            <id property="courseId" column="course_id"/>
+            <result property="timing" column="timing"/>
+            <result property="courseType" column="course_type"/>
+            <result property="courseDetailId" column="course_detail_id"/>
+        </association>
+        <association property="course_detail" javaType="team.gwon.haveameal.payment.entity.CourseDetail">
+            <id property="courseDetailId" column="course_detail_id"/>
+            <result property="memberType" column="member_type"/>
+            <result property="price" column="price"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="ticketPriceResultMap" type="team.gwon.haveameal.payment.entity.TicketPrice">
+        <id property="courseId" column="course_id"/>
+        <result property="courseDetailId" column="course_detail_id"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <select id="getTicketPrice" parameterType="team.gwon.haveameal.payment.entity.CourseWithDetail"
+            resultType="team.gwon.haveameal.payment.entity.TicketPrice">
         SELECT course_id, c.course_detail_id, price
         FROM course c
                  JOIN course_detail cd ON c.course_detail_id = cd.course_detail_id
-        WHERE timing = #{timing}
-          AND course_type = #{courseType}
-          AND member_type = #{memberType};
+        WHERE timing = #{course.timing}
+          AND course_type = #{course.courseType}
+          AND member_type = #{courseDetail.memberType};
     </select>
     <select id="verifyPayment">
         SELECT cd.price
