@@ -14,7 +14,9 @@ import com.siot.IamportRestClient.response.Payment;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.payment.dto.GetTiketPriceDto;
+import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
+import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
+import team.gwon.haveameal.payment.entity.TicketPrice;
 import team.gwon.haveameal.payment.mapper.PaymentMapper;
 import team.gwon.haveameal.payment.service.PaymentService;
 
@@ -32,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	private IamportClient iamportClient;
 
-	private PaymentMapper paymentMapper;
+	private final PaymentMapper paymentMapper;
 
 	@PostConstruct
 	public void init() {
@@ -42,8 +44,11 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public void getTiketPrice(GetTiketPriceDto getTiketPriceDto) {
-		paymentMapper.getTiketPrice(getTiketPriceDto);
+	public TicketPriceResponseDto getTicketPrice(TicketPriceRequestDto getTicketPriceDto) {
+		TicketPrice ticketPrice = paymentMapper.getTicketPrice(getTicketPriceDto.toCourseWithDetail());
+		TicketPriceResponseDto ticketPriceResponseDto = TicketPriceResponseDto.fromTicketPrice(ticketPrice);
+		log.info("getTicketPrice 결과 : {}", ticketPrice);
+		return ticketPriceResponseDto;
 	}
 
 	@Override

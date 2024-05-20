@@ -1,10 +1,14 @@
 package team.gwon.haveameal.payment.mapper;
 
-import team.gwon.haveameal.payment.dto.GetTiketPriceDto;
+import org.apache.ibatis.annotations.Mapper;
 
+import team.gwon.haveameal.payment.entity.CourseWithDetail;
+import team.gwon.haveameal.payment.entity.TicketPrice;
+
+@Mapper
 public interface PaymentMapper {
 
-	int getTiketPrice(GetTiketPriceDto getTiketPriceDto);
+	TicketPrice getTicketPrice(CourseWithDetail courseWithDetail);
 
 	int amount(String impUid);
 
