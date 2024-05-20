@@ -12,7 +12,8 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.payment.dto.GetTiketPriceDto;
+import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
+import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
 import team.gwon.haveameal.payment.service.PaymentService;
 
 @Slf4j
@@ -29,10 +30,9 @@ public class PaymentController {
 	}
 
 	@GetMapping("/getTiketPrice")
-	public void getTiketPrice(@PathVariable("timing") String timing, @PathVariable("courseType") String courseType,
-		@PathVariable("memberType") String memberType) {
-		GetTiketPriceDto getTiketPriceDto = new GetTiketPriceDto(timing, courseType, memberType);
-		paymentService.getTiketPrice(getTiketPriceDto);
+	public void getTiketPrice(TicketPriceRequestDto getTiketPriceDto) {
+		log.info("GetTiketPrice DTO : {}", getTiketPriceDto);
+		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(getTiketPriceDto);
 	}
 
 	@PostMapping("/buy")
