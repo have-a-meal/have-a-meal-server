@@ -1,0 +1,12 @@
+### Send GET request
+GET http://localhost/test/logTest
+
+### Send POST request with json body
+POST http://localhost/test/logTest
+Content-Type: application/json
+
+{
+  "userId": "testId",
+  "password": "testPw",
+  "name": "test용 계정"
+}
