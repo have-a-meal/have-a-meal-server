@@ -2,6 +2,7 @@ package team.gwon.haveameal.unitexcel;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -91,5 +92,11 @@ public class ExcelDataTest {
 		Date sqlDate = Date.valueOf(formatDate);
 		log.info(String.valueOf(sqlDate));
 		log.info(sqlDate.getClass().getName());
+	}
+
+	@Test
+	void timeTest() {
+		LocalDate localDate = LocalDate.now();
+		log.info(String.valueOf(localDate));
 	}
 }

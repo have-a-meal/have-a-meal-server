@@ -12,6 +12,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.excelextract.component.MenuFacade;
 import team.gwon.haveameal.excelextract.error.CustomException;
+import team.gwon.haveameal.excelextract.service.DayMenuService;
 import team.gwon.haveameal.excelextract.service.ExcelExtractService;
 
 @SpringBootTest
@@ -23,6 +24,8 @@ public class ExcelIntoDbTest {
 
 	@Autowired
 	private MenuFacade menuFacade;
+	@Autowired
+	private DayMenuService dayMenuService;
 
 	// @Test
 	// public void dataIntoDB() throws Exception {
@@ -101,5 +104,10 @@ public class ExcelIntoDbTest {
 			contentType,
 			new FileInputStream(filePath));
 		menuFacade.updateAfterDeleteExcel(multipartFileUpdate);
+	}
+
+	@Test
+	void getTest() {
+		dayMenuService.getDayMenu("2024-04-02 22:44:55");
 	}
 }
