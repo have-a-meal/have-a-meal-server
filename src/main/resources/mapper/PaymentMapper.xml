@@ -48,5 +48,6 @@
     <insert id="createPaymentDetail">
         INSERT INTO payment_detail
         VALUES (#{paymentDetailId}, #{status}, #{courseId}, #{pgProvider}, #{payMethod}, #{requestAt})
+        VALUES (#{paymentDetailId}, #{refundReasonId}, #{status}, #{impUid}, #{pgTid}, #{paidAt})
     </insert>
 </mapper>
