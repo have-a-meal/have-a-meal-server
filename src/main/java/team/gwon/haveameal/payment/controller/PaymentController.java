@@ -34,7 +34,7 @@ public class PaymentController {
 		paymentService.verifyPayment(paymentVerifyRequestDto);
 	}
 
-	@GetMapping("/getTiketPrice")
+	@GetMapping("/tiketPrice")
 	public void getTiketPrice(TicketPriceRequestDto getTiketPriceDto) {
 		log.info("GetTiketPrice DTO : {}", getTiketPriceDto);
 		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(getTiketPriceDto);
