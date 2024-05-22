@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import team.gwon.haveameal.payment.entity.CourseWithDetail;
 import team.gwon.haveameal.payment.entity.Payment;
+import team.gwon.haveameal.payment.entity.PaymentDetail;
 import team.gwon.haveameal.payment.entity.TicketPrice;
 
 @Mapper
@@ -13,6 +14,7 @@ public interface PaymentMapper {
 
 	int amount(String impUid);
 
-	int createPayment();
 	int createPayment(Payment payment);
+
+	int createPaymentDetail(PaymentDetail paymentDetail);
 }
