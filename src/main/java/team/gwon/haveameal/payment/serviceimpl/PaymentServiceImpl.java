@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
+import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
+import team.gwon.haveameal.payment.entity.Payment;
 import team.gwon.haveameal.payment.entity.TicketPrice;
 import team.gwon.haveameal.payment.mapper.PaymentMapper;
 import team.gwon.haveameal.payment.service.PaymentService;
@@ -71,5 +73,12 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void createPayment() {
 		int result = paymentMapper.createPayment();
+	public TicketBuyResponseDto createPayment(TicketBuyRequestDto ticketBuyRequestDto) {
+		Payment payment = ticketBuyRequestDto.toPayment();
+		log.info("Payment : {}", payment);
+		int paymentResult = paymentMapper.createPayment(payment);
+		// 실패 시 분기 처리
+		return TicketBuyResponseDto.builder()
+			.paymentId(payment.getPaymentId()).build();
 	}
 }
