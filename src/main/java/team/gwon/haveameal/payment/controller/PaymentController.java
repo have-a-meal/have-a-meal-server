@@ -3,7 +3,6 @@ package team.gwon.haveameal.payment.controller;
 import java.io.IOException;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +27,11 @@ public class PaymentController {
 
 	private final PaymentService paymentService;
 
-	@GetMapping("/verify/{impUid}")
-	public void verifyPayment(@PathVariable("impUid") String impUid) throws IamportResponseException, IOException {
-		paymentService.verifyPayment(impUid);
+	@GetMapping("/verify")
+	public void verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws
+		IamportResponseException,
+		IOException {
+		paymentService.verifyPayment(paymentVerifyRequestDto);
 	}
 
 	@GetMapping("/getTiketPrice")
