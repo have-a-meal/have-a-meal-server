@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
+import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
+import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
 
@@ -18,6 +20,6 @@ public interface PaymentService {
 
 	void verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws IamportResponseException, IOException;
 
-	void createPayment();
+	TicketBuyResponseDto createPayment(TicketBuyRequestDto ticketBuyRequestDto);
 
 }
