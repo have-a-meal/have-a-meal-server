@@ -18,6 +18,25 @@
           AND course_id = #{courseId};
     </select>
 
+    <select id="selectDayCourseId" parameterType="String">
+        SELECT DISTINCT course_id
+        FROM meal_with_food
+        WHERE date = #{date};
+    </select>
+
+    <select id="selectDayFood" parameterType="team.gwon.haveameal.excelextract.entity.Meal">
+        SELECT name
+        FROM meal_with_food
+        WHERE meal_id = #{mealId}
+        ORDER BY is_main DESC;
+    </select>
+
+    <select id="selectDayCourse" parameterType="int" resultType="team.gwon.haveameal.payment.entity.Course">
+        SELECT timing, course_type
+        FROM course
+        WHERE course_id = #{courseId};
+    </select>
+
     <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
             keyProperty="mealId" keyColumn="meal_id">
         INSERT INTO meal(date, course_id)
@@ -36,25 +55,6 @@
         VALUES (#{meal.mealId}, (SELECT food_id FROM food WHERE name = #{food.name}), #{isMain})
     </insert>
 
-    <!--    <select id="selectAllFood" resultType="team.gwon.haveameal.excelextract.entity.Food">-->
-    <!--        SELECT name-->
-    <!--        FROM meal_has_food,-->
-    <!--             food-->
-    <!--        WHERE meal_has_food.food_id = food.food_id-->
-    <!--        ORDER BY meal_has_food.meal_id;-->
-    <!--    </select>-->
-
-    <!--    <select id="selectFoodLength" resultType="int">-->
-    <!--        SELECT count(*)-->
-    <!--        FROM meal_has_food-->
-    <!--        GROUP BY meal_id;-->
-    <!--    </select>-->
-
-    <!--    <select id="selectAllMeals" resultType="team.gwon.haveameal.excelextract.entity.Meal">-->
-    <!--        SELECT meal_id, date, course_id-->
-    <!--        FROM meal;-->
-    <!--    </select>-->
-
     <delete id="deleteMeal" parameterType="java.util.Map">
         DELETE
         FROM meal
@@ -68,8 +68,8 @@
         WHERE meal_id IN (SELECT meal_id
                           FROM meal
                           WHERE
-            date BETWEEN '2024-04-01'
-          AND '2024-04-03'
+            date BETWEEN #{firstDate}
+          AND #{lastDate}
             );
     </delete>
 
