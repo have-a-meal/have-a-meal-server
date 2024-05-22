@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import team.gwon.haveameal.excelextract.entity.Food;
 import team.gwon.haveameal.excelextract.entity.Meal;
 import team.gwon.haveameal.excelextract.entity.Menu;
+import team.gwon.haveameal.payment.entity.Course;
 
 @Mapper
 public interface ExcelMapper {
@@ -24,13 +25,14 @@ public interface ExcelMapper {
 
 	Optional<Meal> selectMeal(Meal meal);
 
-	// List<Food> selectAllFood();
+	List<Integer> selectDayCourseId(String date);
 
-	// List<Integer> selectFoodLength();
+	List<String> selectDayFood(Meal meal);
 
-	// List<Meal> selectAllMeal();
+	Course selectDayCourse(int courseId);
 
 	void deleteMeal(Map<String, Date> dateMap);
 
 	void deleteMenu(Map<String, Date> dateMap);
+
 }
