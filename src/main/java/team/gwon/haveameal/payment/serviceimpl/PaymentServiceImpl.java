@@ -71,8 +71,6 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public void createPayment() {
-		int result = paymentMapper.createPayment();
 	public TicketBuyResponseDto createPayment(TicketBuyRequestDto ticketBuyRequestDto) {
 		Payment payment = ticketBuyRequestDto.toPayment();
 		log.info("Payment : {}", payment);
