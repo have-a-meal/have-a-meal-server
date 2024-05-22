@@ -1,4 +1,10 @@
 package team.gwon.haveameal.payment.dto;
 
-public class TiketBuyRequestResponseDto {
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class TicketBuyResponseDto {
+	private byte[] paymentId;
 }
