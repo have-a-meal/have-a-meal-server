@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.siot.IamportRestClient.exception.IamportResponseException;
 
+import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
@@ -22,4 +23,5 @@ public interface PaymentService {
 
 	TicketBuyResponseDto createPayment(TicketBuyRequestDto ticketBuyRequestDto);
 
+	PaymentTransactionResponseDto getPaymentTransaction();
 }
