@@ -1,12 +1,12 @@
-package team.gwon.haveameal.member.encryptionservice;
+package team.gwon.haveameal.member.registrationservice;
 
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.member.domain.MemberEntity;
 import team.gwon.haveameal.member.domain.MemberRegisterDto;
-import team.gwon.haveameal.member.encryptionservice.password.PasswordEncryptor;
-import team.gwon.haveameal.member.encryptionservice.personaldata.PersonalDataEncryptor;
+import team.gwon.haveameal.member.registrationservice.passwordencryption.PasswordEncryptor;
+import team.gwon.haveameal.member.registrationservice.personaldataencryption.PersonalDataEncryptor;
 
 @Component
 @RequiredArgsConstructor

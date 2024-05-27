@@ -1,4 +1,4 @@
-package team.gwon.haveameal.member.encryptionservice.personaldata;
+package team.gwon.haveameal.member.registrationservice.personaldataencryption;
 
 public interface PersonalDataEncryptor {
 	String encryptData(String plainData);

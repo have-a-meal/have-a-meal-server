@@ -1,4 +1,4 @@
-package team.gwon.haveameal.member.encryptionservice.password;
+package team.gwon.haveameal.member.registrationservice.passwordencryption;
 
 public interface PasswordEncryptor {
 	String encryptPassword(String plainPassword);

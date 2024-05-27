@@ -1,4 +1,4 @@
-package team.gwon.haveameal.member.encryptionservice.password;
+package team.gwon.haveameal.member.registrationservice.passwordencryption;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
