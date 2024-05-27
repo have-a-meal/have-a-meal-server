@@ -1,11 +1,12 @@
 package team.gwon.haveameal.member.domain;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import team.gwon.haveameal.member.encryptionservice.MemberEncryptor;
+import team.gwon.haveameal.member.registrationservice.MemberEncryptor;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class MemberFindDto {
 	private String memberId;
 	private String name;

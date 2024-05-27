@@ -2,13 +2,14 @@ package team.gwon.haveameal.member.domain;
 
 import java.util.Date;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class MemberEntity {
 	private String memberId;
 	private String password;
