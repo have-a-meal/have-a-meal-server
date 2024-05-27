@@ -52,4 +52,9 @@ public class PaymentController {
 	public void test() {
 		paymentService.test();
 	}
+
+	@GetMapping("/transaction")
+	public void getPaymentTransactionList() {
+
+	}
 }
