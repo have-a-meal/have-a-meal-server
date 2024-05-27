@@ -1,11 +1,14 @@
 package team.gwon.haveameal.member.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import team.gwon.haveameal.member.encryptionservice.MemberEncryptor;
+import team.gwon.haveameal.member.registrationservice.MemberEncryptor;
+import team.gwon.haveameal.member.registrationservice.MemberRoleValidator;
+import team.gwon.haveameal.member.util.IdGenerator;
 
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class MemberRegisterDto {
 	private String memberId;
 	private String password;
@@ -13,6 +16,8 @@ public class MemberRegisterDto {
 	private String phone;
 
 	private MemberEncryptor memberEncryptor;
+	private MemberRoleValidator memberRoleValidator;
+	private IdGenerator idGenerator;
 
 	public MemberRegisterDto(String password, String name, String phone) {
 		this.password = password;
@@ -22,10 +27,12 @@ public class MemberRegisterDto {
 
 	public MemberEntity toMemberEntity() {
 		MemberRegisterDto encryptedDto = memberEncryptor.encryptMemberData(this);
-		/* 학생 직원 외부인 구분 필요
-		외부인 ID 생성 로직 필요
-		탈퇴 여부, 탈퇴 날짜? */
+		String role = memberRoleValidator.getRole(memberId);
+		if (role.equals("외부인")) {
+			memberId = IdGenerator.generateId();
+		}
+
 		return new MemberEntity(memberId, encryptedDto.getPassword(), encryptedDto.getName(), encryptedDto.getPhone(),
-			"학생", false, null);
+			role, false, null);
 	}
 }
