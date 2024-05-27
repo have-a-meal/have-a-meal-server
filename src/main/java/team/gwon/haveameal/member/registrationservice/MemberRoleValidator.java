@@ -1,5 +1,8 @@
 package team.gwon.haveameal.member.registrationservice;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberRoleValidator {
 	public String getRole(String idOrEmail) {
 		if (isStudent(idOrEmail)) {
@@ -12,7 +15,7 @@ public class MemberRoleValidator {
 	}
 
 	private static boolean isStudent(String idOfEmail) {
-		return idOfEmail.matches("^2\\d{6}");
+		return idOfEmail.matches("^2\\d{7}");
 	}
 
 	private static boolean isOutsider(String idOrEmail) {
