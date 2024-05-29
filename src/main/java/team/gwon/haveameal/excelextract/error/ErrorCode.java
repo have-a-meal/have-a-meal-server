@@ -17,7 +17,8 @@ public enum ErrorCode {
 	NOT_VALID_EXCEL_DATA(HttpStatus.BAD_REQUEST, "제공된 템플릿 형식에 맞게 다시 작성 부탁 드립니다."),
 	NOT_EXCEL_FILE(HttpStatus.BAD_REQUEST, "엑셀 파일이 아닙니다."),
 	BLANK_EXCEL_FILE(HttpStatus.BAD_REQUEST, "빈 엑셀 파일입니다."),
-	DUPLICATED_EXCEL_FILE(HttpStatus.BAD_REQUEST, "올린 기록이 있는 엑셀 파일입니다.");
+	DUPLICATED_EXCEL_FILE(HttpStatus.BAD_REQUEST, "올린 기록이 있는 엑셀 파일입니다."),
+	EMPTY_DATE(HttpStatus.NOT_FOUND, "요청데이터에 날짜가 포함되어 있지 않습니다.");
 
 	private final HttpStatus status;
 	private final String message;
