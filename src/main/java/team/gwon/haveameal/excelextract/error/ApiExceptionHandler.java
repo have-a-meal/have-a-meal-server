@@ -11,9 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ApiExceptionHandler {
 
 	@ExceptionHandler(value = CustomException.class)
-	public ResponseEntity<ErrorResponse> handlerCustomException(CustomException customException) {
+	public ResponseEntity<String> handlerCustomException(CustomException customException) {
 		log.info("[handlerCustomException] {} : {}", customException.getErrorCode().getStatus(),
 			customException.getMessage());
-		return ErrorResponse.error(customException);
+		return ResponseEntity.status(customException.getErrorCode().getStatus())
+			.body(customException.getMessage());
 	}
 }
