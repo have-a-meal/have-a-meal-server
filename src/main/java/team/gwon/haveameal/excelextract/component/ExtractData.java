@@ -89,9 +89,9 @@ public class ExtractData {
 
 			}
 		}
-		for (Map<String, Object> mergedMap : mergedList) {
-			log.info("mergedMapDate: {}", mergedMap.get("date"));
-		}
+		// for (Map<String, Object> mergedMap : mergedList) {
+		// 	log.info("mergedMapDate: {}", mergedMap.get("date"));
+		// }
 		return mergedList;
 
 	}
