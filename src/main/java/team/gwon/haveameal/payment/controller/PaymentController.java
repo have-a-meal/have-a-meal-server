@@ -1,8 +1,10 @@
 package team.gwon.haveameal.payment.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
@@ -53,8 +56,10 @@ public class PaymentController {
 		paymentService.test();
 	}
 
-	@GetMapping("/transaction")
-	public void getPaymentTransactionList() {
-
+	@GetMapping("/transaction/{memberId}")
+	public void getPaymentTransactionList(@PathVariable String memberId) {
+		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = paymentService.getPaymentTransaction(
+			memberId);
+		log.info("결제 목록 : {}", paymentTransactionResponseDtoList);
 	}
 }
