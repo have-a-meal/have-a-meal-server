@@ -1,0 +1,5 @@
+### 티켓 가격 조회
+GET http://localhost/payment/tiketPrice
+
+### 티켓 가격 조회
+GET http://localhost/payment/verifytiming=중식&courseType=B&memberId=21860004
