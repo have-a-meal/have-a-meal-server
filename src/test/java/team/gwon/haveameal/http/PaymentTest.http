@@ -1,0 +1,10 @@
+### 결제 생성
+POST http://localhost/payment
+Content-Type: application/json
+
+{
+  "memberId": "21860004",
+  "courseId": "5",
+  "pgProvider": "kakaopay",
+  "payMethod": "kakaopay"
+}
