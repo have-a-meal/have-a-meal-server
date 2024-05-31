@@ -4,7 +4,7 @@
     <!-- 회원 등록 -->
     <insert id="insertMember" parameterType="team.gwon.haveameal.member.domain.MemberEntity">
         INSERT INTO member
-        VALUES (#{member_id}, #{password}, #{name}, #{phone}, #{role}, #{withdrawal}, #{withdrawal_at})
+        VALUES (#{memberId}, #{password}, #{name}, #{phone}, #{role}, #{withdrawal}, #{withdrawalAt})
     </insert>
     <!-- 회원 조회 -->
     <!-- Id를 통한 조회가 아닐 때를 대비해 변경 필요 -->
