@@ -8,3 +8,6 @@ Content-Type: application/json
   "pgProvider": "kakaopay",
   "payMethod": "kakaopay"
 }
+
+### 결제 내역 조회
+GET http://localhost:80/payment/transaction/21860004
