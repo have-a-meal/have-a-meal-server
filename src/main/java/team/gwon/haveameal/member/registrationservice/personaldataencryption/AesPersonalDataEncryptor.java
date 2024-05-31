@@ -5,7 +5,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -19,37 +18,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AesPersonalDataEncryptor implements PersonalDataEncryptor {
 	public static String alg = "AES/CBC/PKCS5Padding";    // 암호화 시 사용될 알고리즘
-
-	/*
-	임의의 키 값. 어떻게 생성하고 어떻게 저장할지 생각할 것.
-	 */
-	private static final String[] aesKeys = {
-		"0123456789abcdef0123456789abcdef",
-		"abcdef0123456789abcdef0123456789",
-		"0a12sd1f321q321w321q5efa3sd21f35",
-		"1f6a54qw3e25f13a5sd41v32c1vqa35r",
-		"5jrety4j3kh2gm1ngs3r54g32ad1gna3"
-	};
-
 	private final SecureRandom secureRandom;
 	private final Map<String, String> encryptionMap = new HashMap<>();
+	// KMS Server에서 key 관리.
+	private final String selectedKey = "0123456789abcdef0123456789abcdef";
 
 	@Override
-	public String encryptData(String plainData) {
+	public String encryptData(String plainData) {    // 암호화
 		try {
-			String selectedKey = aesKeys[secureRandom.nextInt(aesKeys.length)];
 			Cipher cipher = Cipher.getInstance(alg);
 			SecretKeySpec secretKey = new SecretKeySpec(selectedKey.getBytes(), "AES");
 			IvParameterSpec ivParamSpec = generateRandomIv();
 			byte[] initializationVector = ivParamSpec.getIV();
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParamSpec);
-
 			byte[] encryptedBytes = cipher.doFinal(plainData.getBytes(StandardCharsets.UTF_8));
-			String encryptionId = generateEncryptionId();
-			String encryptedText = Base64.getEncoder().encodeToString(encryptedBytes);
-			encryptionMap.put(encryptionId,
-				selectedKey + "," + Base64.getEncoder().encodeToString(initializationVector));
-			return encryptionId + ":" + encryptedText;
+			encryptionMap.put(selectedKey, Base64.getEncoder().encodeToString(initializationVector));
+			return Base64.getEncoder().encodeToString(encryptedBytes);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -57,28 +41,20 @@ public class AesPersonalDataEncryptor implements PersonalDataEncryptor {
 	}
 
 	@Override
-	public String decryptData(String encryptedData) {
+	public String decryptData(String encryptedData) {    // 복호화
 		try {
-			String[] parts = encryptedData.split(":");
-			String encryptionId = parts[0];
-			String cipherInfo = parts[1];
-
-			String encryptionInfo = encryptionMap.get(encryptionId);
-			if (encryptionInfo == null) {
+			if (encryptedData == null) {
 				return null;
 			}
-
-			String[] encryptionParts = encryptionInfo.split(",");
-			String selectedKey = encryptionParts[0];
+			String encodedIv = encryptionMap.get(selectedKey);
 			Cipher cipher = Cipher.getInstance(alg);
 			SecretKeySpec secretKey = new SecretKeySpec(selectedKey.getBytes(), "AES");
-			byte[] initializationVector = Base64.getDecoder().decode(encryptionParts[1]);
+			byte[] initializationVector = Base64.getDecoder().decode(encodedIv);
 			IvParameterSpec ivParamSpec = new IvParameterSpec(initializationVector);
 			cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParamSpec);
-
-			byte[] decodedBytes = Base64.getDecoder().decode(cipherInfo);
-			byte[] decrypted = cipher.doFinal(decodedBytes);
-			return new String(decrypted, StandardCharsets.UTF_8);
+			byte[] decodedBytes = Base64.getDecoder().decode(encryptedData);
+			byte[] decryptedText = cipher.doFinal(decodedBytes);
+			return new String(decryptedText, StandardCharsets.UTF_8);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -89,9 +65,5 @@ public class AesPersonalDataEncryptor implements PersonalDataEncryptor {
 		byte[] iv = new byte[16];
 		secureRandom.nextBytes(iv);
 		return new IvParameterSpec(iv);
-	}
-
-	private String generateEncryptionId() {
-		return UUID.randomUUID().toString();
 	}
 }
