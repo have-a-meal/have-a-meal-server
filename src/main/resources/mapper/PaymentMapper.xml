@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.gwon.haveameal.payment.mapper.PaymentMapper">
+    <resultMap id="paymentMap" type="team.gwon.haveameal.payment.entity.Payment">
+        <id property="paymentId" column="payment_id" jdbcType="BINARY"/>
+        <result property="memberId" column="member_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="pgProvider" column="pg_provider"/>
+        <result property="payMethod" column="pay_method"/>
+        <result property="requestAt" column="request_at"/>
+    </resultMap>
+    <resultMap id="paymentDetailMap" type="team.gwon.haveameal.payment.entity.PaymentDetail">
+        <id property="paymentDetailId" column="payment_detail_id" jdbcType="BINARY"/>
+        <result property="refundReasonId" column="refund_reason_id"/>
+        <result property="status" column="status"/>
+        <result property="impUid" column="imp_uid"/>
+        <result property="pgTid" column="pg_tid"/>
+        <result property="paidAt" column="paid_at"/>
+    </resultMap>
+    <resultMap id="courseMap" type="team.gwon.haveameal.payment.entity.Course">
+        <id property="courseId" column="course_id"/>
+        <result property="timing" column="timing"/>
+        <result property="courseType" column="course_type"/>
+        <result property="courseDetailId" column="course_detail_id"/>
+    </resultMap>
 
     <resultMap id="courseWithDetail" type="team.gwon.haveameal.payment.entity.CourseWithDetail">
         <association property="course" javaType="team.gwon.haveameal.payment.entity.Course">
@@ -22,6 +44,13 @@
         <result property="price" column="price"/>
     </resultMap>
 
+    <resultMap id="paymentWithCourseIncludeDetailMap"
+               type="team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail">
+        <association property="payment" resultMap="paymentMap"/>
+        <association property="paymentDetail" resultMap="paymentDetailMap"/>
+        <association property="course" resultMap="courseMap"/>
+        <association property="courseDetail" resultMap="courseDetailMap"/>
+    </resultMap>
     <select id="getTicketPrice" parameterType="team.gwon.haveameal.payment.entity.CourseWithDetail"
             resultType="team.gwon.haveameal.payment.entity.TicketPrice">
         SELECT course_id, c.course_detail_id, price
@@ -39,7 +68,15 @@
                  JOIN course_detail cd ON c.course_detail_id = cd.course_detail_id
         WHERE pd.imp_uid = #{impUid};
     </select>
+    <select id="getPaymentTransaction" resultMap="paymentWithCourseIncludeDetailMap">
+        SELECT *
+        FROM payment_with_detail p_with_d,
+             course_with_detail c_with_d
+        WHERE p_with_d.course_id = c_with_d.course_id
+          AND p_with_d.member_id = #{memberId};
+    </select>
 
+    <!--    insert-->
     <insert id="createPayment">
         INSERT INTO payment
         VALUES (#{paymentId}, #{memberId}, #{courseId}, #{pgProvider}, #{payMethod}, #{requestAt})
