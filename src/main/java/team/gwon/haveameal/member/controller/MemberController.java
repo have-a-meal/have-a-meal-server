@@ -21,7 +21,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	@PostMapping("")
+	@PostMapping("/")
 	public ResponseEntity<Void> insertMember(@RequestBody MemberRegisterDto member) {
 		memberService.insertMember(member);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
