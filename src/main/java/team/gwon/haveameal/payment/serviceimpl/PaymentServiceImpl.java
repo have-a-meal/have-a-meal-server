@@ -1,11 +1,14 @@
 package team.gwon.haveameal.payment.serviceimpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -14,12 +17,15 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.util.UuidProvider;
+import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
 import team.gwon.haveameal.payment.entity.Payment;
+import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.payment.entity.TicketPrice;
 import team.gwon.haveameal.payment.mapper.PaymentMapper;
 import team.gwon.haveameal.payment.service.PaymentService;
@@ -84,5 +90,20 @@ public class PaymentServiceImpl implements PaymentService {
 		// 실패 시 분기 처리
 		return TicketBuyResponseDto.builder()
 			.paymentId(payment.getPaymentId()).build();
+	}
+
+	@Transactional
+	@Override
+	public List<PaymentTransactionResponseDto> getPaymentTransaction(String memberId) {
+		// PaymentTransactionResponseDto paymentTransactionResponseDto =
+		// paymentWithDetail 가져온 후 course 가져와서 DAO로 바꿔서 리턴해주기
+		log.info("uuid : {}", UuidProvider.generateSequentialUuid());
+		log.info("memberId : {}", memberId);
+
+		List<PaymentWithCourseIncludeDetail> paymentWithCourseIncludeDetail = paymentMapper.getPaymentTransaction(
+			memberId);
+		log.info("paymentWithCourseIncludeDetail : {}", paymentWithCourseIncludeDetail);
+		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = new ArrayList<>();
+		return paymentTransactionResponseDtoList;
 	}
 }
