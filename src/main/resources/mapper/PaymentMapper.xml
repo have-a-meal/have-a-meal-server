@@ -23,19 +23,19 @@
         <result property="courseType" column="course_type"/>
         <result property="courseDetailId" column="course_detail_id"/>
     </resultMap>
+    <resultMap id="courseDetailMap" type="team.gwon.haveameal.payment.entity.CourseDetail">
+        <id property="courseDetailId" column="course_detail_id"/>
+        <result property="memberType" column="member_type"/>
+        <result property="price" column="price"/>
+    </resultMap>
+    <resultMap id="paymentWithDetailMap" type="team.gwon.haveameal.payment.entity.PaymentWithDetail">
+        <association property="payment" resultMap="paymentMap"/>
+        <association property="paymentDetail" resultMap="paymentDetailMap"/>
+    </resultMap>
 
-    <resultMap id="courseWithDetail" type="team.gwon.haveameal.payment.entity.CourseWithDetail">
-        <association property="course" javaType="team.gwon.haveameal.payment.entity.Course">
-            <id property="courseId" column="course_id"/>
-            <result property="timing" column="timing"/>
-            <result property="courseType" column="course_type"/>
-            <result property="courseDetailId" column="course_detail_id"/>
-        </association>
-        <association property="course_detail" javaType="team.gwon.haveameal.payment.entity.CourseDetail">
-            <id property="courseDetailId" column="course_detail_id"/>
-            <result property="memberType" column="member_type"/>
-            <result property="price" column="price"/>
-        </association>
+    <resultMap id="courseWithDetailMap" type="team.gwon.haveameal.payment.entity.CourseWithDetail">
+        <association property="course" resultMap="courseMap"/>
+        <association property="courseDetail" resultMap="courseDetailMap"/>
     </resultMap>
 
     <resultMap id="ticketPriceResultMap" type="team.gwon.haveameal.payment.entity.TicketPrice">
@@ -67,6 +67,15 @@
                  JOIN course c ON p.course_id = c.course_id
                  JOIN course_detail cd ON c.course_detail_id = cd.course_detail_id
         WHERE pd.imp_uid = #{impUid};
+    </select>
+    <select id="getPaymentWithDetail" resultMap="paymentWithDetailMap">
+        SELECT *
+        FROM payment_with_detail
+        WHERE member_id = #{memberId};
+    </select>
+    <select id="getCourseWithDeatil" resultMap="courseWithDetailMap">
+        SELECT *
+        FROM course_with_detail
     </select>
     <select id="getPaymentTransaction" resultMap="paymentWithCourseIncludeDetailMap">
         SELECT *
