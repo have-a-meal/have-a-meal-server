@@ -3,3 +3,14 @@ GET http://localhost/payment/tiketPrice
 
 ### 티켓 가격 조회
 GET http://localhost/payment/verifytiming=중식&courseType=B&memberId=21860004
+
+### 결제 생성
+POST http://localhost/payment
+Content-Type: application/json
+
+{
+  "memberId": "21860004",
+  "courseId": "5",
+  "pgProvider": "kakaopay",
+  "payMethod": "kakaopay"
+}
