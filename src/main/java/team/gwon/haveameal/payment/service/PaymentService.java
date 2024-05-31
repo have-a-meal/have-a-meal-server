@@ -1,6 +1,7 @@
 package team.gwon.haveameal.payment.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.siot.IamportRestClient.exception.IamportResponseException;
 
@@ -23,5 +24,5 @@ public interface PaymentService {
 
 	TicketBuyResponseDto createPayment(TicketBuyRequestDto ticketBuyRequestDto);
 
-	PaymentTransactionResponseDto getPaymentTransaction();
+	List<PaymentTransactionResponseDto> getPaymentTransaction(String memberId);
 }
