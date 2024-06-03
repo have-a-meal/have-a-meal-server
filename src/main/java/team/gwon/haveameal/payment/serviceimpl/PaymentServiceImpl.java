@@ -54,8 +54,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public TicketPriceResponseDto getTicketPrice(TicketPriceRequestDto getTicketPriceDto) {
-		TicketPrice ticketPrice = paymentMapper.getTicketPrice(getTicketPriceDto.toCourseWithDetail());
+	public TicketPriceResponseDto getTicketPrice(TicketPriceRequestDto ticketPriceRequestDto) {
+		TicketPrice ticketPrice = paymentMapper.getTicketPrice(ticketPriceRequestDto.toCourseWithDetail());
 		TicketPriceResponseDto ticketPriceResponseDto = TicketPriceResponseDto.fromTicketPrice(ticketPrice);
 		log.info("getTicketPrice 결과 : {}", ticketPrice);
 		return ticketPriceResponseDto;
