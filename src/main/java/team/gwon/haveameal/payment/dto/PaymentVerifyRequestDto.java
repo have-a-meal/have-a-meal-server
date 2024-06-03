@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class PaymentVerifyRequestDto {
-	private byte[] payment_id;
+	private byte[] paymentId;
 	private String impUid;
 	// private PortOnePaymentStatus message;
 }
