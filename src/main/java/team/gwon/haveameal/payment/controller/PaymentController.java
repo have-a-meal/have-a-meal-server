@@ -38,9 +38,9 @@ public class PaymentController {
 	}
 
 	@GetMapping("/tiketPrice")
-	public void getTiketPrice(TicketPriceRequestDto getTiketPriceDto) {
-		log.info("GetTiketPrice DTO : {}", getTiketPriceDto);
-		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(getTiketPriceDto);
+	public void getTiketPrice(TicketPriceRequestDto ticketPriceRequestDto) {
+		log.info("ticketPriceRequestDto DTO : {}", ticketPriceRequestDto);
+		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(ticketPriceRequestDto);
 	}
 
 	@PostMapping("")
