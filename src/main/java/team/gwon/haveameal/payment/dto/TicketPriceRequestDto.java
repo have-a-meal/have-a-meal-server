@@ -6,6 +6,7 @@ import lombok.ToString;
 import team.gwon.haveameal.payment.entity.Course;
 import team.gwon.haveameal.payment.entity.CourseDetail;
 import team.gwon.haveameal.payment.entity.CourseWithDetail;
+import team.gwon.haveameal.payment.enums.MemberTypeEnum;
 
 @Getter
 @AllArgsConstructor
@@ -13,15 +14,19 @@ import team.gwon.haveameal.payment.entity.CourseWithDetail;
 public class TicketPriceRequestDto {
 	private String timing;
 	private String courseType;
-	private String memberType;
+	private String memberId;
 
 	public CourseWithDetail toCourseWithDetail() {
 		Course course = Course.builder()
 			.timing(this.timing)
 			.courseType(this.courseType).build();
 		CourseDetail courseDetail = CourseDetail.builder()
-			.memberType(this.memberType).build();
+			.memberType(convertMemberType(memberId)).build();
 		return CourseWithDetail.builder().course(course).courseDetail(courseDetail).build();
+	}
 
+	public String convertMemberType(String memberId) {
+		return (memberId.length() == 8) ? MemberTypeEnum.INSIDER.getMemberType() :
+			MemberTypeEnum.OUTSIDER.getMemberType();
 	}
 }
