@@ -1,2 +1,5 @@
-### 티켓 가격 조회
-GET http://localhost/payment/tiketPrice?timing=중식&courseType=B&memberType=내부인
+### 티켓 가격 조회(내부인)
+GET http://localhost/payment/tiketPrice?timing=중식&courseType=B&memberId=21860004
+
+### 티켓 가격 조회(외부인)
+GET http://localhost/payment/tiketPrice?timing=중식&courseType=B&memberId=1860004
