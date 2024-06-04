@@ -15,6 +15,6 @@ public class ApiExceptionHandler {
 		log.info("[handlerCustomException] {} : {}", customException.getErrorCode().getStatus(),
 			customException.getMessage());
 		return ResponseEntity.status(customException.getErrorCode().getStatus())
-			.body(customException.getMessage());
+			.body(customException.getErrorCode().getMessage());
 	}
 }
