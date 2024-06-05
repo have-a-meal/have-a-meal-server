@@ -16,4 +16,16 @@ public class PaymentTransactionResponseDto {
 	private LocalDateTime accountDate;
 	private LocalDateTime refundDate;
 	private int price;
+
+	public static PaymentTransactionResponseDto fromPaymentWithCourseIncludeDetail(
+		PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail) {
+		return PaymentTransactionResponseDto.builder()
+			.paymentId(paymentWithCourseIncludeDetail.getPayment().getPaymentId())
+			.courseId(paymentWithCourseIncludeDetail.getCourse().getCourseId())
+			.timing(paymentWithCourseIncludeDetail.getCourse().getTiming())
+			.courseType(paymentWithCourseIncludeDetail.getCourse().getCourseType())
+			.status(paymentWithCourseIncludeDetail.getPaymentDetail().getStatus())
+			.accountDate(paymentWithCourseIncludeDetail.getPaymentDetail().getPaidAt())
+			.price(paymentWithCourseIncludeDetail.getCourseDetail().getPrice()).build();
+	}
 }
