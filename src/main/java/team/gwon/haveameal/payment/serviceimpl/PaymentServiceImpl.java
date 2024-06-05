@@ -97,13 +97,14 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<PaymentTransactionResponseDto> getPaymentTransaction(String memberId) {
 		// PaymentTransactionResponseDto paymentTransactionResponseDto =
 		// paymentWithDetail 가져온 후 course 가져와서 DAO로 바꿔서 리턴해주기
-		log.info("uuid : {}", UuidProvider.generateSequentialUuid());
 		log.info("memberId : {}", memberId);
 
-		List<PaymentWithCourseIncludeDetail> paymentWithCourseIncludeDetail = paymentMapper.getPaymentTransaction(
+		List<PaymentWithCourseIncludeDetail> paymentWithCourseIncludeDetailList = paymentMapper.getPaymentTransaction(
 			memberId);
-		log.info("paymentWithCourseIncludeDetail : {}", paymentWithCourseIncludeDetail);
-		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = new ArrayList<>();
+		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = paymentWithCourseIncludeDetailList.stream()
+			.map(paymentWithCourseIncludeDetail -> PaymentTransactionResponseDto.fromPaymentWithCourseIncludeDetail(
+				paymentWithCourseIncludeDetail))
+			.collect(Collectors.toList());
 		return paymentTransactionResponseDtoList;
 	}
 }
