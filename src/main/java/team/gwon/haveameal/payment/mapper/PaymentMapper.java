@@ -27,4 +27,6 @@ public interface PaymentMapper {
 	List<CourseWithDetail> getCourseWithDetail();
 
 	List<PaymentWithCourseIncludeDetail> getPaymentTransaction(String memberId);
+
+	Payment getPaymentByPaymentDetail(PaymentDetail paymentDetail);
 }

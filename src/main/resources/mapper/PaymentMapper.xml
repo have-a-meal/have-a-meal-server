@@ -110,6 +110,12 @@
         WHERE p_with_d.course_id = c_with_d.course_id
           AND p_with_d.member_id = #{memberId};
     </select>
+    <select id="getPaymentByPaymentDetail" parameterType="team.gwon.haveameal.payment.entity.PaymentDetail"
+            resultType="team.gwon.haveameal.payment.entity.Payment">
+        SELECT *
+        FROM payment
+        WHERE payment_id = #{paymentDetailId}
+    </select>
 
     <!--    insert-->
     <insert id="createPayment">
