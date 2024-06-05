@@ -1,9 +1,9 @@
 package team.gwon.haveameal.payment.serviceimpl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -17,7 +17,6 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.common.util.UuidProvider;
 import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
@@ -25,6 +24,7 @@ import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
 import team.gwon.haveameal.payment.entity.Payment;
+import team.gwon.haveameal.payment.entity.PaymentDetail;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.payment.entity.TicketPrice;
 import team.gwon.haveameal.payment.mapper.PaymentMapper;
@@ -80,6 +80,16 @@ public class PaymentServiceImpl implements PaymentService {
 		String status = iamportResponse.getResponse().getStatus(); //결제 상태
 		Date time = iamportResponse.getResponse().getPaidAt();
 		log.info("데이터 확인 : , amount = {}, name = {}, status = {}, time = {}", amount, name, status, time);
+
+		PaymentDetail paymentDetail = paymentVerifyRequestDto.toPaymentDetail(iamportResponse);
+
+		Payment payment = paymentMapper.getPaymentByPaymentDetail(paymentDetail);
+
+		// 아임포트에 남은 PaidAt과 우리 서버에 저장된 Payment requestAt을 비교해서 더 최신 결제 내용인지 확인하는 과정 필요.
+		// if(iamportResponse.getResponse().getPaidAt() > paymentMapper.getPayment())
+
+		// 결제 상세 정보 삽입.
+		paymentMapper.createPaymentDetail(paymentDetail);
 	}
 
 	@Override
