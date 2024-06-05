@@ -2,19 +2,27 @@ package team.gwon.haveameal.payment.dto;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 
 @Getter
 @Setter
 @Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentTransactionResponseDto {
 	private byte[] paymentId;
 	private int courseId;
+	private String timing;
+	private String courseType;
 	private String status;
 	private LocalDateTime accountDate;
-	private LocalDateTime refundDate;
 	private int price;
 
 	public static PaymentTransactionResponseDto fromPaymentWithCourseIncludeDetail(
