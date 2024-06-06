@@ -9,12 +9,11 @@ import team.gwon.haveameal.payment.entity.Payment;
 import team.gwon.haveameal.payment.entity.PaymentDetail;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.payment.entity.PaymentWithDetail;
-import team.gwon.haveameal.payment.entity.TicketPrice;
 
 @Mapper
 public interface PaymentMapper {
 
-	TicketPrice getTicketPrice(CourseWithDetail courseWithDetail);
+	CourseWithDetail getTicketPrice(CourseWithDetail courseWithDetail);
 
 	int amount(String impUid);
 
