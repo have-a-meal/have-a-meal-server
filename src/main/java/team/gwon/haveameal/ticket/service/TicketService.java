@@ -16,6 +16,8 @@ import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
+import team.gwon.haveameal.ticket.exception.TicketErrorCode;
+import team.gwon.haveameal.ticket.exception.TicketException;
 import team.gwon.haveameal.ticket.mapper.TicketMapper;
 
 @Slf4j
@@ -29,7 +31,11 @@ public class TicketService {
 
 		List<PaymentWithCourseIncludeDetail> tickets = ticketMapper.findAllMyTickets(
 			ticketFindRequestDto.toMemberEntity());
-		// CustomException 추가 예정.
+
+		if (tickets.isEmpty()) {
+			throw new TicketException(TicketErrorCode.TICKET_NOT_FOUND);
+		}
+
 		log.info("tickets : {}", tickets);
 		List<TicketFindResponseDto> response = new ArrayList<>();
 		for (PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail : tickets) {
