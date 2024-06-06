@@ -10,4 +10,12 @@ Content-Type: application/json
 }
 
 ### 결제 내역 조회
-GET http://localhost:80/payment/transaction/21860004
+GET http://localhost/payment/transaction/21860004
+
+### 결제 검증 (4600원짜리 맞는 상황)
+GET http://localhost/payment/verify?paymentId=11ef1d06bfea093b9cf09fc0cd058755&
+    impUid=imp_342569261030
+
+### 결제 검증 (가격 다름)
+GET http://localhost/payment/verify?paymentId=11ef1d06bfea093b9cf09fc0cd058755&
+    impUid=imp_783651832352
