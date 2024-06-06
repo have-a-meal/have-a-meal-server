@@ -58,8 +58,4 @@ public class MealService {
 		excelMapper.deleteMeal(dateMap);
 		return getMeals(data);
 	}
-
-	// public List<Meal> getAllMeals() {
-	// 	return excelMapper.selectAllMeal();
-	// }
 }

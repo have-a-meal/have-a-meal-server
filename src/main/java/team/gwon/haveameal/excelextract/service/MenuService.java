@@ -37,18 +37,6 @@ public class MenuService {
 		}
 	}
 
-	// public void updateMenu(List<Meal> meals, List<Food> newFoods,
-	// 	List<Integer> newFoodLength, List<Food> oldFoods, List<Integer> oldFoodLength) {
-	// 	for (Meal meal : meals) {
-	// 		for (int i = 0; i < newFoods.size(); i++) {
-	// 			//newFoodLength랑 oldFoodLength랑 사이즈가 다를땐 어떻게 할건데.
-	// 			//list에 contains 메소드 써서 newfoods값이 old에 있으면 패스 없으면
-	// 			//newfoods로 전면 수정하는 방안이 맞을거 같은데
-	// 			//그렇다면 수정하고 old의 갯수가 더 적거나 많을 경우를 고려하면 될거 같음.
-	// 		}
-	// 	}
-	// }
-
 	public void updateAfterDelteMenu(List<Meal> meals, List<Food> foods, List<Integer> foodLength) {
 		Map<String, Date> dateMap = new HashMap<>();
 		Date firstDate = meals.get(0).getDate();

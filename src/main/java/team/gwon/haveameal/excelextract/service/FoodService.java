@@ -38,14 +38,6 @@ public class FoodService {
 		return foods;
 	}
 
-	// public List<Food> getAllOldFoods() {
-	// 	return excelMapper.selectAllFood();
-	// }
-	//
-	// public List<Integer> getOldFoodLength() {
-	// 	return excelMapper.selectFoodLength();
-	// }
-
 	public void removeFoodLength() {
 		foodLength.clear();
 	}
