@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class TicketBuyResponseDto {
-	private byte[] paymentId;
+	private String paymentId;
 }
