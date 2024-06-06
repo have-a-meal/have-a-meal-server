@@ -34,11 +34,8 @@ public class ExtractData {
 		Workbook workbook;
 		if (extension.equals("xlsx")) {
 			workbook = new XSSFWorkbook(multipartFile.getInputStream()); // Excel 2007
-		} else if (extension.equals("xls")) {
-			workbook = new HSSFWorkbook(multipartFile.getInputStream()); // Excel 2003
 		} else {
-			// throw new IOException("엑셀 파일이 아닙니다.");
-			throw new CustomException(ErrorCode.NOT_EXCEL_FILE);
+			workbook = new HSSFWorkbook(multipartFile.getInputStream()); // Excel 2003
 		}
 		if (workbook.getNumberOfSheets() == 0 || workbook.getSheetAt(0).getPhysicalNumberOfRows() == 0) {
 			// throw new IllegalStateException("엑셀 파일에 시트가 존재하지 않습니다.");
