@@ -7,19 +7,24 @@ import java.util.Date;
 
 import com.siot.IamportRestClient.response.IamportResponse;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
+import team.gwon.haveameal.common.util.UuidProvider;
 import team.gwon.haveameal.payment.entity.PaymentDetail;
 
 @Getter
+@ToString
+@AllArgsConstructor
 public class PaymentVerifyRequestDto {
-	private byte[] paymentId;
+	private String paymentId;
 	private String impUid;
 
 	// private PortOnePaymentStatus message;
 
 	public PaymentDetail toPaymentDetail(IamportResponse<com.siot.IamportRestClient.response.Payment> iamportResponse) {
 		return PaymentDetail.builder()
-			.paymentDetailId(this.paymentId)
+			.paymentDetailId(UuidProvider.stringToByte(this.paymentId))
 			.status(iamportResponse.getResponse().getStatus())
 			.impUid(this.impUid)
 			.pgTid(iamportResponse.getResponse().getPgTid())
