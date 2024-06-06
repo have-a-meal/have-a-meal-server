@@ -105,16 +105,12 @@ public class PaymentServiceImpl implements PaymentService {
 	@Transactional
 	@Override
 	public List<PaymentTransactionResponseDto> getPaymentTransaction(String memberId) {
-		// PaymentTransactionResponseDto paymentTransactionResponseDto =
-		// paymentWithDetail 가져온 후 course 가져와서 DAO로 바꿔서 리턴해주기
 		log.info("memberId : {}", memberId);
 
 		List<PaymentWithCourseIncludeDetail> paymentWithCourseIncludeDetailList = paymentMapper.getPaymentTransaction(
 			memberId);
-		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = paymentWithCourseIncludeDetailList.stream()
-			.map(paymentWithCourseIncludeDetail -> PaymentTransactionResponseDto.fromPaymentWithCourseIncludeDetail(
-				paymentWithCourseIncludeDetail))
+		return paymentWithCourseIncludeDetailList.stream()
+			.map(PaymentTransactionResponseDto::fromPaymentWithCourseIncludeDetail)
 			.collect(Collectors.toList());
-		return paymentTransactionResponseDtoList;
 	}
 }
