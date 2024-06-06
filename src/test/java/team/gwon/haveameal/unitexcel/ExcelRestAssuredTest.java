@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
@@ -60,5 +61,54 @@ public class ExcelRestAssuredTest {
 		// 	.contentType("application/json")
 		// 	.post("/todos");
 		assertEquals(200, response.statusCode());
+	}
+
+	@Test
+	void naver_check() throws Exception {
+		Resource resource = new ClassPathResource("excels/april week 1 menus_need_check.xlsx");
+		ExtractableResponse<Response> response = RestAssured.given().log().all()
+			.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+			.multiPart(resource.getFile())
+			.when()
+			.post("/manager/excel")
+			.then()
+			.log().all()
+			.extract();
+		assertEquals(200, response.statusCode());
+
+	}
+
+	@Test
+	void restAssured_PutcontrollerTest() throws Exception {
+		Resource resource = new ClassPathResource("excels/april week 1 newmenus.xlsx");
+		ExtractableResponse<Response> response = RestAssured.given().log().all()
+			.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+			.multiPart(resource.getFile())
+			.when()
+			.put("/manager/excel")
+			.then()
+			.log().all()
+			.extract();
+		assertEquals(200, response.statusCode());
+	}
+
+	@Test
+	void restAssured_oneDayMenuTest() throws Exception {
+		ExtractableResponse<Response> response = RestAssured.given().log().all()
+			.contentType(ContentType.JSON)
+			.when()
+			.get("/Menu/2024-04-05")
+			.then().log().all().extract();
+		assertEquals(200, response.statusCode());
+	}
+
+	@Test
+	void restAssured_nullDateTest() throws Exception {
+		ExtractableResponse<Response> response = RestAssured.given().log().all()
+			.contentType(ContentType.JSON)
+			.when()
+			.get("/Menu")
+			.then().log().all().extract();
+		assertEquals(404, response.statusCode());
 	}
 }
