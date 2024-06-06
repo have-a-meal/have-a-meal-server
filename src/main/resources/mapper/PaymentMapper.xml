@@ -78,13 +78,20 @@
 
     <!--    select-->
     <select id="getTicketPrice" parameterType="team.gwon.haveameal.payment.entity.CourseWithDetail"
-            resultType="team.gwon.haveameal.payment.entity.TicketPrice">
+            resultMap="courseWithDetailMap">
         SELECT course_id, c.course_detail_id, price
         FROM course c
-                 JOIN course_detail cd ON c.course_detail_id = cd.course_detail_id
-        WHERE timing = #{course.timing}
-          AND course_type = #{course.courseType}
-          AND member_type = #{courseDetail.memberType};
+        JOIN course_detail cd ON c.course_detail_id = cd.course_detail_id
+        <where>
+            <if test="course.timing != null and course.courseType != null and courseDetail.memberType != null">
+                AND timing = #{course.timing}
+                AND course_type = #{course.courseType}
+                AND member_type = #{courseDetail.memberType}
+            </if>
+            <if test="course.courseId != 0">
+                AND course_id = #{course.courseId}
+            </if>
+        </where>
     </select>
     <select id="verifyPayment">
         SELECT cd.price
