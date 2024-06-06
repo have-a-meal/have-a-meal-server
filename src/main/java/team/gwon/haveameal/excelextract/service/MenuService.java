@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.excelextract.entity.Food;
 import team.gwon.haveameal.excelextract.entity.Meal;
 import team.gwon.haveameal.excelextract.entity.Menu;
+import team.gwon.haveameal.excelextract.error.CustomException;
+import team.gwon.haveameal.excelextract.error.ErrorCode;
 import team.gwon.haveameal.excelextract.mapper.ExcelMapper;
 
 @RequiredArgsConstructor
@@ -32,7 +34,11 @@ public class MenuService {
 				} else {
 					menu = new Menu(meals.get(l), foods.get(index), 0);
 				}
-				excelMapper.insertMenu(menu);
+				int insertRowCnt = excelMapper.insertMenu(menu);
+				if (insertRowCnt <= 0) {
+					throw new CustomException(ErrorCode.FAILED_INSERT);
+				}
+
 			}
 		}
 	}
@@ -43,7 +49,11 @@ public class MenuService {
 		Date lastDate = meals.get(meals.size() - 1).getDate();
 		dateMap.put("firstDate", firstDate);
 		dateMap.put("lastDate", lastDate);
-		excelMapper.deleteMenu(dateMap);
-		insertMenu(meals, foods, foodLength);
+		int deleteRowCnt = excelMapper.deleteMenu(dateMap);
+		if (deleteRowCnt > 0) {
+			insertMenu(meals, foods, foodLength);
+		} else {
+			throw new CustomException(ErrorCode.FAILED_DELETE);
+		}
 	}
 }

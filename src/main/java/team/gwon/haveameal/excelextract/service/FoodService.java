@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.excelextract.entity.Food;
+import team.gwon.haveameal.excelextract.error.CustomException;
+import team.gwon.haveameal.excelextract.error.ErrorCode;
 import team.gwon.haveameal.excelextract.mapper.ExcelMapper;
 
 @Service
@@ -34,8 +36,12 @@ public class FoodService {
 			}
 			foodLength.add(length);
 		}
-		excelMapper.bulkInsertFood(foods);
-		return foods;
+		int insertRowCnt = excelMapper.bulkInsertFood(foods);
+		if (insertRowCnt > 0) {
+			return foods;
+		} else {
+			throw new CustomException(ErrorCode.FAILED_INSERT);
+		}
 	}
 
 	public void removeFoodLength() {

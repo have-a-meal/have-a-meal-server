@@ -17,11 +17,11 @@ public interface ExcelMapper {
 
 	Optional<Integer> selectCourseId(Map<String, Object> param);
 
-	void insertMeal(Meal meal);
+	int insertMeal(Meal meal);
 
-	void insertMenu(Menu menu);
+	int insertMenu(Menu menu);
 
-	void bulkInsertFood(List<Food> foods);
+	int bulkInsertFood(List<Food> foods);
 
 	Optional<Meal> selectMeal(Meal meal);
 
@@ -31,8 +31,8 @@ public interface ExcelMapper {
 
 	Course selectDayCourse(int courseId);
 
-	void deleteMeal(Map<String, Date> dateMap);
+	int deleteMeal(Map<String, Date> dateMap);
 
-	void deleteMenu(Map<String, Date> dateMap);
+	int deleteMenu(Map<String, Date> dateMap);
 
 }
