@@ -1,5 +1,6 @@
 package team.gwon.haveameal.excelextract.controller;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.excelextract.component.MenuFacade;
+import team.gwon.haveameal.excelextract.error.CustomException;
+import team.gwon.haveameal.excelextract.error.ErrorCode;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,14 +24,21 @@ public class ExcelExtractController {
 	*/
 	private final MenuFacade menuFacade;
 
-	@PostMapping("/excel")
-	public ResponseEntity<String> excelRead(@RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+	@PostMapping(value = "/excel")
+	public ResponseEntity<String> excelRead(
+		@RequestPart("file") MultipartFile multipartFile) throws
+		Exception {
+		String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+		if (!extension.equals("xls") && !extension.equals("xlsx")) {
+			throw new CustomException(ErrorCode.NOT_EXCEL_FILE);
+		}
 		menuFacade.uploadExcel(multipartFile);
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
 
 	@PutMapping("/excel")
-	public ResponseEntity<String> excelUpdate(@RequestPart(value = "file") MultipartFile multipartFile) throws
+	public ResponseEntity<String> excelUpdate(
+		@RequestPart("file") MultipartFile multipartFile) throws
 		Exception {
 		menuFacade.updateAfterDeleteExcel(multipartFile);
 		return ResponseEntity.status(HttpStatus.OK).body("success");
