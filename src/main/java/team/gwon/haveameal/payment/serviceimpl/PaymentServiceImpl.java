@@ -23,10 +23,11 @@ import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
+import team.gwon.haveameal.payment.entity.Course;
+import team.gwon.haveameal.payment.entity.CourseWithDetail;
 import team.gwon.haveameal.payment.entity.Payment;
 import team.gwon.haveameal.payment.entity.PaymentDetail;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
-import team.gwon.haveameal.payment.entity.TicketPrice;
 import team.gwon.haveameal.payment.mapper.PaymentMapper;
 import team.gwon.haveameal.payment.service.PaymentService;
 
@@ -55,9 +56,9 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public TicketPriceResponseDto getTicketPrice(TicketPriceRequestDto ticketPriceRequestDto) {
-		TicketPrice ticketPrice = paymentMapper.getTicketPrice(ticketPriceRequestDto.toCourseWithDetail());
-		TicketPriceResponseDto ticketPriceResponseDto = TicketPriceResponseDto.fromTicketPrice(ticketPrice);
-		log.info("getTicketPrice 결과 : {}", ticketPrice);
+		CourseWithDetail courseWithDetail = paymentMapper.getTicketPrice(ticketPriceRequestDto.toCourseWithDetail());
+		TicketPriceResponseDto ticketPriceResponseDto = TicketPriceResponseDto.fromTicketPrice(courseWithDetail);
+		log.info("getTicketPrice 결과 : {}", courseWithDetail);
 		return ticketPriceResponseDto;
 	}
 
