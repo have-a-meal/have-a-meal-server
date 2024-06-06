@@ -29,8 +29,9 @@ public class DayMenuService {
 			Course course = excelMapper.selectDayCourse(courseId);
 			Meal meal = new Meal(courseId, date);
 			Optional<Meal> optionalMeal = excelMapper.selectMeal(meal);
-			// optionalMeal.orElseThrow(RuntimeException::new);
-			//없을때 발생시킬 customException 생성해야됨.
+			if (optionalMeal.isEmpty()) {
+				return responseDtoList;
+			}
 			List<String> foods = excelMapper.selectDayFood(optionalMeal.get());
 			responseDtoList.add(DayMenuResponseDto.from(course, foods));
 		}
