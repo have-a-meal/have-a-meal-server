@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import team.gwon.haveameal.common.util.UuidProvider;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 
 @Getter
@@ -17,7 +18,7 @@ import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentTransactionResponseDto {
-	private byte[] paymentId;
+	private String paymentId;
 	private int courseId;
 	private String timing;
 	private String courseType;
@@ -28,7 +29,7 @@ public class PaymentTransactionResponseDto {
 	public static PaymentTransactionResponseDto fromPaymentWithCourseIncludeDetail(
 		PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail) {
 		return PaymentTransactionResponseDto.builder()
-			.paymentId(paymentWithCourseIncludeDetail.getPayment().getPaymentId())
+			.paymentId(UuidProvider.byteToString(paymentWithCourseIncludeDetail.getPayment().getPaymentId()))
 			.courseId(paymentWithCourseIncludeDetail.getCourse().getCourseId())
 			.timing(paymentWithCourseIncludeDetail.getCourse().getTiming())
 			.courseType(paymentWithCourseIncludeDetail.getCourse().getCourseType())
