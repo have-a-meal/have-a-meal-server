@@ -34,6 +34,7 @@ public class PaymentController {
 	public void verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws
 		IamportResponseException,
 		IOException {
+		log.info("paymentVerifyRequestDto : {}", paymentVerifyRequestDto);
 		paymentService.verifyPayment(paymentVerifyRequestDto);
 	}
 
@@ -60,6 +61,6 @@ public class PaymentController {
 	public void getPaymentTransactionList(@PathVariable String memberId) {
 		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = paymentService.getPaymentTransaction(
 			memberId);
-		log.info("결제 목록 : {}", paymentTransactionResponseDtoList);
+		log.info("결제 목록 : {}", paymentTransactionResponseDtoList.toString());
 	}
 }
