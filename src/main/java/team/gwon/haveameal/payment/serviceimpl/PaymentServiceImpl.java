@@ -75,22 +75,28 @@ public class PaymentServiceImpl implements PaymentService {
 		log.info("portOne api 연동 확인 : " + iamportClient);
 		IamportResponse<com.siot.IamportRestClient.response.Payment> iamportResponse = iamportClient.paymentByImpUid(
 			paymentVerifyRequestDto.getImpUid());
-		int amount = paymentMapper.amount(paymentVerifyRequestDto.getImpUid());
-		Long amountIamport = iamportResponse.getResponse().getAmount().longValue(); // 결제 금액
+		Long impAmount = iamportResponse.getResponse().getAmount().longValue(); // 결제 금액
 		String name = iamportResponse.getResponse().getName(); // 상품명
 		String status = iamportResponse.getResponse().getStatus(); //결제 상태
 		Date time = iamportResponse.getResponse().getPaidAt();
-		log.info("데이터 확인 : , amount = {}, name = {}, status = {}, time = {}", amount, name, status, time);
+		log.info("데이터 확인 : , amountIamport = {}, name = {}, status = {}, time = {}", impAmount, name, status, time);
 
-		PaymentDetail paymentDetail = paymentVerifyRequestDto.toPaymentDetail(iamportResponse);
+		PaymentDetail impPaymentDetail = paymentVerifyRequestDto.toPaymentDetail(iamportResponse);
 
-		Payment payment = paymentMapper.getPaymentByPaymentDetail(paymentDetail);
-
+		Payment payment = paymentMapper.getPaymentByPaymentDetail(impPaymentDetail);
+		CourseWithDetail courseWithDetail = paymentMapper.getTicketPrice(CourseWithDetail.builder()
+			.course(
+				Course.builder().courseId(payment.getCourseId()).build())
+			.build()); // Entity to Entity라서 얘는 어디에 빼서 만들어 두면 좋을지 고민임...
 		// 아임포트에 남은 PaidAt과 우리 서버에 저장된 Payment requestAt을 비교해서 더 최신 결제 내용인지 확인하는 과정 필요.
+		// 아임포트에 결제된 가격과 payment에 저장된 courseId에 해당하는 가격이 같은지 비교하는 과정 필요.
 		// if(iamportResponse.getResponse().getPaidAt() > paymentMapper.getPayment())
 
 		// 결제 상세 정보 삽입.
-		paymentMapper.createPaymentDetail(paymentDetail);
+		if (courseWithDetail.getCourseDetail().getPrice() == impAmount) {
+			paymentMapper.createPaymentDetail(impPaymentDetail);
+		}
+		// 가격이 틀리면 실패.
 	}
 
 	@Override
