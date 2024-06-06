@@ -17,6 +17,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.util.UuidProvider;
 import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
@@ -106,7 +107,7 @@ public class PaymentServiceImpl implements PaymentService {
 		int paymentResult = paymentMapper.createPayment(payment);
 		// 실패 시 분기 처리
 		return TicketBuyResponseDto.builder()
-			.paymentId(payment.getPaymentId()).build();
+			.paymentId(UuidProvider.byteToString(payment.getPaymentId())).build();
 	}
 
 	@Transactional
