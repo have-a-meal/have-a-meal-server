@@ -15,8 +15,6 @@ public interface PaymentMapper {
 
 	CourseWithDetail getTicketPrice(CourseWithDetail courseWithDetail);
 
-	int amount(String impUid);
-
 	int createPayment(Payment payment);
 
 	int createPaymentDetail(PaymentDetail paymentDetail);
