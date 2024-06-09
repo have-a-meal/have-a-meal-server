@@ -38,12 +38,6 @@
         <association property="courseDetail" resultMap="courseDetailMap"/>
     </resultMap>
 
-    <resultMap id="ticketPriceResultMap" type="team.gwon.haveameal.payment.entity.TicketPrice">
-        <id property="courseId" column="course_id"/>
-        <result property="courseDetailId" column="course_detail_id"/>
-        <result property="price" column="price"/>
-    </resultMap>
-
     <!--    해당 코드로 사용 시 payment_id에서 매핑 에러가 발생합니다. (cannot determine value type from string '?ï??¿ê ;??ð??àí???u')-->
     <!--    id 값이 어느 클래스에 매핑되는지 정확하게 지정되지 않아서 그런 것 아닌가 하는 생각이 듭니다. -->
     <!--    <resultMap id="paymentWithCourseIncludeDetailMap"-->
