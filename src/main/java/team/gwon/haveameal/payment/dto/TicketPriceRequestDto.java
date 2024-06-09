@@ -15,7 +15,6 @@ import team.gwon.haveameal.payment.enums.MemberTypeEnum;
 @AllArgsConstructor
 @ToString
 public class TicketPriceRequestDto {
-	
 	@NotBlank(message = "조식, 중식, 석식 중 하나의 값이어야 합니다.")
 	@Pattern(regexp = "[조중석][식]", message = "조식, 중식, 석식 중 하나의 값이어야 합니다.")
 	private String timing;

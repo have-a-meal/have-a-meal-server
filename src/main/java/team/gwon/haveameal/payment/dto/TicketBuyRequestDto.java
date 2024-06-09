@@ -12,7 +12,6 @@ import team.gwon.haveameal.payment.entity.Payment;
 @Getter
 @ToString
 public class TicketBuyRequestDto {
-
 	@NotBlank(message = "memberId는 필수값입니다.")
 	@Size(min = 7, max = 8, message = "내부인은 8자, 외부인은 7자의 값이어야 합니다.")
 	private String memberId;

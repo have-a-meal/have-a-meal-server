@@ -19,7 +19,6 @@ import team.gwon.haveameal.payment.entity.PaymentDetail;
 @ToString
 @AllArgsConstructor
 public class PaymentVerifyRequestDto {
-
 	@NotBlank(message = "paymentId는 32자리의 Hex 코드 형태여야 합니다.")
 	@Size(min = 32, max = 32, message = "paymentId는 32자리의 Hex 코드 형태여야 합니다.")
 	private String paymentId;
