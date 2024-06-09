@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siot.IamportRestClient.exception.IamportResponseException;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
@@ -31,7 +32,7 @@ public class PaymentController {
 	private final PaymentService paymentService;
 
 	@GetMapping("/verify")
-	public void verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws
+	public void verifyPayment(@Valid PaymentVerifyRequestDto paymentVerifyRequestDto) throws
 		IamportResponseException,
 		IOException {
 		log.info("paymentVerifyRequestDto : {}", paymentVerifyRequestDto);
@@ -39,13 +40,13 @@ public class PaymentController {
 	}
 
 	@GetMapping("/tiketPrice")
-	public void getTiketPrice(TicketPriceRequestDto ticketPriceRequestDto) {
+	public void getTiketPrice(@Valid TicketPriceRequestDto ticketPriceRequestDto) {
 		log.info("ticketPriceRequestDto DTO : {}", ticketPriceRequestDto);
 		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(ticketPriceRequestDto);
 	}
 
 	@PostMapping("")
-	public void buyTiket(@RequestBody TicketBuyRequestDto ticketBuyRequestDto) {
+	public void buyTiket(@RequestBody @Valid TicketBuyRequestDto ticketBuyRequestDto) {
 		log.info("ticketBuyRequestDto : {}", ticketBuyRequestDto);
 
 		TicketBuyResponseDto ticketBuyResponseDto = paymentService.createPayment(ticketBuyRequestDto);

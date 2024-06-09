@@ -7,6 +7,8 @@ import java.util.Date;
 
 import com.siot.IamportRestClient.response.IamportResponse;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -17,7 +19,12 @@ import team.gwon.haveameal.payment.entity.PaymentDetail;
 @ToString
 @AllArgsConstructor
 public class PaymentVerifyRequestDto {
+
+	@NotBlank(message = "paymentId는 32자리의 Hex 코드 형태여야 합니다.")
+	@Size(min = 32, max = 32, message = "paymentId는 32자리의 Hex 코드 형태여야 합니다.")
 	private String paymentId;
+
+	@NotBlank(message = "impUid는 필수 값입니다.")
 	private String impUid;
 
 	// private PortOnePaymentStatus message;
