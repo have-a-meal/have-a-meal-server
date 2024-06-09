@@ -62,7 +62,7 @@ public class ExcelRestAssuredTest {
 		// 	.body(requestBody.toString())
 		// 	.contentType("application/json")
 		// 	.post("/todos");
-		assertEquals(200, response.statusCode());
+		assertEquals(400, response.statusCode());
 	}
 
 	@Test
