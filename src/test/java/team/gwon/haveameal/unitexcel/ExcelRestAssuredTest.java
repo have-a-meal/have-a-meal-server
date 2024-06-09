@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -16,6 +17,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 public class ExcelRestAssuredTest {
 
 	@LocalServerPort
