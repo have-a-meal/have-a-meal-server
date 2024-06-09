@@ -27,7 +27,7 @@ class PaymentServiceTest {
 	@DisplayName("식권가격 조회")
 	@Test
 	void selectTicketPrice() {
-		TicketPriceRequestDto getTicketPriceDto = new TicketPriceRequestDto("중식", "B", "내부인");
+		TicketPriceRequestDto getTicketPriceDto = new TicketPriceRequestDto("중식", "B", "21860004");
 		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(getTicketPriceDto);
 		log.info("식권 가격 조회 결과 : {}", ticketPriceResponseDto);
 	}
