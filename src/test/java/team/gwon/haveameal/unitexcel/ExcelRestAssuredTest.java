@@ -97,7 +97,7 @@ public class ExcelRestAssuredTest {
 		ExtractableResponse<Response> response = RestAssured.given().log().all()
 			.contentType(ContentType.JSON)
 			.when()
-			.get("/Menu/2024-04-05")
+			.get("/Menu/2024-03-01")
 			.then().log().all().extract();
 		assertEquals(200, response.statusCode());
 	}
