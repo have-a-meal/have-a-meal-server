@@ -31,8 +31,8 @@ public class NaverTypoCheckerTest {
 	}
 
 	private static String typoChecker(String word, String word2) throws JsonProcessingException {
-		String clientId = "DEHgldW1cD3gEFXGnjiy"; //애플리케이션 클라이언트 아이디
-		String clientSecret = "SpDNui6VfJ"; //애플리케이션 클라이언트 시크릿
+		String clientId = ""; //애플리케이션 클라이언트 아이디
+		String clientSecret = ""; //애플리케이션 클라이언트 시크릿
 
 		String text = null;
 		//닥거기장조림을 예로 들어봤는데
