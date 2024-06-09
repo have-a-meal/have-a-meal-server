@@ -16,8 +16,8 @@ import team.gwon.haveameal.common.util.TokenProvider;
 @Component
 public class QrGenerator {
 
-	public byte[] generateQrImage(int width, int height) throws WriterException, IOException {
-		String content = TokenProvider.generateToken().getAccessToken();
+	public byte[] generateQrImage(Integer ticketId, int width, int height) throws WriterException, IOException {
+		String content = TokenProvider.generateToken(ticketId).getAccessToken();
 		BitMatrix bitMatrix = new MultiFormatWriter()
 			.encode(content, BarcodeFormat.QR_CODE, width, height);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
