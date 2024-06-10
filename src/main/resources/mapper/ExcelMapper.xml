@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.gwon.haveameal.excelextract.mapper.ExcelMapper">
+
+    <select id="selectCourseId" parameterType="Map" resultType="Integer">
+        SELECT course_id
+        FROM course
+        WHERE timing = #{timing}
+          AND course_type = #{course}
+        ORDER BY course_id limit 1
+    </select>
+
+    <select id="selectMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal">
+        SELECT meal_id
+        FROM meal
+        WHERE date = #{date}
+          AND course_id = #{courseId};
+    </select>
+
+    <select id="selectDayCourseId" parameterType="String">
+        SELECT DISTINCT course_id
+        FROM meal_with_food
+        WHERE date = #{date};
+    </select>
+
+    <select id="selectDayFood" parameterType="team.gwon.haveameal.excelextract.entity.Meal">
+        SELECT name
+        FROM meal_with_food
+        WHERE meal_id = #{mealId}
+        ORDER BY is_main DESC;
+    </select>
+
+    <select id="selectDayCourse" parameterType="int" resultType="team.gwon.haveameal.payment.entity.Course">
+        SELECT timing, course_type
+        FROM course
+        WHERE course_id = #{courseId};
+    </select>
+
+    <insert id="insertMeal" parameterType="team.gwon.haveameal.excelextract.entity.Meal" useGeneratedKeys="true"
+            keyProperty="mealId" keyColumn="meal_id">
+        INSERT INTO meal(date, course_id)
+        VALUES (#{date}, #{courseId})
+    </insert>
+
+    <insert id="bulkInsertFood" parameterType="java.util.List">
+        INSERT IGNORE INTO food(name) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name})
+        </foreach>
+    </insert>
+
+    <insert id="insertMenu" parameterType="team.gwon.haveameal.excelextract.entity.Menu">
+        INSERT INTO meal_has_food
+        VALUES (#{meal.mealId}, (SELECT food_id FROM food WHERE name = #{food.name}), #{isMain})
+    </insert>
+
+    <delete id="deleteMeal" parameterType="java.util.Map">
+        DELETE
+        FROM meal
+        WHERE date BETWEEN #{firstDate}
+          AND #{lastDate};
+    </delete>
+
+    <delete id="deleteMenu" parameterType="java.util.Map">
+        DELETE
+        FROM meal_has_food
+        WHERE meal_id IN (SELECT meal_id
+                          FROM meal
+                          WHERE
+            date BETWEEN #{firstDate}
+          AND #{lastDate}
+            );
+    </delete>
+
+</mapper>

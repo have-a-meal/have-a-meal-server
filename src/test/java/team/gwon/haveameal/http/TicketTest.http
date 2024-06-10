@@ -1,0 +1,17 @@
+### 티켓 가격 조회(내부인)
+GET http://localhost/payment/tiketPrice?timing=중식&courseType=B&memberId=21860004
+
+### 티켓 가격 조회(외부인)
+GET http://localhost/payment/tiketPrice?timing=중식&courseType=B&memberId=1860004
+
+### 티켓 가격 조회(timing 정규식 만족 x)
+GET http://localhost/payment/tiketPrice?timing=기내식&courseType=B&memberId=21860004
+
+### 티켓 가격 조회(timing 정규식 만족 x)
+GET http://localhost/payment/tiketPrice?timing=조석&courseType=B&memberId=21860004
+
+### 티켓 가격 조회(courseType 정규식 만족 x)
+GET http://localhost/payment/tiketPrice?timing=중식&courseType=a&memberId=21860004
+
+### 티켓 가격 조회(memberId Vaild 만족 x)
+GET http://localhost/payment/tiketPrice?timing=중식&courseType=B&memberId=21860004123

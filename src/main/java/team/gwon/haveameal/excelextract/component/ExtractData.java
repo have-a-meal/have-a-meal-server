@@ -1,6 +1,5 @@
 package team.gwon.haveameal.excelextract.component;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -18,9 +18,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.excelextract.error.CustomException;
+import team.gwon.haveameal.excelextract.error.ErrorCode;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ExtractData {
 
 	private final DataRegex dataRegex;
@@ -30,13 +34,12 @@ public class ExtractData {
 		Workbook workbook;
 		if (extension.equals("xlsx")) {
 			workbook = new XSSFWorkbook(multipartFile.getInputStream()); // Excel 2007
-		} else if (extension.equals("xls")) {
-			workbook = new HSSFWorkbook(multipartFile.getInputStream()); // Excel 2003
 		} else {
-			throw new IOException("엑셀 파일이 아닙니다.");
+			workbook = new HSSFWorkbook(multipartFile.getInputStream()); // Excel 2003
 		}
 		if (workbook.getNumberOfSheets() == 0 || workbook.getSheetAt(0).getPhysicalNumberOfRows() == 0) {
-			throw new IllegalStateException("엑셀 파일에 시트가 존재하지 않습니다.");
+			// throw new IllegalStateException("엑셀 파일에 시트가 존재하지 않습니다.");
+			throw new CustomException(ErrorCode.BLANK_EXCEL_FILE);
 		}
 		List<Map<String, Object>> mergedList = new ArrayList<>();
 		for (int i = 0; i < 3; i++) { // workbook.getNumberOfSheets() == 3
@@ -45,8 +48,13 @@ public class ExtractData {
 			Map<String, Object> cellData;
 			for (int j = 0; j < 4; j++) { // sheet.getPhysicalNumberOfRows() == 4
 				Row row = sheet.getRow(j);
-				for (int k = 0; k < 6; k++) { // row.getPhysicalNumberOfCells() == 6
+				for (int k = 0; k < 8; k++) { // row.getPhysicalNumberOfCells() == 6
 					Cell cell = row.getCell(k);
+					// log.info(("{}-{} {}"), k, j, cell.getCellType());
+					if (cell == null || cell.getCellType() == CellType.BLANK) {
+						excelData.get(k - 1).put("meal", "");
+						continue;
+					}
 					Object data = dataRegex.excelToMap(cell); //리턴 타입 ; list, date, bool, string, integer
 					if (data instanceof Boolean) {
 						continue;
@@ -57,9 +65,9 @@ public class ExtractData {
 						cellData.put("date", data);
 						excelData.add(cellData);
 					}
-					if (data instanceof Integer) {
-						excelData.get(k - 1).put("meal", "");
-					}
+					// if (data instanceof Integer) {
+					// 	excelData.get(k - 1).put("meal", "");
+					// }
 					if (data instanceof String) {
 						for (Map<String, Object> map : excelData) {
 							map.put("course", data);
@@ -78,6 +86,9 @@ public class ExtractData {
 
 			}
 		}
+		// for (Map<String, Object> mergedMap : mergedList) {
+		// 	log.info("mergedMapDate: {}", mergedMap.get("date"));
+		// }
 		return mergedList;
 
 	}
