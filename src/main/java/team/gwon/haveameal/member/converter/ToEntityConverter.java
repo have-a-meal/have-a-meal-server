@@ -14,7 +14,6 @@ import team.gwon.haveameal.member.util.IdGenerator;
 public class ToEntityConverter {
 	private final MemberEncryptor memberEncryptor;
 	private final MemberRoleValidator memberRoleValidator;
-	private final IdGenerator idGenerator;
 
 	public MemberEntity toMemberEntity(MemberRegisterDto memberRegisterDto) {
 		MemberRegisterDto encryptedDto = memberEncryptor.encryptMemberData(memberRegisterDto);
@@ -25,6 +24,6 @@ public class ToEntityConverter {
 		}
 
 		return new MemberEntity(memberId, encryptedDto.getPassword(), encryptedDto.getName(), encryptedDto.getPhone(),
-			role, false, null);
+			"ROLE_USER", false, null);
 	}
 }
