@@ -12,8 +12,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.util.ApiRequestUtil;
 import team.gwon.haveameal.excelextract.dto.ValidFood;
-import team.gwon.haveameal.excelextract.util.ApiRequestUtil;
 
 @Component
 @Slf4j
@@ -29,7 +29,7 @@ public class TypoChecker {
 	private String url;
 
 	public String check(String word) throws JsonProcessingException {
-		log.info("Checking word: " + word);
+		log.info("Checking word: {}", word);
 		String replaceWord = word;
 		String text = null;
 		try {
