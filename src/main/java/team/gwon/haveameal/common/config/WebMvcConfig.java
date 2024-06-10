@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		// 필터 여러개 적용 시에는 순번이 있어야합니다.
 		// LogFilter가 동작하는 URL을 설정해줘야합니다.
 		registrationBean.setUrlPatterns(Arrays.asList(
-			"/test/*", "/insert/*"
+			"/test/*", "/insert/*", "/payment/*"
 		));
 
 		return registrationBean;
