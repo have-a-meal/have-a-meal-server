@@ -6,8 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class MemberFindDto {
+public class LoginRequestDto {
 	private String memberId;
-	private String name;
-	private String phone;
+	private String password;
 }
