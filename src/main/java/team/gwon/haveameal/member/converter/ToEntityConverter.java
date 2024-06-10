@@ -2,6 +2,7 @@ package team.gwon.haveameal.member.converter;
 
 import org.springframework.stereotype.Component;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import team.gwon.haveameal.member.domain.MemberEntity;
 import team.gwon.haveameal.member.domain.MemberRegisterDto;
@@ -10,7 +11,7 @@ import team.gwon.haveameal.member.registrationservice.MemberRoleValidator;
 import team.gwon.haveameal.member.util.IdGenerator;
 
 @Component
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class ToEntityConverter {
 	private final MemberEncryptor memberEncryptor;
 	private final MemberRoleValidator memberRoleValidator;
