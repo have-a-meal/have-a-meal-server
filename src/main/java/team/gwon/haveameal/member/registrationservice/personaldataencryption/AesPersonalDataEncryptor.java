@@ -1,7 +1,6 @@
 package team.gwon.haveameal.member.registrationservice.personaldataencryption;
 
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,17 +17,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AesPersonalDataEncryptor implements PersonalDataEncryptor {
 	public static String alg = "AES/CBC/PKCS5Padding";    // 암호화 시 사용될 알고리즘
-	private final SecureRandom secureRandom;
 	private final Map<String, String> encryptionMap = new HashMap<>();
 	// KMS Server에서 key 관리.
 	private final String selectedKey = "0123456789abcdef0123456789abcdef";
+	private final byte[] selectedIv = selectedKey.substring(0, 16).getBytes();
 
 	@Override
 	public String encryptData(String plainData) {    // 암호화
 		try {
 			Cipher cipher = Cipher.getInstance(alg);
 			SecretKeySpec secretKey = new SecretKeySpec(selectedKey.getBytes(), "AES");
-			IvParameterSpec ivParamSpec = generateRandomIv();
+			IvParameterSpec ivParamSpec = new IvParameterSpec(selectedIv);
 			byte[] initializationVector = ivParamSpec.getIV();
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParamSpec);
 			byte[] encryptedBytes = cipher.doFinal(plainData.getBytes(StandardCharsets.UTF_8));
@@ -59,11 +58,5 @@ public class AesPersonalDataEncryptor implements PersonalDataEncryptor {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	private IvParameterSpec generateRandomIv() {
-		byte[] iv = new byte[16];
-		secureRandom.nextBytes(iv);
-		return new IvParameterSpec(iv);
 	}
 }
