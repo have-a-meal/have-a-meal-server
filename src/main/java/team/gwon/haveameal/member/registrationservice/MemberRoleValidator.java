@@ -14,8 +14,8 @@ public class MemberRoleValidator {
 		}
 	}
 
-	private static boolean isStudent(String idOfEmail) {
-		return idOfEmail.matches("^2\\d{7}");
+	private static boolean isStudent(String idOrEmail) {
+		return idOrEmail.matches("^2\\d{7}");
 	}
 
 	private static boolean isOutsider(String idOrEmail) {
