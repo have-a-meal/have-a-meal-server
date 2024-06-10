@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.gwon.haveameal.member.mapper.MemberMapper">
+    <!-- 회원 등록 -->
     <insert id="insertMember" parameterType="team.gwon.haveameal.member.domain.MemberEntity">
         INSERT INTO member
-        VALUES (#{member_id}, #{password}, #{name}, #{phone}, #{role}, #{withdrawal}, #{withdrawal_at})
+        VALUES (#{memberId}, #{password}, #{name}, #{phone}, #{role}, #{withdrawal}, #{withdrawalAt})
     </insert>
+    <!-- 회원 조회 -->
+    <!-- Id를 통한 조회가 아닐 때를 대비해 변경 필요 -->
+    <select id="getMemberById" resultType="team.gwon.haveameal.member.domain.MemberEntity">
+        SELECT *
+        FROM member
+        WHERE member_id = #{memberId}
+    </select>
 </mapper>
