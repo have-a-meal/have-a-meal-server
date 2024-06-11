@@ -1,7 +1,9 @@
 package team.gwon.haveameal.member.registrationservice.personaldataencryption;
 
-public interface PersonalDataEncryptor {
-	String encryptData(String plainData);
+import team.gwon.haveameal.member.domain.Key;
 
-	String decryptData(String encryptedData);
+public interface PersonalDataEncryptor {
+	String encryptData(String plainData, Key key);
+
+	String decryptData(String encryptedData, Key key);
 }

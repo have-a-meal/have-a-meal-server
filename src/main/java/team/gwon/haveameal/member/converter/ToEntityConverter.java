@@ -1,5 +1,7 @@
 package team.gwon.haveameal.member.converter;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
@@ -16,7 +18,7 @@ public class ToEntityConverter {
 	private final MemberEncryptor memberEncryptor;
 	private final MemberRoleValidator memberRoleValidator;
 
-	public MemberEntity toMemberEntity(MemberRegisterDto memberRegisterDto) {
+	public MemberEntity toMemberEntity(MemberRegisterDto memberRegisterDto) throws IOException {
 		MemberRegisterDto encryptedDto = memberEncryptor.encryptMemberData(memberRegisterDto);
 		String role = memberRoleValidator.getRole(memberRegisterDto.getMemberId());
 		String memberId = memberRegisterDto.getMemberId();

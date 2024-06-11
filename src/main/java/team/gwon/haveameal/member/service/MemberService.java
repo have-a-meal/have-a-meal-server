@@ -1,5 +1,7 @@
 package team.gwon.haveameal.member.service;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class MemberService {
 	private final ToFindDtoConverter toFindDtoConverter;
 	private final BCryptPasswordEncryptor passwordEncryptor;
 
-	public void insertMember(MemberRegisterDto memberDto) {
+	public void insertMember(MemberRegisterDto memberDto) throws IOException {
 		MemberEntity memberEntity = toEntityConverter.toMemberEntity(memberDto);
 		memberMapper.insertMember(memberEntity);
 	}

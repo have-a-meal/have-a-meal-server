@@ -8,7 +8,9 @@ import com.fasterxml.uuid.Generators;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UuidProvider {
@@ -20,7 +22,8 @@ public class UuidProvider {
 	}
 
 	public static byte[] stringToByte(String uuid) {
-		byte[] uuidArr = new byte[16];
+		log.info("WTF : {} \t {}", uuid, uuid.length());
+		byte[] uuidArr = new byte[uuid.length()];
 		for (int i = 0; i < uuid.length(); i += 2) {
 			uuidArr[i / 2] = (byte)((Character.digit(uuid.charAt(i), 16) << 4)
 				+ Character.digit(uuid.charAt(i + 1), 16));
