@@ -27,8 +27,7 @@ public class ApiRequestProvider {
 	private final ObjectMapper objectMapper;
 
 	public <T> String post(String apiUrl, T requestBody) throws IOException {
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		try {
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpPost httpPost = new HttpPost(apiUrl);
 			httpPost.setHeader("Content-Type", ContentType.APPLICATION_JSON.toString());
 			StringEntity entity = new StringEntity(objectMapper.writeValueAsString(requestBody));
@@ -37,14 +36,11 @@ public class ApiRequestProvider {
 			return httpClient.execute(httpPost, responseHandler);
 		} catch (IOException e) {
 			throw new IOException(e.getMessage());
-		} finally {
-			httpClient.close();
 		}
 	}
 
 	public String get(String apiUrl, Map<String, String> requestHeaders) throws IOException {
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		try {
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpGet httpGet = new HttpGet(apiUrl);
 			for (Map.Entry<String, String> header : requestHeaders.entrySet()) {
 				httpGet.setHeader(header.getKey(), header.getValue());
@@ -53,8 +49,6 @@ public class ApiRequestProvider {
 			return httpClient.execute(httpGet, responseHandler);
 		} catch (IOException e) {
 			throw new IOException(e.getMessage());
-		} finally {
-			httpClient.close();
 		}
 	}
 }
