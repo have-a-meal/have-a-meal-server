@@ -2,18 +2,13 @@ package team.gwon.haveameal.excelextract.component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.common.util.ApiRequestUtil;
-import team.gwon.haveameal.excelextract.dto.ValidFood;
 
 @Component
 @Slf4j
@@ -40,7 +35,7 @@ public class TypoChecker {
 		}
 
 		String apiUrl = url + text;
-
+/*
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
@@ -73,5 +68,7 @@ public class TypoChecker {
 		// 	log.info("changing");
 		// 	return validFood.getErrata();
 		// }
+ 	*/
+		return null;
 	}
 }

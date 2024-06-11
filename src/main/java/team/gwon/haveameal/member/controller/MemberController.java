@@ -1,5 +1,7 @@
 package team.gwon.haveameal.member.controller;
 
+import java.io.IOException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class MemberController {
 	private final MailService mailService;
 
 	@PostMapping("/")
-	public ResponseEntity<Void> insertMember(@RequestBody MemberRegisterDto member) {
+	public ResponseEntity<Void> insertMember(@RequestBody MemberRegisterDto member) throws IOException {
 		memberService.insertMember(member);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
