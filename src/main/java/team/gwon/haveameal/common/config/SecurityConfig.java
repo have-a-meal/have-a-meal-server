@@ -18,8 +18,7 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(
 				authorize -> authorize
-					.requestMatchers("/*/*").permitAll()
-					.anyRequest().authenticated()
+					.requestMatchers("/*", "/*/*").permitAll()
 			);
 		return http.build();
 	}
