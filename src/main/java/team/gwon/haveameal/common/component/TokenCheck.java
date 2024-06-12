@@ -11,4 +11,9 @@ import jakarta.validation.Constraint;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = TokenValidator.class)
 public @interface TokenCheck {
+	String message() default "Invalid token";
+
+	Class[] groups() default {};
+
+	Class[] payload() default {};
 }
