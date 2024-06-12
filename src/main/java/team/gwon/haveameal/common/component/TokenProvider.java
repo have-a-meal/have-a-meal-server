@@ -11,6 +11,9 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -27,27 +30,31 @@ import team.gwon.haveameal.common.domain.Token;
 public class TokenProvider {
 
 	private final String secretKey;
+	private final ObjectMapper objectMapper;
 
-	public TokenProvider(@Value("${spring.jwt.secret}") String secretKey) {
+	public TokenProvider(@Value("${spring.jwt.secret}") String secretKey, ObjectMapper objectMapper) {
 		this.secretKey = secretKey;
+		this.objectMapper = objectMapper;
 	}
 
-	public Token createToken(String memberId) {
-		String access_token = Jwts.builder()
+	public <T> Token createToken(T content) throws JsonProcessingException {
+		String sbj = objectMapper.writeValueAsString(content);
+		log.info("sbj : {}", sbj);
+		String accessToken = Jwts.builder()
 			.setHeader(createHeader())
 			.setClaims(createClaims())
-			.setSubject(memberId)
-			.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 3)) // 토큰 만료 시간
+			.setSubject(sbj)
+			.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 3)) // 토큰 만료 시간
 			.signWith(createSignature(), SignatureAlgorithm.HS256)
 			.compact();
 
-		String refresh_token = Jwts.builder()
-			.setSubject(memberId)
-			.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+		String refreshToken = Jwts.builder()
+			.setSubject(sbj)
+			.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 30))
 			.signWith(createSignature(), SignatureAlgorithm.HS256)
 			.compact();
 
-		return Token.builder().accessToken(access_token).refreshToken(refresh_token).build();
+		return Token.builder().accessToken(accessToken).refreshToken(refreshToken).build();
 	}
 
 	public Claims getClaims(String token) {
