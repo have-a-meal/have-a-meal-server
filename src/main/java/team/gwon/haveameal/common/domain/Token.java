@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 @RedisHash("token")
 public class Token {
-	private String tokenId;
 	private String accessToken;
 	private String refreshToken;
 }
