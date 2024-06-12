@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.zxing.WriterException;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import team.gwon.haveameal.common.domain.Token;
+import team.gwon.haveameal.ticket.domain.QrCodeRefreshDto;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
+import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
@@ -49,10 +51,21 @@ public class TicketController {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<QrCodeUseResponseDto> useQrCode(@RequestBody Token token) throws JsonProcessingException {
-		QrCodeUseResponseDto response = ticketService.useQrCode(token);
+	public ResponseEntity<QrCodeUseResponseDto> useQrCode(
+		@RequestBody @Valid QrCodeUseRequestDto qrCodeUseRequestDto) throws
+		JsonProcessingException {
+		QrCodeUseResponseDto response = ticketService.useQrCode(qrCodeUseRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@PostMapping("/refresh")
+	public ResponseEntity<QrCodeResponseDto> refreshQrCode(@RequestBody @Valid QrCodeRefreshDto qrCodeRefreshDto) throws
+		IOException,
+		WriterException {
+		QrCodeResponseDto qrCode = ticketService.getQrCode(qrCodeRefreshDto.getQrCodeRequestDto());
+
+		return ResponseEntity.status(HttpStatus.OK).body(qrCode);
 	}
 
 }

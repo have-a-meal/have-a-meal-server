@@ -25,7 +25,7 @@
     </select>
 
     <select id="getQrCode" parameterType="team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail"
-            resultType="Integer">
+            resultType="Long">
         SELECT t.ticket_id
         FROM payment_with_detail AS pwd
                  INNER JOIN course_with_detail AS cwd ON pwd.course_id = cwd.course_id

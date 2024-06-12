@@ -20,6 +20,7 @@ import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.ticket.component.QrGenerator;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
+import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.QrContent;
 import team.gwon.haveameal.ticket.domain.TicketEntity;
@@ -59,21 +60,34 @@ public class TicketService {
 	@Transactional
 	public QrCodeResponseDto getQrCode(QrCodeRequestDto qrCodeRequestDto) throws IOException, WriterException {
 		Long ticketId = ticketMapper.getQrCode(qrCodeRequestDto.toPaymentWithCourseIncludeDetail());
-		Token token = tokenProvider.createToken(objectMapper.writeValueAsString(
-			QrContent.of(ticketId, qrCodeRequestDto.getMemberId())));
-		redisUtil.setData(token.getTokenId(), objectMapper.writeValueAsString(token));
+		Token token = tokenProvider.createToken(
+			QrContent.builder().ticketId(ticketId).memberId(qrCodeRequestDto.getMemberId()).build());
+		/* 사용자 인증으로 사용하는 토큰과 key 값이 겹칠 수 있음
+			추후 개발시 qr 용 key 값과 인증용 key 값 분리 필요.
+		 */
+		redisUtil.setData(qrCodeRequestDto.getMemberId(), objectMapper.writeValueAsString(token));
 		byte[] qrCode = qrGenerator.generateQrImage(token, qrCodeRequestDto.getWidth(), qrCodeRequestDto.getHeight());
 		return QrCodeResponseDto.from(qrCode);
 	}
 
 	@Transactional
-	public QrCodeUseResponseDto useQrCode(Token token) throws JsonProcessingException {
+	public QrCodeUseResponseDto useQrCode(QrCodeUseRequestDto qrCodeUseRequestDto) throws JsonProcessingException {
+		String accessToken = qrCodeUseRequestDto.getAccessToken();
 		QrContent content = objectMapper.readValue(
-			tokenProvider.getClaims(token.getAccessToken()).getSubject(), QrContent.class);
-		Integer result = ticketMapper.useQrCode(TicketEntity.builder().ticketId(content.getTicketId()).build());
-		if (result != 1) {
-			throw new RuntimeException();
+			tokenProvider.getClaims(accessToken).getSubject(), QrContent.class);
+		log.info("content : {}", content);
+		Token savedToken = objectMapper.readValue(redisUtil.getData(content.getMemberId()), Token.class);
+
+		log.info("savedToken : {}", savedToken);
+		if (accessToken.equals(savedToken.getAccessToken())) {
+
+			Integer result = ticketMapper.useQrCode(
+				TicketEntity.builder().ticketId(content.getTicketId()).mealId(qrCodeUseRequestDto.getMealId()).build());
+
+			if (result == 1) {
+				return QrCodeUseResponseDto.from("성공!");
+			}
 		}
-		return QrCodeUseResponseDto.from("성공!");
+		throw new RuntimeException();
 	}
 }
