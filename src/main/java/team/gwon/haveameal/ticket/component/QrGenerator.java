@@ -11,13 +11,14 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
-import team.gwon.haveameal.common.util.TokenProvider;
+import team.gwon.haveameal.common.domain.Token;
 
 @Component
 public class QrGenerator {
-
-	public byte[] generateQrImage(Integer ticketId, int width, int height) throws WriterException, IOException {
-		String content = TokenProvider.generateToken(ticketId).getAccessToken();
+	public byte[] generateQrImage(Token token, int width, int height) throws
+		WriterException,
+		IOException {
+		String content = token.toString();
 		BitMatrix bitMatrix = new MultiFormatWriter()
 			.encode(content, BarcodeFormat.QR_CODE, width, height);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
