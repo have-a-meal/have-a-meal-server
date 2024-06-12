@@ -7,17 +7,22 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.WriterException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.component.TokenProvider;
 import team.gwon.haveameal.common.domain.Token;
-import team.gwon.haveameal.common.util.TokenProvider;
+import team.gwon.haveameal.member.util.RedisUtil;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.ticket.component.QrGenerator;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
 import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
+import team.gwon.haveameal.ticket.domain.QrContent;
+import team.gwon.haveameal.ticket.domain.TicketEntity;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
 import team.gwon.haveameal.ticket.exception.TicketErrorCode;
@@ -30,6 +35,9 @@ import team.gwon.haveameal.ticket.mapper.TicketMapper;
 public class TicketService {
 	private final TicketMapper ticketMapper;
 	private final QrGenerator qrGenerator;
+	private final TokenProvider tokenProvider;
+	private final RedisUtil redisUtil;
+	private final ObjectMapper objectMapper;
 
 	public List<TicketFindResponseDto> findAllTickets(TicketFindRequestDto ticketFindRequestDto) {
 
@@ -48,21 +56,24 @@ public class TicketService {
 		return response;
 	}
 
+	@Transactional
 	public QrCodeResponseDto getQrCode(QrCodeRequestDto qrCodeRequestDto) throws IOException, WriterException {
-		Integer ticketId = ticketMapper.getQrCode(qrCodeRequestDto.toPaymentWithCourseIncludeDetail());
-		byte[] qrCode = qrGenerator.generateQrImage(ticketId, qrCodeRequestDto.getWidth(),
-			qrCodeRequestDto.getHeight());
+		Long ticketId = ticketMapper.getQrCode(qrCodeRequestDto.toPaymentWithCourseIncludeDetail());
+		Token token = tokenProvider.createToken(objectMapper.writeValueAsString(
+			QrContent.of(ticketId, qrCodeRequestDto.getMemberId())));
+		redisUtil.setData(token.getTokenId(), objectMapper.writeValueAsString(token));
+		byte[] qrCode = qrGenerator.generateQrImage(token, qrCodeRequestDto.getWidth(), qrCodeRequestDto.getHeight());
 		return QrCodeResponseDto.from(qrCode);
 	}
 
 	@Transactional
-	public QrCodeUseResponseDto useQrCode(Token token) {
-		if (TokenProvider.vaild()) {
-			Integer result = ticketMapper.useQrCode(TokenProvider.toTicketEntity(token));
-			if (result == 1) {
-				return QrCodeUseResponseDto.from("성공!");
-			}
+	public QrCodeUseResponseDto useQrCode(Token token) throws JsonProcessingException {
+		QrContent content = objectMapper.readValue(
+			tokenProvider.getClaims(token.getAccessToken()).getSubject(), QrContent.class);
+		Integer result = ticketMapper.useQrCode(TicketEntity.builder().ticketId(content.getTicketId()).build());
+		if (result != 1) {
+			throw new RuntimeException();
 		}
-		return QrCodeUseResponseDto.from("실패!");
+		return QrCodeUseResponseDto.from("성공!");
 	}
 }

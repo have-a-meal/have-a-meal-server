@@ -13,7 +13,7 @@ public interface TicketMapper {
 
 	List<PaymentWithCourseIncludeDetail> findAllMyTickets(MemberEntity member);
 
-	Integer getQrCode(PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail);
+	Long getQrCode(PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail);
 
 	Integer useQrCode(TicketEntity ticketEntity);
 }

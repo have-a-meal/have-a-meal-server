@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.zxing.WriterException;
 
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class TicketController {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<QrCodeUseResponseDto> useQrCode(@RequestBody Token token) {
+	public ResponseEntity<QrCodeUseResponseDto> useQrCode(@RequestBody Token token) throws JsonProcessingException {
 		QrCodeUseResponseDto response = ticketService.useQrCode(token);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
