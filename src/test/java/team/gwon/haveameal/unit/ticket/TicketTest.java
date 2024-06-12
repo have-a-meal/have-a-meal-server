@@ -3,6 +3,7 @@ package team.gwon.haveameal.unit.ticket;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -16,18 +17,30 @@ import com.google.zxing.WriterException;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
+import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
+import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
 import team.gwon.haveameal.ticket.service.TicketService;
 
 @Slf4j
 @SpringBootTest
-class GetQrCodeTest {
+class TicketTest {
 
 	@Autowired
-	private TicketService ticketService;
+	TicketService ticketService;
+
+	@DisplayName("티켓 조회 테스트")
+	@Test
+	void findTicket() {
+		// given
+		String memberId = "21860004";
+
+		List<TicketFindResponseDto> list = ticketService.findAllTickets(TicketFindRequestDto.from(memberId));
+		log.info("list : {}", list);
+	}
 
 	@DisplayName("QrCode 이미지 로드 테스트")
 	@Test
-	void findTicket() throws IOException, WriterException {
+	void getQrCode() throws IOException, WriterException {
 		// given
 		String memberId = "21860004";
 		String courseType = "A";

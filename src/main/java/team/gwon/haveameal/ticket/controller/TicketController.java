@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.zxing.WriterException;
 
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.domain.Token;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
+import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
 import team.gwon.haveameal.ticket.service.TicketService;
@@ -35,7 +38,7 @@ public class TicketController {
 		return ResponseEntity.status(HttpStatus.OK).body(tickets);
 	}
 
-	@PostMapping("/qrCode")
+	@PostMapping("")
 	public ResponseEntity<QrCodeResponseDto> getQrCode(@RequestBody QrCodeRequestDto qrCodeRequestDto) throws
 		IOException,
 		WriterException {
@@ -43,4 +46,12 @@ public class TicketController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(qrCode);
 	}
+
+	@PutMapping("")
+	public ResponseEntity<QrCodeUseResponseDto> useQrCode(@RequestBody Token token) {
+		QrCodeUseResponseDto response = ticketService.useQrCode(token);
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
 }
