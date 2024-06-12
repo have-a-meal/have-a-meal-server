@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 
 ### common settings ###
-/src/main/**/*.properties
+# /src/main/**/*.properties
 
 ### IntelliJ IDEA ###
 .idea
