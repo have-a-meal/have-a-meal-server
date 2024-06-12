@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import team.gwon.haveameal.common.util.ApiRequestProvider;
+import team.gwon.haveameal.common.component.ApiRequestProvider;
 import team.gwon.haveameal.member.domain.Key;
 import team.gwon.haveameal.member.domain.KeyGenerateRequestDto;
 import team.gwon.haveameal.member.domain.MemberEntity;

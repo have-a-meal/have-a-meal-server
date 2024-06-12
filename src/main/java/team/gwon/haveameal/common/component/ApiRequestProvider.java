@@ -1,4 +1,4 @@
-package team.gwon.haveameal.common.util;
+package team.gwon.haveameal.common.component;
 
 import java.io.IOException;
 import java.util.Map;
