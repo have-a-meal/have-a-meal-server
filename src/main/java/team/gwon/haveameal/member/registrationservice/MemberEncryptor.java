@@ -27,7 +27,7 @@ public class MemberEncryptor {
 	private final ObjectMapper objectMapper;
 	private final ApiRequestProvider apiRequestProvider;
 
-	private static final String KMS_URL = "http://localhost:88/key";
+	private static final String KMS_URL = "http://localhost:8090/key";
 	private static final int BLOCK_LENGTH = 32;
 
 	public MemberRegisterDto encryptMemberData(MemberRegisterDto memberRegisterDto) {

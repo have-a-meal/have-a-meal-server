@@ -34,7 +34,7 @@ public class MemberController {
 	private final MailService mailService;
 
 	@SwaggerApiCreated(summary = "회원가입", implementation = MemberResponse.class)
-	@PostMapping("/")
+	@PostMapping("")
 	public ResponseEntity<MemberResponse> insertMember(@RequestBody MemberRegisterDto member) throws IOException {
 		memberService.insertMember(member);
 		return ResponseEntity.status(HttpStatus.CREATED).body(MemberResponse.CREATE_MEMBER);
@@ -60,7 +60,7 @@ public class MemberController {
 
 	@SwaggerApiSuccess(summary = "이메일 인증코드 확인", implementation = MemberResponse.class)
 	@SwaggerApiBadRequest
-	@GetMapping("/emailCheck")
+	@PostMapping("/emailCheck")
 	public ResponseEntity<MemberResponse> authCheck(@RequestBody EmailCheckDto emailCheckDto) {
 		boolean checked = mailService.checkAuthNum(emailCheckDto.getEmail(), emailCheckDto.getAuthNum());
 		if (checked) {

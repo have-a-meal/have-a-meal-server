@@ -13,7 +13,7 @@ import team.gwon.haveameal.common.logging.LogFilter;
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	// filter에 포함되는 URL의 주소입니다.
-	private static final List<String> INCLUDE_PATHS = List.of("/*", "/*/*");
+	private static final List<String> INCLUDE_PATHS = List.of("");
 
 	@Bean
 	public FilterRegistrationBean<LogFilter> filterBean() {
