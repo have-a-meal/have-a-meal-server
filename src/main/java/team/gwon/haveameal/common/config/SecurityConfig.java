@@ -20,7 +20,7 @@ public class SecurityConfig {
 			.httpBasic(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(
 				authorize -> authorize
-					.requestMatchers("/*", "/*/*").permitAll()
+					.requestMatchers("/*", "/*/*", "/*/*/*").permitAll()
 			);
 		return http.build();
 	}

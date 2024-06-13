@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiBadRequest;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiSuccess;
 import team.gwon.haveameal.excelextract.dto.DayMenuResponseDto;
 import team.gwon.haveameal.excelextract.error.CustomException;
 import team.gwon.haveameal.excelextract.error.ErrorCode;
@@ -21,7 +23,9 @@ public class MenuController {
 
 	private final DayMenuService dayMenuService;
 
-	@GetMapping(value = {"/Menu/{date}", "/Menu"})
+	@SwaggerApiSuccess(summary = "메뉴 조회", implementation = DayMenuResponseDto.class)
+	@SwaggerApiBadRequest
+	@GetMapping(value = {"/menu/{date}", "/menu"})
 	public ResponseEntity<List<DayMenuResponseDto>> getDayMenu(@PathVariable(required = false) Optional<String> date) {
 		if (date.isPresent()) {
 			return ResponseEntity.status(HttpStatus.OK).body(dayMenuService.getDayMenu(date.get()));

@@ -18,6 +18,8 @@ import com.google.zxing.WriterException;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiBadRequest;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiSuccess;
 import team.gwon.haveameal.ticket.domain.QrCodeRefreshDto;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeResponseDto;
@@ -34,6 +36,8 @@ public class TicketController {
 
 	private final TicketService ticketService;
 
+	@SwaggerApiSuccess(summary = "식권 조회", implementation = TicketFindResponseDto.class)
+	@SwaggerApiBadRequest
 	@GetMapping("/{memberId}")
 	public ResponseEntity<List<TicketFindResponseDto>> findAllTickets(@PathVariable("memberId") String memberId) {
 		List<TicketFindResponseDto> tickets = ticketService.findAllTickets(TicketFindRequestDto.from(memberId));
@@ -41,6 +45,8 @@ public class TicketController {
 		return ResponseEntity.status(HttpStatus.OK).body(tickets);
 	}
 
+	@SwaggerApiSuccess(summary = "식권 QR 생성", implementation = QrCodeResponseDto.class)
+	@SwaggerApiBadRequest
 	@PostMapping("")
 	public ResponseEntity<QrCodeResponseDto> getQrCode(@RequestBody QrCodeRequestDto qrCodeRequestDto) throws
 		IOException,
@@ -50,6 +56,8 @@ public class TicketController {
 		return ResponseEntity.status(HttpStatus.OK).body(qrCode);
 	}
 
+	@SwaggerApiSuccess(summary = "식권 QR 확인", implementation = QrCodeUseResponseDto.class)
+	@SwaggerApiBadRequest
 	@PutMapping("")
 	public ResponseEntity<QrCodeUseResponseDto> useQrCode(
 		@RequestBody @Valid QrCodeUseRequestDto qrCodeUseRequestDto) throws
@@ -59,6 +67,8 @@ public class TicketController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+	@SwaggerApiSuccess(summary = "식권 QR 새로고침", implementation = QrCodeResponseDto.class)
+	@SwaggerApiBadRequest
 	@PostMapping("/refresh")
 	public ResponseEntity<QrCodeResponseDto> refreshQrCode(@RequestBody @Valid QrCodeRefreshDto qrCodeRefreshDto) throws
 		IOException,

@@ -11,14 +11,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiBadRequest;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiCreated;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiSuccess;
 import team.gwon.haveameal.member.domain.EmailCheckDto;
 import team.gwon.haveameal.member.domain.LoginRequestDto;
 import team.gwon.haveameal.member.domain.MemberFindDto;
 import team.gwon.haveameal.member.domain.MemberRegisterDto;
+import team.gwon.haveameal.member.domain.MemberResponse;
 import team.gwon.haveameal.member.service.MailService;
 import team.gwon.haveameal.member.service.MemberService;
 
+@Tag(name = "Member", description = "Member 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -27,46 +33,55 @@ public class MemberController {
 	private final MemberService memberService;
 	private final MailService mailService;
 
+	@SwaggerApiCreated(summary = "회원가입", implementation = MemberResponse.class)
 	@PostMapping("/")
-	public ResponseEntity<Void> insertMember(@RequestBody MemberRegisterDto member) throws IOException {
+	public ResponseEntity<MemberResponse> insertMember(@RequestBody MemberRegisterDto member) throws IOException {
 		memberService.insertMember(member);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		return ResponseEntity.status(HttpStatus.CREATED).body(MemberResponse.CREATE_MEMBER);
 	}
 
+	@Deprecated
 	@GetMapping("/{memberId}")
 	public ResponseEntity<MemberFindDto> getMember(@PathVariable String memberId) {
 		MemberFindDto memberFindDto = memberService.getMemberById(memberId);
 		if (memberFindDto != null) {
-			return ResponseEntity.ok(memberFindDto);
+			return ResponseEntity.status(HttpStatus.OK).body(memberFindDto);
 		} else {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
+	@SwaggerApiCreated(summary = "이메일 인증코드 발급", implementation = MemberResponse.class)
 	@PostMapping("/email")
-	public ResponseEntity<Void> mailSend(@RequestBody MemberRegisterDto member) {
+	public ResponseEntity<MemberResponse> mailSend(@RequestBody MemberRegisterDto member) {
 		mailService.joinEmail(member.getMemberId());
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		return ResponseEntity.status(HttpStatus.CREATED).body(MemberResponse.CREATE_AUTH_CODE);
 	}
 
+	@SwaggerApiSuccess(summary = "이메일 인증코드 확인", implementation = MemberResponse.class)
+	@SwaggerApiBadRequest
 	@GetMapping("/emailCheck")
-	public String authCheck(@RequestBody EmailCheckDto emailCheckDto) {
+	public ResponseEntity<MemberResponse> authCheck(@RequestBody EmailCheckDto emailCheckDto) {
 		boolean checked = mailService.checkAuthNum(emailCheckDto.getEmail(), emailCheckDto.getAuthNum());
 		if (checked) {
-			return "ok";
+			return ResponseEntity.status(HttpStatus.CREATED).body(MemberResponse.SUCCESS_AUTH_CODE);
 		} else {
-			throw new NullPointerException("잘못 입력");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(MemberResponse.FAIL_AUTH_CODE);
 		}
 	}
 
+	@SwaggerApiSuccess(summary = "로그인", implementation = MemberFindDto.class)
+	@SwaggerApiBadRequest
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto) {
+	public ResponseEntity<MemberFindDto> login(@RequestBody LoginRequestDto loginRequestDto) {
 		boolean isAuthenticated = memberService.authenticate(loginRequestDto.getMemberId(),
 			loginRequestDto.getPassword());
 		if (isAuthenticated) {
-			return ResponseEntity.ok("Login Successful");
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+			MemberFindDto member = memberService.getMemberById(loginRequestDto.getMemberId());
+			if (member != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(member);
+			}
 		}
+		throw new RuntimeException();
 	}
 }

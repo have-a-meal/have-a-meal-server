@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiBadRequest;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiSuccess;
 import team.gwon.haveameal.excelextract.component.MenuFacade;
 import team.gwon.haveameal.excelextract.error.CustomException;
 import team.gwon.haveameal.excelextract.error.ErrorCode;
@@ -24,6 +26,8 @@ public class ExcelExtractController {
 	*/
 	private final MenuFacade menuFacade;
 
+	@SwaggerApiSuccess(summary = "메뉴 등록", implementation = String.class)
+	@SwaggerApiBadRequest
 	@PostMapping(value = "/excel")
 	public ResponseEntity<String> excelRead(
 		@RequestPart("file") MultipartFile multipartFile) throws
@@ -36,6 +40,8 @@ public class ExcelExtractController {
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
 
+	@SwaggerApiSuccess(summary = "메뉴 수정", implementation = String.class)
+	@SwaggerApiBadRequest
 	@PutMapping("/excel")
 	public ResponseEntity<String> excelUpdate(
 		@RequestPart("file") MultipartFile multipartFile) throws
