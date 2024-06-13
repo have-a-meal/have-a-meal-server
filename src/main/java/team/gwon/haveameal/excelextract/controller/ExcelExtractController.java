@@ -1,7 +1,6 @@
 package team.gwon.haveameal.excelextract.controller;
 
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,7 +36,7 @@ public class ExcelExtractController {
 			throw new CustomException(ErrorCode.NOT_EXCEL_FILE);
 		}
 		menuFacade.uploadExcel(multipartFile);
-		return ResponseEntity.status(HttpStatus.OK).body("success");
+		return ResponseEntity.status(ErrorCode.SUCCESS.getStatus()).body(ErrorCode.SUCCESS.getMessage());
 	}
 
 	@SwaggerApiSuccess(summary = "메뉴 수정", implementation = String.class)
@@ -47,6 +46,6 @@ public class ExcelExtractController {
 		@RequestPart("file") MultipartFile multipartFile) throws
 		Exception {
 		menuFacade.updateAfterDeleteExcel(multipartFile);
-		return ResponseEntity.status(HttpStatus.OK).body("success");
+		return ResponseEntity.status(ErrorCode.SUCCESS.getStatus()).body(ErrorCode.SUCCESS.getMessage());
 	}
 }

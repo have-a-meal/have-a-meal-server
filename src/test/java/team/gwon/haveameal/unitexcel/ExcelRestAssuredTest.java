@@ -36,8 +36,8 @@ public class ExcelRestAssuredTest {
 		// MockMultipartFile multipartFile = new MockMultipartFile(fileName, fileName + "." + contentType, contentType,
 		// 	new FileInputStream(filePath));
 		// URL resourceUrl = getClass().getClassLoader().getResource("april week 1 menu.xlsx");
-		Resource resource = new ClassPathResource("excels/testtextfiles.txt");
-		// Resource resource = new ClassPathResource("excels/april week 1 menus.xlsx");
+		// Resource resource = new ClassPathResource("excels/testtextfiles.txt");
+		Resource resource = new ClassPathResource("excels/april week 1 menus.xlsx");
 		// JSONObject requestBody = new JSONObject();
 		// requestBody.put("excel", resource.getFile());
 
@@ -62,7 +62,7 @@ public class ExcelRestAssuredTest {
 		// 	.body(requestBody.toString())
 		// 	.contentType("application/json")
 		// 	.post("/todos");
-		assertEquals(400, response.statusCode());
+		assertEquals(200, response.statusCode());
 	}
 
 	@Test

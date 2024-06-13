@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorCode {
 	//== 200 ==//
-	SUCCESS(HttpStatus.OK, "OK"),
+	SUCCESS(HttpStatus.OK, "success"),
 
 	//== 400 ==//
 	INCORRECT_DATE_FORMAT(HttpStatus.BAD_REQUEST, "날짜 형식 맞지 않습니다."),
