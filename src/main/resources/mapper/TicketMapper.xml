@@ -58,4 +58,10 @@
         WHERE ticket_id = #{ticketId}
     </update>
 
+    <insert id="createTicket" parameterType="team.gwon.haveameal.ticket.domain.TicketEntity" useGeneratedKeys="true"
+            keyColumn="ticket_id">
+        INSERT INTO ticket(payment_id)
+        VALUES (#{paymentId})
+    </insert>
+
 </mapper>
