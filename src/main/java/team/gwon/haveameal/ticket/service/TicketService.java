@@ -26,6 +26,8 @@ import team.gwon.haveameal.ticket.domain.QrContent;
 import team.gwon.haveameal.ticket.domain.TicketEntity;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
+import team.gwon.haveameal.ticket.domain.TicketQuantityRequestDto;
+import team.gwon.haveameal.ticket.domain.TicketQuantityResponseDto;
 import team.gwon.haveameal.ticket.exception.TicketErrorCode;
 import team.gwon.haveameal.ticket.exception.TicketException;
 import team.gwon.haveameal.ticket.mapper.TicketMapper;
@@ -89,5 +91,10 @@ public class TicketService {
 			}
 		}
 		throw new RuntimeException();
+	}
+
+	public TicketQuantityResponseDto getMyTicketQuantity(TicketQuantityRequestDto ticketQuantityRequestDto) {
+		int quantity = ticketMapper.getMyTicketQuantity(ticketQuantityRequestDto);
+		return TicketQuantityResponseDto.from(quantity);
 	}
 }

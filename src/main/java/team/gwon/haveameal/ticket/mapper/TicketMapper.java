@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import team.gwon.haveameal.member.domain.MemberEntity;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.ticket.domain.TicketEntity;
+import team.gwon.haveameal.ticket.domain.TicketQuantityRequestDto;
 
 @Mapper
 public interface TicketMapper {
@@ -16,4 +17,6 @@ public interface TicketMapper {
 	Long getQrCode(PaymentWithCourseIncludeDetail paymentWithCourseIncludeDetail);
 
 	Integer useQrCode(TicketEntity ticketEntity);
+
+	int getMyTicketQuantity(TicketQuantityRequestDto ticketQuantityRequestDto);
 }

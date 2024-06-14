@@ -12,6 +12,19 @@
         </association>
     </resultMap>
 
+    <select id="getMyTicketQuantity" parameterType="team.gwon.haveameal.ticket.domain.TicketQuantityRequestDto">
+        SELECT count(*) AS quantity
+        FROM payment_with_detail AS pwd
+                 INNER JOIN course_with_detail AS cwd ON pwd.course_id = cwd.course_id
+                 INNER JOIN ticket AS t ON t.payment_id = pwd.payment_id
+        WHERE pwd.status = 'PAID'
+          AND t.meal_id IS NULL
+          AND pwd.member_id = #{memberId}
+          AND cwd.timing = #{timing}
+          AND cwd.course_type = #{courseType}
+
+    </select>
+
     <select id="findAllMyTickets" parameterType="team.gwon.haveameal.member.domain.MemberEntity"
             resultMap="findAllMyTicketsEntity">
         SELECT cwd.timing, cwd.course_type, count(*) AS quantity

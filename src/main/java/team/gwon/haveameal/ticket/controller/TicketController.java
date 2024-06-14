@@ -27,6 +27,8 @@ import team.gwon.haveameal.ticket.domain.QrCodeUseRequestDto;
 import team.gwon.haveameal.ticket.domain.QrCodeUseResponseDto;
 import team.gwon.haveameal.ticket.domain.TicketFindRequestDto;
 import team.gwon.haveameal.ticket.domain.TicketFindResponseDto;
+import team.gwon.haveameal.ticket.domain.TicketQuantityRequestDto;
+import team.gwon.haveameal.ticket.domain.TicketQuantityResponseDto;
 import team.gwon.haveameal.ticket.service.TicketService;
 
 @RestController
@@ -43,6 +45,15 @@ public class TicketController {
 		List<TicketFindResponseDto> tickets = ticketService.findAllTickets(TicketFindRequestDto.from(memberId));
 
 		return ResponseEntity.status(HttpStatus.OK).body(tickets);
+	}
+
+	@SwaggerApiSuccess(summary = "보유 식권 개수 조회", implementation = TicketQuantityResponseDto.class)
+	@SwaggerApiBadRequest
+	@PostMapping("/quantity")
+	public ResponseEntity<TicketQuantityResponseDto> findMyTicketQuantity(
+		@RequestBody TicketQuantityRequestDto ticketQuantityRequestDto) {
+		TicketQuantityResponseDto response = ticketService.getMyTicketQuantity(ticketQuantityRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@SwaggerApiSuccess(summary = "식권 QR 생성", implementation = QrCodeResponseDto.class)
