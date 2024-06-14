@@ -4,11 +4,12 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.hibernate.validator.constraints.Range;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Range;
 import team.gwon.haveameal.common.util.UuidProvider;
 import team.gwon.haveameal.payment.entity.Payment;
 
@@ -38,9 +39,10 @@ public class TicketBuyRequestDto {
 			.payMethod(this.payMethod)
 			.requestAt(getSeoulLocalDateTime()).build();
 	}
-	public LocalDateTime getSeoulLocalDateTime() {
+
+	LocalDateTime getSeoulLocalDateTime() {
 		return LocalDateTime.ofInstant(
-				Instant.ofEpochMilli(System.currentTimeMillis()),
-				ZoneId.of("Asia/Seoul"));
+			Instant.ofEpochMilli(System.currentTimeMillis()),
+			ZoneId.of("Asia/Seoul"));
 	}
 }
