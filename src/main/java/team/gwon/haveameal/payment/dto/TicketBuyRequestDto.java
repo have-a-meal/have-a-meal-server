@@ -2,6 +2,8 @@ package team.gwon.haveameal.payment.dto;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.validator.constraints.Range;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -16,7 +18,7 @@ public class TicketBuyRequestDto {
 	@Size(min = 7, max = 8, message = "내부인은 8자, 외부인은 7자의 값이어야 합니다.")
 	private String memberId;
 
-	@Size(min = 1, max = 2, message = "courseId는 1부터 18 사이의 숫자여야합니다.")
+	@Range(min = 1, max = 18, message = "courseId는 1부터 18 사이의 숫자여야합니다.")
 	private int courseId;
 
 	@NotBlank(message = "pgProvider는 필수값입니다.")
