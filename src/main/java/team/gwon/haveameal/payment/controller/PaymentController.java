@@ -40,9 +40,9 @@ public class PaymentController {
 		log.info("paymentVerifyRequestDto : {}", paymentVerifyRequestDto);
 		boolean flag = paymentService.verifyPayment(paymentVerifyRequestDto);
 		if (flag) {
-			return ResponseEntity.status(HttpStatus.OK).build();
+			return ResponseEntity.status(HttpStatus.OK).body("결제 검증이 완료되었습니다.");
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 정보가 올바르지 않습니다.");
 	}
 
 	@GetMapping("/tiketPrice")
