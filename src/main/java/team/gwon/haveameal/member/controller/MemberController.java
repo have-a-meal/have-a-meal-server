@@ -14,6 +14,7 @@ import team.gwon.haveameal.member.domain.EmailCheckDto;
 import team.gwon.haveameal.member.domain.LoginRequestDto;
 import team.gwon.haveameal.member.domain.MemberFindDto;
 import team.gwon.haveameal.member.domain.MemberRegisterDto;
+import team.gwon.haveameal.member.service.AuthService;
 import team.gwon.haveameal.member.service.MailService;
 import team.gwon.haveameal.member.service.MemberService;
 
@@ -24,6 +25,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final MailService mailService;
+	private final AuthService authService;
 
 	@PostMapping("/")
 	public ResponseEntity<Void> insertMember(@RequestBody MemberRegisterDto member) {
@@ -59,7 +61,7 @@ public class MemberController {
 
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto) {
-		boolean isAuthenticated = memberService.authenticate(loginRequestDto.getMemberId(),
+		boolean isAuthenticated = authService.authenticate(loginRequestDto.getMemberId(),
 			loginRequestDto.getPassword());
 		if (isAuthenticated) {
 			return ResponseEntity.ok("Login Successful");
