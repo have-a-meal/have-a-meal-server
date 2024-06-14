@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.member.registrationservice.MemberRoleValidator;
 import team.gwon.haveameal.member.util.RedisUtil;
 
 @Service
@@ -16,6 +17,7 @@ import team.gwon.haveameal.member.util.RedisUtil;
 public class MailService {
 	private final JavaMailSender mailSender;
 	private final RedisUtil redisUtil;
+	private final MemberRoleValidator memberRoleValidator;
 	private int authNumber;
 
 	public void makeRandomNumber() {
@@ -28,17 +30,20 @@ public class MailService {
 		authNumber = Integer.parseInt(randomNumber.toString());
 	}
 
-	public String joinEmail(String email) {
+	public String joinEmail(String idOrEmail) {
 		makeRandomNumber();
 		String setFrom = "haveameal99@gmail.com";
 		String title = "회원 가입 인증 이메일 입니다.";
 		String content =
 			"인증 번호는 " + authNumber + " 입니다.";
-		mailSend(setFrom, email, title, content);
+		String role = memberRoleValidator.getRole(idOrEmail);
+		if (role.equals("학생")) {
+			idOrEmail += "@st.yc.ac.kr";
+		}
+		mailSend(setFrom, idOrEmail, title, content);
 		return Integer.toString(authNumber);
 	}
 
-	//이메일을 전송합니다.
 	public void mailSend(String setFrom, String toMail, String title, String content) {
 		MimeMessage message = mailSender.createMimeMessage();
 		try {
