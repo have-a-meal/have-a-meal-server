@@ -1,6 +1,8 @@
 package team.gwon.haveameal.payment.dto;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -33,6 +35,11 @@ public class TicketBuyRequestDto {
 			.courseId(this.courseId)
 			.pgProvider(this.pgProvider)
 			.payMethod(this.payMethod)
-			.requestAt(LocalDateTime.now()).build();
+			.requestAt(getSeoulLocalDateTime()).build();
+	}
+	public LocalDateTime getSeoulLocalDateTime() {
+		return LocalDateTime.ofInstant(
+				Instant.ofEpochMilli(System.currentTimeMillis()),
+				ZoneId.of("Asia/Seoul"));
 	}
 }
