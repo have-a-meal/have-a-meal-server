@@ -63,7 +63,9 @@ public class PaymentController {
 	}
 
 	@GetMapping("/transaction/{memberId}")
-	public ResponseEntity<List<PaymentTransactionResponseDto>> getPaymentTransactionList(@PathVariable String memberId) {
+	public ResponseEntity<
+		List<PaymentTransactionResponseDto>
+		> getPaymentTransactionList(@PathVariable String memberId) {
 		List<PaymentTransactionResponseDto> paymentTransactionResponseDtoList = paymentService.getPaymentTransaction(
 			memberId);
 		log.info("결제 목록 : {}", paymentTransactionResponseDtoList.toString());
