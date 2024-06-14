@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
+import team.gwon.haveameal.payment.dto.PaymentVerifyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketBuyRequestDto;
 import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
@@ -34,15 +35,17 @@ public class PaymentController {
 	private final PaymentService paymentService;
 
 	@GetMapping("/verify")
-	public ResponseEntity<?> verifyPayment(@Valid PaymentVerifyRequestDto paymentVerifyRequestDto) throws
+	public ResponseEntity<PaymentVerifyResponseDto> verifyPayment(
+		@Valid PaymentVerifyRequestDto paymentVerifyRequestDto) throws
 		IamportResponseException,
 		IOException {
 		log.info("paymentVerifyRequestDto : {}", paymentVerifyRequestDto);
 		boolean flag = paymentService.verifyPayment(paymentVerifyRequestDto);
 		if (flag) {
-			return ResponseEntity.status(HttpStatus.OK).body("결제 검증이 완료되었습니다.");
+			return ResponseEntity.status(HttpStatus.OK).body(new PaymentVerifyResponseDto("결제 검증이 완료되었습니다."));
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 정보가 올바르지 않습니다.");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(new PaymentVerifyResponseDto("결제 정보가 올바르지 않습니다."));
 	}
 
 	@GetMapping("/tiketPrice")
