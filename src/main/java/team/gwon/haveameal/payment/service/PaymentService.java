@@ -16,11 +16,9 @@ public interface PaymentService {
 
 	void init();
 
-	void test();
-
 	TicketPriceResponseDto getTicketPrice(TicketPriceRequestDto getTiketPriceDto);
 
-	void verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws IamportResponseException, IOException;
+	boolean verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws IamportResponseException, IOException;
 
 	TicketBuyResponseDto createPayment(TicketBuyRequestDto ticketBuyRequestDto);
 
