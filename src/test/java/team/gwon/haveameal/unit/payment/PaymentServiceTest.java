@@ -10,6 +10,10 @@ import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
 import team.gwon.haveameal.payment.service.PaymentService;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Slf4j
 @SpringBootTest
 class PaymentServiceTest {
@@ -34,5 +38,15 @@ class PaymentServiceTest {
 
 	private class PaymentRequest {
 
+	}
+
+	@Test
+	public void 시간테스트(){
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime now2 = LocalDateTime.ofInstant(
+				Instant.ofEpochMilli(System.currentTimeMillis()),
+				ZoneId.of("Asia/Seoul"));
+		log.info("LocalDateTime : {}", now);
+		log.info("time test : {}", now2);
 	}
 }
