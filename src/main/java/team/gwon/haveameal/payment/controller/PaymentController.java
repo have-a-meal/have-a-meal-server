@@ -17,6 +17,9 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiCreated;
+import team.gwon.haveameal.common.component.swagger.SwaggerApiSuccess;
+import team.gwon.haveameal.common.component.swagger.SwaggerInternalServerError;
 import team.gwon.haveameal.payment.dto.PaymentTransactionResponseDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
 import team.gwon.haveameal.payment.dto.PaymentVerifyResponseDto;
@@ -34,6 +37,8 @@ public class PaymentController {
 
 	private final PaymentService paymentService;
 
+	@SwaggerApiSuccess(summary = "결제 검증", implementation = PaymentVerifyResponseDto.class)
+	@SwaggerInternalServerError
 	@GetMapping("/verify")
 	public ResponseEntity<PaymentVerifyResponseDto> verifyPayment(
 		@Valid PaymentVerifyRequestDto paymentVerifyRequestDto) throws
@@ -48,15 +53,17 @@ public class PaymentController {
 			.body(new PaymentVerifyResponseDto("결제 정보가 올바르지 않습니다."));
 	}
 
-	@GetMapping("/tiketPrice")
-	public ResponseEntity<TicketPriceResponseDto> getTiketPrice(@Valid TicketPriceRequestDto ticketPriceRequestDto) {
+	@SwaggerApiSuccess(summary = "티켓 가격 조회", implementation = TicketPriceResponseDto.class)
+	@GetMapping("/ticketPrice")
+	public ResponseEntity<TicketPriceResponseDto> getTicketPrice(@Valid TicketPriceRequestDto ticketPriceRequestDto) {
 		log.info("ticketPriceRequestDto DTO : {}", ticketPriceRequestDto);
 		TicketPriceResponseDto ticketPriceResponseDto = paymentService.getTicketPrice(ticketPriceRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ticketPriceResponseDto);
 	}
 
+	@SwaggerApiCreated(summary = "식권 구매", implementation = TicketBuyResponseDto.class)
 	@PostMapping("")
-	public ResponseEntity<TicketBuyResponseDto> buyTiket(@RequestBody @Valid TicketBuyRequestDto ticketBuyRequestDto) {
+	public ResponseEntity<TicketBuyResponseDto> buyTicket(@RequestBody @Valid TicketBuyRequestDto ticketBuyRequestDto) {
 		log.info("ticketBuyRequestDto : {}", ticketBuyRequestDto);
 
 		TicketBuyResponseDto ticketBuyResponseDto = paymentService.createPayment(ticketBuyRequestDto);
@@ -65,6 +72,7 @@ public class PaymentController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ticketBuyResponseDto);
 	}
 
+	@SwaggerApiSuccess(summary = "결제 내역 조회", implementation = PaymentTransactionResponseDto.class)
 	@GetMapping("/transaction/{memberId}")
 	public ResponseEntity<
 		List<PaymentTransactionResponseDto>
