@@ -23,7 +23,7 @@ public class UuidProvider {
 
 	public static byte[] stringToByte(String uuid) {
 		log.info("WTF : {} \t {}", uuid, uuid.length());
-		byte[] uuidArr = new byte[uuid.length()];
+		byte[] uuidArr = new byte[uuid.length() / 2];
 		for (int i = 0; i < uuid.length(); i += 2) {
 			uuidArr[i / 2] = (byte)((Character.digit(uuid.charAt(i), 16) << 4)
 				+ Character.digit(uuid.charAt(i + 1), 16));
