@@ -64,13 +64,7 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public void test() {
-		log.info("restApiKey : " + restApiKey);
-		log.info("restApiSecret : " + restApiSecret);
-	}
-
-	@Override
-	public void verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws
+	public boolean verifyPayment(PaymentVerifyRequestDto paymentVerifyRequestDto) throws
 		IamportResponseException,
 		IOException {
 		log.info("portOne api 연동 확인 : " + iamportClient);
@@ -96,8 +90,10 @@ public class PaymentServiceImpl implements PaymentService {
 		// 결제 상세 정보 삽입.
 		if (courseWithDetail.getCourseDetail().getPrice() == impAmount) {
 			paymentMapper.createPaymentDetail(impPaymentDetail);
+			return true;
 		}
 		// 가격이 틀리면 실패.
+		return false;
 	}
 
 	@Override
