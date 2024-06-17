@@ -22,7 +22,6 @@
           AND pwd.member_id = #{memberId}
           AND cwd.timing = #{timing}
           AND cwd.course_type = #{courseType}
-
     </select>
 
     <select id="findAllMyTickets" parameterType="team.gwon.haveameal.member.domain.MemberEntity"
@@ -58,4 +57,9 @@
         WHERE ticket_id = #{ticketId}
     </update>
 
+    <insert id="createTicket" parameterType="team.gwon.haveameal.ticket.domain.TicketEntity" useGeneratedKeys="true"
+            keyProperty="ticketId" keyColumn="ticket_id">
+        INSERT INTO ticket(payment_id)
+        VALUES #{paymentId}
+    </insert>
 </mapper>

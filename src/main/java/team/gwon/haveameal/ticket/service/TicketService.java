@@ -15,7 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.gwon.haveameal.common.component.TokenProvider;
 import team.gwon.haveameal.common.domain.Token;
+import team.gwon.haveameal.common.util.UuidProvider;
 import team.gwon.haveameal.member.util.RedisUtil;
+import team.gwon.haveameal.payment.dto.PaymentVerifyRequestDto;
+import team.gwon.haveameal.payment.dto.PaymentVerifyResponseDto;
 import team.gwon.haveameal.payment.entity.PaymentWithCourseIncludeDetail;
 import team.gwon.haveameal.ticket.component.QrGenerator;
 import team.gwon.haveameal.ticket.domain.QrCodeRequestDto;
@@ -96,5 +99,15 @@ public class TicketService {
 	public TicketQuantityResponseDto getMyTicketQuantity(TicketQuantityRequestDto ticketQuantityRequestDto) {
 		int quantity = ticketMapper.getMyTicketQuantity(ticketQuantityRequestDto);
 		return TicketQuantityResponseDto.from(quantity);
+	}
+
+	public PaymentVerifyResponseDto createTicket(PaymentVerifyRequestDto paymentVerifyRequestDto) {
+		byte[] paymentId = UuidProvider.stringToByte(paymentVerifyRequestDto.getPaymentId());
+		log.info("paymentId : {} \t length : {}", paymentId, paymentId.length);
+		Integer result = ticketMapper.createTicket(TicketEntity.builder().paymentId(paymentId).build());
+		if (result == 1) {
+			return new PaymentVerifyResponseDto("결제 검증이 완료되었습니다.");
+		}
+		throw new TicketException(TicketErrorCode.TICKET_SQL_ERROR);
 	}
 }

@@ -19,4 +19,6 @@ public interface TicketMapper {
 	Integer useQrCode(TicketEntity ticketEntity);
 
 	int getMyTicketQuantity(TicketQuantityRequestDto ticketQuantityRequestDto);
+
+	Integer createTicket(TicketEntity ticketEntity);
 }

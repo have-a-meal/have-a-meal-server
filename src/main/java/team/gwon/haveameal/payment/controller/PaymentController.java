@@ -28,6 +28,7 @@ import team.gwon.haveameal.payment.dto.TicketBuyResponseDto;
 import team.gwon.haveameal.payment.dto.TicketPriceRequestDto;
 import team.gwon.haveameal.payment.dto.TicketPriceResponseDto;
 import team.gwon.haveameal.payment.service.PaymentService;
+import team.gwon.haveameal.ticket.service.TicketService;
 
 @Slf4j
 @RequestMapping("/payment")
@@ -36,6 +37,7 @@ import team.gwon.haveameal.payment.service.PaymentService;
 public class PaymentController {
 
 	private final PaymentService paymentService;
+	private final TicketService ticketService;
 
 	@SwaggerApiSuccess(summary = "결제 검증", implementation = PaymentVerifyResponseDto.class)
 	@SwaggerInternalServerError
@@ -47,7 +49,8 @@ public class PaymentController {
 		log.info("paymentVerifyRequestDto : {}", paymentVerifyRequestDto);
 		boolean flag = paymentService.verifyPayment(paymentVerifyRequestDto);
 		if (flag) {
-			return ResponseEntity.status(HttpStatus.OK).body(new PaymentVerifyResponseDto("결제 검증이 완료되었습니다."));
+			PaymentVerifyResponseDto response = ticketService.createTicket(paymentVerifyRequestDto);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(new PaymentVerifyResponseDto("결제 정보가 올바르지 않습니다."));
