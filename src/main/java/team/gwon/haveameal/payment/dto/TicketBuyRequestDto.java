@@ -1,6 +1,8 @@
 package team.gwon.haveameal.payment.dto;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.hibernate.validator.constraints.Range;
 
@@ -35,6 +37,12 @@ public class TicketBuyRequestDto {
 			.courseId(this.courseId)
 			.pgProvider(this.pgProvider)
 			.payMethod(this.payMethod)
-			.requestAt(LocalDateTime.now()).build();
+			.requestAt(getSeoulLocalDateTime()).build();
+	}
+
+	LocalDateTime getSeoulLocalDateTime() {
+		return LocalDateTime.ofInstant(
+			Instant.ofEpochMilli(System.currentTimeMillis()),
+			ZoneId.of("Asia/Seoul"));
 	}
 }

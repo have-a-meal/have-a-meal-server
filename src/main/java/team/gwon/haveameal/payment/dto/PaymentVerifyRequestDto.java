@@ -39,7 +39,7 @@ public class PaymentVerifyRequestDto {
 
 	public LocalDateTime toLocalDateTime(Date date) {
 		return Instant.ofEpochMilli(date.getTime())
-			.atZone(ZoneId.systemDefault())
+			.atZone(ZoneId.of("Asia/Seoul"))
 			.toLocalDateTime();
 	}
 }
