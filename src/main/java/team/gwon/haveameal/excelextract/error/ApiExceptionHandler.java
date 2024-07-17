@@ -13,7 +13,7 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(value = CustomException.class)
 	public ResponseEntity<String> handlerCustomException(CustomException customException) {
 		log.info("[handlerCustomException] {} : {}", customException.getErrorCode().getStatus(),
-			customException.getMessage());
+			customException.getErrorCode().getMessage());
 		return ResponseEntity.status(customException.getErrorCode().getStatus())
 			.body(customException.getErrorCode().getMessage());
 	}
