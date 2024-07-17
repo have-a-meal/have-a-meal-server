@@ -21,7 +21,7 @@ public class MenuController {
 
 	private final DayMenuService dayMenuService;
 
-	@GetMapping(value = {"/Menu/{date}", "/Menu"})
+	@GetMapping(value = {"/menu/{date}", "/menu"})
 	public ResponseEntity<List<DayMenuResponseDto>> getDayMenu(@PathVariable(required = false) Optional<String> date) {
 		if (date.isPresent()) {
 			return ResponseEntity.status(HttpStatus.OK).body(dayMenuService.getDayMenu(date.get()));
