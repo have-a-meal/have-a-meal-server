@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import team.gwon.haveameal.common.domain.TokenDto;
 import team.gwon.haveameal.member.domain.EmailCheckDto;
 import team.gwon.haveameal.member.domain.LoginRequestDto;
 import team.gwon.haveameal.member.domain.MemberFindDto;
@@ -60,10 +62,12 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto) {
-		boolean isAuthenticated = memberService.authenticate(loginRequestDto.getMemberId(),
+	public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+		TokenDto isAuthenticated = memberService.authenticate(loginRequestDto.getMemberId(),
 			loginRequestDto.getPassword());
-		if (isAuthenticated) {
+		if (isAuthenticated != null) {
+			response.addHeader("Authorization", "Bearer " + isAuthenticated.getAccessToken());
+			response.addHeader("Refresh-Token", "Bearer " + isAuthenticated.getRefreshToken());
 			return ResponseEntity.ok("Login Successful");
 		} else {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
