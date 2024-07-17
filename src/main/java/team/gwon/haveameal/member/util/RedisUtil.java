@@ -1,6 +1,7 @@
 package team.gwon.haveameal.member.util;
 
 import java.time.Duration;
+import java.util.Optional;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -13,9 +14,10 @@ import lombok.RequiredArgsConstructor;
 public class RedisUtil {
 	private final StringRedisTemplate stringRedisTemplate;
 
-	public String getData(String key) {
+	public Optional<String> getData(String key) {
 		ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
-		return valueOperations.get(key);
+		String nullCheck = valueOperations.get(key);
+		return Optional.ofNullable(nullCheck);
 	}
 
 	public void setData(String key, String value) {
