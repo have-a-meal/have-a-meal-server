@@ -6,24 +6,28 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import team.gwon.haveameal.common.domain.PrincepalDetails;
 import team.gwon.haveameal.common.domain.Token;
 import team.gwon.haveameal.common.domain.TokenDto;
+import team.gwon.haveameal.member.service.TokenMemberService;
 import team.gwon.haveameal.member.util.RedisUtil;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 // @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TokenProvider {
 
@@ -33,6 +37,7 @@ public class TokenProvider {
 	// public static final String REFRESH_TOKEN = "Refresh_Token";
 	private static final String BEARER = "Bearer ";
 	private final RedisUtil redisUtil;
+	private final TokenMemberService tokenMemberService;
 
 	@Value("${jwt.secret.key}")
 	private String secretKey;
@@ -76,6 +81,16 @@ public class TokenProvider {
 			redisUtil.deleteData(getSubject(refreshToken));
 			redisUtil.setData(getSubject(refreshToken), refreshToken);
 		}
+	}
+
+	// SecurityContextHolder 에 저장할 Authentication 을 생성
+	public Authentication getAuthentication(String token) {
+		log.info("[getAuthentication] 토큰 인증 정보 조회 시작");
+		PrincepalDetails principalDetails = new PrincepalDetails(
+			tokenMemberService.getUsedMemberId(this.getSubject(token)));
+
+		log.info("[getAuthentication] 토큰 인증 정보 조회 완료, UserDetails UserName : {}", principalDetails.getUsername());
+		return new UsernamePasswordAuthenticationToken(principalDetails, "", principalDetails.getAuthorities());
 	}
 
 	public String getSubject(String token) {
@@ -134,22 +149,26 @@ public class TokenProvider {
 
 	public boolean tokenValidation(String token) {
 		try {
-			Jwts.parserBuilder()
+			Jws<Claims> claimsJws = Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
 				.parseClaimsJws(token);
-			return true;
-		} catch (SecurityException e) {
-			throw new JwtException("잘못된 JWT 시그니처");
-		} catch (MalformedJwtException e) {
-			throw new JwtException("유효하지 않은 JWT 토큰");
-		} catch (ExpiredJwtException e) {
-			throw new JwtException("토큰 기한 만료");
-		} catch (UnsupportedJwtException | IllegalArgumentException e) {
-			throw new JwtException("변조된 토큰");
+			// return true;
+			return !claimsJws.getBody().getExpiration().before(new Date());
 		} catch (Exception e) {
-			throw new JwtException("토큰이 비어있음");
+			return false;
 		}
+		// catch (SecurityException e) {
+		// 	throw new JwtException("잘못된 JWT 시그니처");
+		// } catch (MalformedJwtException e) {
+		// 	throw new JwtException("유효하지 않은 JWT 토큰");
+		// } catch (ExpiredJwtException e) {
+		// 	throw new JwtException("토큰 기한 만료");
+		// } catch (UnsupportedJwtException | IllegalArgumentException e) {
+		// 	throw new JwtException("변조된 토큰");
+		// } catch (Exception e) {
+		// 	throw new JwtException("토큰이 비어있음");
+		// }
 		//SecurityException,MalformedJwtException,UnsupportedJwtException,IllegalArgumentException 다 변조된 토큰으로 정의?
 	}
 
